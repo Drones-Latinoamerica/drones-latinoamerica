@@ -89,6 +89,18 @@
       check();
     });
 
+  // Carga OpenCV una sola vez (memoizada) y marca cvReady cuando está listo.
+  let cvPromise = null;
+  const loadCv = () => {
+    if (!cvPromise) {
+      cvPromise = waitForOpenCv().then((cv) => {
+        state.cvReady = true;
+        return cv;
+      });
+    }
+    return cvPromise;
+  };
+
   const targetLabel = {
     square: "CUADRADO",
     circle: "CÍRCULO",
@@ -333,19 +345,29 @@
   const startDemo = async () => {
     try {
       els.start.disabled = true;
-
-      if (!state.cvReady) {
-        setStatus("Cargando OpenCV.js (puede tardar unos segundos)...");
-        await waitForOpenCv();
-        state.cvReady = true;
-      }
-
+      // Importante: pedimos la cámara ANTES de cualquier espera larga, para no
+      // perder el gesto del usuario (algunos navegadores bloquean getUserMedia
+      // si se llama después de un await prolongado, como la carga de OpenCV).
       setStatus("Solicitando permiso para usar la cámara...");
       state.webcam ||= new window.WebcamService(els.video);
       await state.webcam.start();
       state.running = true;
       state.paused = false;
-      setStatus("Cámara activa. Muestra una hoja blanca con una figura dibujada en negro.", "ok");
+
+      if (state.cvReady) {
+        setStatus("Cámara activa. Muestra una hoja blanca con una figura dibujada en negro.", "ok");
+      } else {
+        setStatus("Cámara activa. Cargando OpenCV.js para el reconocimiento...", "ok");
+        // OpenCV se carga en segundo plano; la detección arranca al estar listo.
+        loadCv()
+          .then(() => {
+            if (state.running) {
+              setStatus("Cámara activa. Muestra una hoja blanca con una figura dibujada en negro.", "ok");
+            }
+          })
+          .catch((error) => setStatus(error.message, "error"));
+      }
+
       processFrame();
     } catch (error) {
       setStatus(error.message, "error");
@@ -400,6 +422,13 @@
         "ok"
       );
     });
+  });
+
+  // Precarga OpenCV en segundo plano al abrir la página (el <script async> ya
+  // está descargándolo); así el reconocimiento suele estar listo al activar la
+  // cámara, sin bloquear el botón ni el permiso de cámara.
+  loadCv().catch(() => {
+    /* si falla, la cámara igual funciona; se reintenta al activar */
   });
 
   window.addEventListener("pagehide", stopDemo);
