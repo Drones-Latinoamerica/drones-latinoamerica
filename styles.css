@@ -2068,6 +2068,52 @@ input {
   }
 }
 
+.forum-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 40px 28px 44px;
+}
+
+.forum-cta-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 46px;
+  margin-bottom: 4px;
+  border: 2px solid var(--green-2);
+  border-radius: 12px 12px 12px 2px;
+  background: rgba(126, 211, 33, 0.1);
+}
+
+.forum-cta-icon::after {
+  content: "";
+  width: 22px;
+  height: 0;
+  border-top: 2px solid var(--green-2);
+  box-shadow: 0 6px 0 0 var(--green-2), 0 -6px 0 0 var(--green-2);
+}
+
+.forum-cta h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+.forum-cta p {
+  max-width: 560px;
+  margin: 0;
+  color: rgba(15, 23, 32, 0.7);
+  line-height: 1.55;
+}
+
+.forum-cta .btn {
+  margin-top: 8px;
+}
+
 .cta-section {
   padding: 28px 0 0;
   background: var(--surface);
