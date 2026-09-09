@@ -9,7 +9,6 @@
     frameIndex: 0,
     lastDetection: null,
     shapeTarget: "auto",
-    cvReady: false,
   };
 
   const $ = (selector) => document.querySelector(selector);
@@ -32,9 +31,10 @@
     shapeButtons: document.querySelectorAll("[data-shape-target]"),
   };
 
-  // Ancho al que se reduce el frame para procesar (más rápido). El resultado
-  // se reescala al tamaño real del canvas de salida.
-  const WORK_WIDTH = 480;
+  // Resolución de trabajo: pequeña a propósito. Todo el análisis corre sobre
+  // ~220px de ancho, lo que mantiene cada detección en pocos milisegundos y
+  // evita que el video se congele.
+  const WORK_WIDTH = 220;
 
   const setStatus = (message, tone = "") => {
     els.status.textContent = message;
@@ -57,127 +57,358 @@
     }
   };
 
-  // ---- Espera a que el runtime de OpenCV.js esté listo --------------------
-  // La API (cv.Mat, etc.) solo existe tras inicializar el WebAssembly. Según la
-  // versión, cv puede ser el módulo ya listo, avisar con onRuntimeInitialized,
-  // o ser un "thenable" de Emscripten. Sondeamos cv.Mat (mecanismo principal) y,
-  // además, enganchamos los otros dos avisos una sola vez, sin encadenar .catch
-  // sobre el thenable (que no devuelve una promesa encadenable).
-  const waitForOpenCv = () =>
-    new Promise((resolve, reject) => {
-      const deadline = performance.now() + 40000;
-      let hookedRuntime = false;
-      let hookedThen = false;
+  // ---- Utilidades de geometría -------------------------------------------
 
-      const isReady = () => window.cv && typeof window.cv.Mat === "function";
+  const cross = (o, a, b) => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
 
-      const check = () => {
-        if (isReady()) {
-          resolve(window.cv);
-          return;
-        }
-
-        const cv = window.cv;
-        if (cv && typeof cv === "object") {
-          if (!hookedRuntime) {
-            hookedRuntime = true;
-            try {
-              cv.onRuntimeInitialized = () => {
-                if (isReady()) {
-                  resolve(window.cv);
-                }
-              };
-            } catch (error) {
-              /* algunas builds no permiten asignarlo; seguimos sondeando */
-            }
-          }
-          if (!hookedThen && typeof cv.then === "function") {
-            hookedThen = true;
-            try {
-              cv.then((mod) => {
-                if (mod && typeof mod.Mat === "function") {
-                  window.cv = mod;
-                }
-              });
-            } catch (error) {
-              /* thenable no estándar; seguimos sondeando */
-            }
-          }
-        }
-
-        if (performance.now() > deadline) {
-          reject(new Error("No se pudo cargar OpenCV.js. Revisa tu conexión e inténtalo de nuevo."));
-          return;
-        }
-        setTimeout(check, 80);
-      };
-
-      check();
-    });
-
-  // Inyecta y carga OpenCV.js una sola vez (memoizada), de forma diferida.
-  // Se llama solo DESPUÉS de que la cámara ya está encendida, para que la
-  // descarga/compilación de ~10 MB nunca bloquee el botón ni la cámara.
-  const OPENCV_URL = "https://docs.opencv.org/4.9.0/opencv.js";
-  let cvPromise = null;
-  const loadCv = () => {
-    if (!cvPromise) {
-      cvPromise = new Promise((resolve, reject) => {
-        if (window.cv && typeof window.cv.Mat === "function") {
-          resolve(window.cv);
-          return;
-        }
-        const script = document.createElement("script");
-        script.src = OPENCV_URL;
-        script.async = true;
-        script.onload = () => waitForOpenCv().then(resolve, reject);
-        script.onerror = () =>
-          reject(new Error("No se pudo cargar OpenCV.js. Revisa tu conexión e inténtalo de nuevo."));
-        document.head.appendChild(script);
-      }).then((cv) => {
-        state.cvReady = true;
-        return cv;
-      });
+  // Envolvente convexa (monotone chain). Devuelve el polígono en orden.
+  const convexHull = (points) => {
+    if (points.length < 4) {
+      return points.slice();
     }
-    return cvPromise;
+
+    const sorted = points.slice().sort((a, b) => a.x - b.x || a.y - b.y);
+    const lower = [];
+    for (const point of sorted) {
+      while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], point) <= 0) {
+        lower.pop();
+      }
+      lower.push(point);
+    }
+
+    const upper = [];
+    for (let i = sorted.length - 1; i >= 0; i -= 1) {
+      const point = sorted[i];
+      while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], point) <= 0) {
+        upper.pop();
+      }
+      upper.push(point);
+    }
+
+    return lower.slice(0, -1).concat(upper.slice(0, -1));
   };
 
+  const perpendicularDistance = (point, start, end) => {
+    const dx = end.x - start.x;
+    const dy = end.y - start.y;
+    const length = Math.hypot(dx, dy);
+    if (!length) {
+      return Math.hypot(point.x - start.x, point.y - start.y);
+    }
+    return Math.abs(dy * point.x - dx * point.y + end.x * start.y - end.y * start.x) / length;
+  };
+
+  // Ramer–Douglas–Peucker sobre una polilínea abierta.
+  const rdp = (points, epsilon) => {
+    if (points.length < 3) {
+      return points;
+    }
+
+    let maxDistance = 0;
+    let index = 0;
+    const first = points[0];
+    const last = points[points.length - 1];
+
+    for (let i = 1; i < points.length - 1; i += 1) {
+      const distance = perpendicularDistance(points[i], first, last);
+      if (distance > maxDistance) {
+        maxDistance = distance;
+        index = i;
+      }
+    }
+
+    if (maxDistance > epsilon) {
+      const left = rdp(points.slice(0, index + 1), epsilon);
+      const right = rdp(points.slice(index), epsilon);
+      return left.slice(0, -1).concat(right);
+    }
+
+    return [first, last];
+  };
+
+  // Aproxima un polígono cerrado (equivalente a approxPolyDP de OpenCV).
+  const approxClosedPolygon = (polygon, epsilon) => {
+    if (polygon.length < 4) {
+      return polygon.slice();
+    }
+
+    // Se parte el contorno cerrado en dos mitades usando el punto más lejano.
+    let index = 0;
+    let maxDistance = -1;
+    for (let i = 1; i < polygon.length; i += 1) {
+      const distance = (polygon[i].x - polygon[0].x) ** 2 + (polygon[i].y - polygon[0].y) ** 2;
+      if (distance > maxDistance) {
+        maxDistance = distance;
+        index = i;
+      }
+    }
+
+    const firstHalf = rdp(polygon.slice(0, index + 1), epsilon);
+    const secondHalf = rdp(polygon.slice(index).concat([polygon[0]]), epsilon);
+    return firstHalf.slice(0, -1).concat(secondHalf.slice(0, -1));
+  };
+
+  const polygonArea = (points) => {
+    let area = 0;
+    for (let i = 0; i < points.length; i += 1) {
+      const next = points[(i + 1) % points.length];
+      area += points[i].x * next.y - next.x * points[i].y;
+    }
+    return Math.abs(area) / 2;
+  };
+
+  const polygonPerimeter = (points) => {
+    let perimeter = 0;
+    for (let i = 0; i < points.length; i += 1) {
+      const next = points[(i + 1) % points.length];
+      perimeter += Math.hypot(next.x - points[i].x, next.y - points[i].y);
+    }
+    return perimeter;
+  };
+
+  // ---- Umbral de Otsu -----------------------------------------------------
+  // Calcula automáticamente el punto de corte entre claro y oscuro, así que
+  // funciona con distintas iluminaciones sin ajustes manuales.
+  const otsuThreshold = (histogram, total) => {
+    let sum = 0;
+    for (let i = 0; i < 256; i += 1) {
+      sum += i * histogram[i];
+    }
+
+    let sumBackground = 0;
+    let weightBackground = 0;
+    let maxVariance = -1;
+    let threshold = 127;
+
+    for (let i = 0; i < 256; i += 1) {
+      weightBackground += histogram[i];
+      if (!weightBackground) {
+        continue;
+      }
+      const weightForeground = total - weightBackground;
+      if (!weightForeground) {
+        break;
+      }
+
+      sumBackground += i * histogram[i];
+      const meanBackground = sumBackground / weightBackground;
+      const meanForeground = (sum - sumBackground) / weightForeground;
+      const variance = weightBackground * weightForeground * (meanBackground - meanForeground) ** 2;
+
+      if (variance > maxVariance) {
+        maxVariance = variance;
+        threshold = i;
+      }
+    }
+
+    return threshold;
+  };
+
+  // ---- Clasificación ------------------------------------------------------
   const targetLabel = {
     square: "CUADRADO",
     circle: "CÍRCULO",
     triangle: "TRIÁNGULO",
   };
 
-  // Clasifica un contorno aproximado (número de vértices + circularidad).
-  const classify = (vertices, circularity, aspect, convex) => {
-    // Círculo: muy circular y con muchos vértices al aproximar.
+  const classify = (vertices, circularity, aspect) => {
+    // El orden importa: el círculo se comprueba primero porque su circularidad
+    // (~0.9) es mayor que la de un cuadrado (~0.79).
     if (circularity >= 0.8 && vertices >= 5) {
       return { label: "CÍRCULO", confidence: Math.round(70 + circularity * 28) };
     }
-    // Triángulo: 3 vértices.
     if (vertices === 3) {
-      return { label: "TRIÁNGULO", confidence: convex ? 90 : 80 };
+      return { label: "TRIÁNGULO", confidence: 90 };
     }
-    // Cuadrado / rectángulo: 4 (a veces 5) vértices.
     if ((vertices === 4 || vertices === 5) && aspect >= 0.55 && aspect <= 1.8) {
       const squareness = 1 - Math.min(1, Math.abs(aspect - 1));
       return { label: "CUADRADO", confidence: Math.round(80 + squareness * 15) };
     }
-    // Respaldo por circularidad para círculos algo irregulares.
     if (circularity >= 0.72 && vertices >= 5) {
       return { label: "CÍRCULO", confidence: Math.round(65 + circularity * 25) };
     }
     return null;
   };
 
-  // Ejecuta la detección con OpenCV sobre el frame actual y devuelve la mejor
-  // figura encontrada (en coordenadas del canvas de salida) o null.
-  const detectShape = () => {
-    const cv = window.cv;
-    if (!cv || typeof cv.Mat !== "function") {
-      return null;
+  // ---- Análisis de un frame (función pura sobre los píxeles) --------------
+  // Recibe los datos RGBA y devuelve la figura encontrada en coordenadas del
+  // frame de trabajo, o null. Separarlo del video lo hace fácil de probar.
+  const analyzeFrame = (data, width, height) => {
+    const pixels = width * height;
+
+    // Gris + histograma en una sola pasada.
+    const gray = new Uint8Array(pixels);
+    const histogram = new Uint32Array(256);
+    for (let i = 0; i < pixels; i += 1) {
+      const p = i * 4;
+      const value = (data[p] * 299 + data[p + 1] * 587 + data[p + 2] * 114) / 1000;
+      const level = value | 0;
+      gray[i] = level;
+      histogram[level] += 1;
     }
 
+    const threshold = otsuThreshold(histogram, pixels);
+    // Primer plano = trazo oscuro sobre papel claro. El umbral de Otsu es
+    // inclusivo (la clase oscura es [0..t]), por eso se compara con <=: con
+    // figuras de un solo tono, usar < dejaría la máscara vacía.
+    const mask = new Uint8Array(pixels);
+    for (let i = 0; i < pixels; i += 1) {
+      mask[i] = gray[i] <= threshold ? 1 : 0;
+    }
+
+    // Componentes conectados (relleno por inundación con pila de índices).
+    const labels = new Int32Array(pixels);
+    const stack = new Int32Array(pixels);
+    const components = [];
+    let nextLabel = 0;
+
+    for (let start = 0; start < pixels; start += 1) {
+      if (!mask[start] || labels[start]) {
+        continue;
+      }
+
+      nextLabel += 1;
+      let stackSize = 0;
+      stack[stackSize++] = start;
+      labels[start] = nextLabel;
+
+      let count = 0;
+      let minX = width;
+      let minY = height;
+      let maxX = -1;
+      let maxY = -1;
+
+      while (stackSize > 0) {
+        const index = stack[--stackSize];
+        const x = index % width;
+        const y = (index - x) / width;
+
+        count += 1;
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+
+        if (x > 0) {
+          const n = index - 1;
+          if (mask[n] && !labels[n]) {
+            labels[n] = nextLabel;
+            stack[stackSize++] = n;
+          }
+        }
+        if (x < width - 1) {
+          const n = index + 1;
+          if (mask[n] && !labels[n]) {
+            labels[n] = nextLabel;
+            stack[stackSize++] = n;
+          }
+        }
+        if (y > 0) {
+          const n = index - width;
+          if (mask[n] && !labels[n]) {
+            labels[n] = nextLabel;
+            stack[stackSize++] = n;
+          }
+        }
+        if (y < height - 1) {
+          const n = index + width;
+          if (mask[n] && !labels[n]) {
+            labels[n] = nextLabel;
+            stack[stackSize++] = n;
+          }
+        }
+      }
+
+      const touchesBorder = minX <= 0 || minY <= 0 || maxX >= width - 1 || maxY >= height - 1;
+      components.push({ label: nextLabel, count, minX, minY, maxX, maxY, touchesBorder });
+    }
+
+    // Candidatos: ni pegados al borde (mano, fondo, marco) ni demasiado
+    // pequeños/grandes. Se evalúan de mayor a menor tamaño.
+    const minPixels = Math.max(40, pixels * 0.004);
+    const maxPixels = pixels * 0.65;
+    const candidates = components
+      .filter((component) => {
+        if (component.touchesBorder) return false;
+        if (component.count < minPixels || component.count > maxPixels) return false;
+        const boxWidth = component.maxX - component.minX + 1;
+        const boxHeight = component.maxY - component.minY + 1;
+        return boxWidth >= 12 && boxHeight >= 12;
+      })
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+
+    for (const component of candidates) {
+      // Puntos extremos por fila: suficientes para la envolvente convexa y
+      // mucho más baratos que recorrer todos los píxeles del componente.
+      const points = [];
+      for (let y = component.minY; y <= component.maxY; y += 1) {
+        let rowMin = -1;
+        let rowMax = -1;
+        const rowOffset = y * width;
+        for (let x = component.minX; x <= component.maxX; x += 1) {
+          if (labels[rowOffset + x] === component.label) {
+            if (rowMin < 0) rowMin = x;
+            rowMax = x;
+          }
+        }
+        if (rowMin >= 0) {
+          points.push({ x: rowMin, y });
+          if (rowMax !== rowMin) {
+            points.push({ x: rowMax, y });
+          }
+        }
+      }
+
+      if (points.length < 3) {
+        continue;
+      }
+
+      const hull = convexHull(points);
+      if (hull.length < 3) {
+        continue;
+      }
+
+      const perimeter = polygonPerimeter(hull);
+      const area = polygonArea(hull);
+      if (!perimeter || !area) {
+        continue;
+      }
+
+      const approx = approxClosedPolygon(hull, 0.035 * perimeter);
+      const vertices = approx.length;
+      const circularity = (4 * Math.PI * area) / (perimeter * perimeter);
+      const boxWidth = component.maxX - component.minX + 1;
+      const boxHeight = component.maxY - component.minY + 1;
+      const aspect = boxWidth / boxHeight;
+
+      const decision = classify(vertices, circularity, aspect);
+      if (!decision) {
+        continue;
+      }
+
+      if (state.shapeTarget !== "auto" && decision.label !== targetLabel[state.shapeTarget]) {
+        continue;
+      }
+
+      return {
+        label: decision.label,
+        confidence: Math.min(98, decision.confidence),
+        bounds: {
+          x: component.minX,
+          y: component.minY,
+          width: boxWidth,
+          height: boxHeight,
+        },
+        points: approx,
+      };
+    }
+
+    return null;
+  };
+
+  // ---- Detección sobre el frame actual de la cámara -----------------------
+  const detectShape = () => {
     const vw = els.video.videoWidth || 0;
     const vh = els.video.videoHeight || 0;
     if (!vw || !vh) {
@@ -185,109 +416,18 @@
     }
 
     const width = WORK_WIDTH;
-    const height = Math.max(180, Math.round(width * (vh / vw)));
-    els.workCanvas.width = width;
-    els.workCanvas.height = height;
-    const wctx = els.workCanvas.getContext("2d", { willReadFrequently: true });
-    wctx.drawImage(els.video, 0, 0, width, height);
-
-    const src = cv.imread(els.workCanvas);
-    const gray = new cv.Mat();
-    const thresh = new cv.Mat();
-    const contours = new cv.MatVector();
-    const hierarchy = new cv.Mat();
-    let result = null;
-
-    try {
-      cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
-      cv.GaussianBlur(gray, gray, new cv.Size(5, 5), 0, 0, cv.BORDER_DEFAULT);
-      // Umbral adaptativo invertido: resalta trazos/figuras oscuras sobre
-      // fondo claro, sin depender de una iluminación uniforme.
-      cv.adaptiveThreshold(
-        gray,
-        thresh,
-        255,
-        cv.ADAPTIVE_THRESH_GAUSSIAN_C,
-        cv.THRESH_BINARY_INV,
-        19,
-        7
-      );
-      // Cierra pequeños huecos para que los contornos queden completos.
-      const kernel = cv.getStructuringElement(cv.MORPH_RECT, new cv.Size(3, 3));
-      cv.morphologyEx(thresh, thresh, cv.MORPH_CLOSE, kernel);
-      kernel.delete();
-
-      cv.findContours(thresh, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-
-      const imgArea = width * height;
-      const minArea = imgArea * 0.008;
-      const maxArea = imgArea * 0.9;
-      let bestArea = 0;
-
-      for (let i = 0; i < contours.size(); i += 1) {
-        const cnt = contours.get(i);
-        const area = cv.contourArea(cnt, false);
-
-        if (area < minArea || area > maxArea) {
-          cnt.delete();
-          continue;
-        }
-
-        const rect = cv.boundingRect(cnt);
-        // Descarta contornos pegados al borde (mano, borde de la hoja, marco).
-        const margin = 2;
-        const touchesBorder =
-          rect.x <= margin ||
-          rect.y <= margin ||
-          rect.x + rect.width >= width - margin ||
-          rect.y + rect.height >= height - margin;
-        if (touchesBorder) {
-          cnt.delete();
-          continue;
-        }
-
-        const peri = cv.arcLength(cnt, true);
-        const approx = new cv.Mat();
-        cv.approxPolyDP(cnt, approx, 0.035 * peri, true);
-        const vertices = approx.rows;
-        const circularity = peri > 0 ? (4 * Math.PI * area) / (peri * peri) : 0;
-        const aspect = rect.width / Math.max(rect.height, 1);
-        const convex = cv.isContourConvex(approx);
-
-        const decision = classify(vertices, circularity, aspect, convex);
-
-        if (decision) {
-          const matchesTarget =
-            state.shapeTarget === "auto" || decision.label === targetLabel[state.shapeTarget];
-          if (matchesTarget && area > bestArea) {
-            bestArea = area;
-            const pts = [];
-            for (let p = 0; p < approx.rows; p += 1) {
-              pts.push({ x: approx.data32S[p * 2], y: approx.data32S[p * 2 + 1] });
-            }
-            result = {
-              label: decision.label,
-              confidence: Math.min(98, decision.confidence),
-              bounds: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
-              points: pts,
-            };
-          }
-        }
-
-        approx.delete();
-        cnt.delete();
-      }
-    } catch (error) {
-      result = null;
-    } finally {
-      src.delete();
-      gray.delete();
-      thresh.delete();
-      contours.delete();
-      hierarchy.delete();
+    const height = Math.max(120, Math.round(width * (vh / vw)));
+    if (els.workCanvas.width !== width || els.workCanvas.height !== height) {
+      els.workCanvas.width = width;
+      els.workCanvas.height = height;
     }
 
-    if (!result) {
+    const ctx = els.workCanvas.getContext("2d", { willReadFrequently: true });
+    ctx.drawImage(els.video, 0, 0, width, height);
+    const { data } = ctx.getImageData(0, 0, width, height);
+
+    const found = analyzeFrame(data, width, height);
+    if (!found) {
       return null;
     }
 
@@ -295,15 +435,15 @@
     const scaleX = els.canvas.width / width;
     const scaleY = els.canvas.height / height;
     return {
-      label: result.label,
-      confidence: result.confidence,
+      label: found.label,
+      confidence: found.confidence,
       bounds: {
-        x: Math.round(result.bounds.x * scaleX),
-        y: Math.round(result.bounds.y * scaleY),
-        width: Math.round(result.bounds.width * scaleX),
-        height: Math.round(result.bounds.height * scaleY),
+        x: Math.round(found.bounds.x * scaleX),
+        y: Math.round(found.bounds.y * scaleY),
+        width: Math.round(found.bounds.width * scaleX),
+        height: Math.round(found.bounds.height * scaleY),
       },
-      points: result.points.map((point) => ({
+      points: found.points.map((point) => ({
         x: Math.round(point.x * scaleX),
         y: Math.round(point.y * scaleY),
       })),
@@ -367,8 +507,12 @@
     ctx.drawImage(els.video, 0, 0, els.canvas.width, els.canvas.height);
 
     state.frameIndex += 1;
-    if (state.cvReady && state.frameIndex % 3 === 0) {
-      state.lastDetection = detectShape();
+    if (state.frameIndex % 3 === 0) {
+      try {
+        state.lastDetection = detectShape();
+      } catch (error) {
+        state.lastDetection = null;
+      }
     }
 
     if (state.lastDetection) {
@@ -386,29 +530,12 @@
   const startDemo = async () => {
     try {
       els.start.disabled = true;
-      // Importante: pedimos la cámara ANTES de cualquier espera larga, para no
-      // perder el gesto del usuario (algunos navegadores bloquean getUserMedia
-      // si se llama después de un await prolongado, como la carga de OpenCV).
       setStatus("Solicitando permiso para usar la cámara...");
       state.webcam ||= new window.WebcamService(els.video);
       await state.webcam.start();
       state.running = true;
       state.paused = false;
-
-      if (state.cvReady) {
-        setStatus("Cámara activa. Muestra una hoja blanca con una figura dibujada en negro.", "ok");
-      } else {
-        setStatus("Cámara activa. Cargando OpenCV.js para el reconocimiento...", "ok");
-        // OpenCV se carga en segundo plano; la detección arranca al estar listo.
-        loadCv()
-          .then(() => {
-            if (state.running) {
-              setStatus("Cámara activa. Muestra una hoja blanca con una figura dibujada en negro.", "ok");
-            }
-          })
-          .catch((error) => setStatus(error.message, "error"));
-      }
-
+      setStatus("Cámara activa. Muestra una hoja blanca con una figura dibujada en negro.", "ok");
       processFrame();
     } catch (error) {
       setStatus(error.message, "error");
