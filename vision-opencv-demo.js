@@ -57,43 +57,84 @@
     }
   };
 
-  // ---- Carga de OpenCV.js -------------------------------------------------
+  // ---- Espera a que el runtime de OpenCV.js esté listo --------------------
+  // La API (cv.Mat, etc.) solo existe tras inicializar el WebAssembly. Según la
+  // versión, cv puede ser el módulo ya listo, avisar con onRuntimeInitialized,
+  // o ser un "thenable" de Emscripten. Sondeamos cv.Mat (mecanismo principal) y,
+  // además, enganchamos los otros dos avisos una sola vez, sin encadenar .catch
+  // sobre el thenable (que no devuelve una promesa encadenable).
   const waitForOpenCv = () =>
     new Promise((resolve, reject) => {
-      const deadline = performance.now() + 30000; // 30 s de margen
+      const deadline = performance.now() + 40000;
+      let hookedRuntime = false;
+      let hookedThen = false;
+
+      const isReady = () => window.cv && typeof window.cv.Mat === "function";
+
       const check = () => {
+        if (isReady()) {
+          resolve(window.cv);
+          return;
+        }
+
         const cv = window.cv;
-        // Según la versión, cv puede ser el módulo ya listo, una promesa
-        // (factory) o un módulo que avisa con onRuntimeInitialized.
-        if (cv && typeof cv.Mat === "function") {
-          resolve(cv);
-          return;
+        if (cv && typeof cv === "object") {
+          if (!hookedRuntime) {
+            hookedRuntime = true;
+            try {
+              cv.onRuntimeInitialized = () => {
+                if (isReady()) {
+                  resolve(window.cv);
+                }
+              };
+            } catch (error) {
+              /* algunas builds no permiten asignarlo; seguimos sondeando */
+            }
+          }
+          if (!hookedThen && typeof cv.then === "function") {
+            hookedThen = true;
+            try {
+              cv.then((mod) => {
+                if (mod && typeof mod.Mat === "function") {
+                  window.cv = mod;
+                }
+              });
+            } catch (error) {
+              /* thenable no estándar; seguimos sondeando */
+            }
+          }
         }
-        if (cv && typeof cv.then === "function") {
-          cv.then((mod) => {
-            window.cv = mod;
-            resolve(mod);
-          }).catch(reject);
-          return;
-        }
-        if (cv && typeof cv === "object" && "onRuntimeInitialized" in cv) {
-          cv.onRuntimeInitialized = () => resolve(window.cv);
-          return;
-        }
+
         if (performance.now() > deadline) {
           reject(new Error("No se pudo cargar OpenCV.js. Revisa tu conexión e inténtalo de nuevo."));
           return;
         }
-        setTimeout(check, 60);
+        setTimeout(check, 80);
       };
+
       check();
     });
 
-  // Carga OpenCV una sola vez (memoizada) y marca cvReady cuando está listo.
+  // Inyecta y carga OpenCV.js una sola vez (memoizada), de forma diferida.
+  // Se llama solo DESPUÉS de que la cámara ya está encendida, para que la
+  // descarga/compilación de ~10 MB nunca bloquee el botón ni la cámara.
+  const OPENCV_URL = "https://docs.opencv.org/4.9.0/opencv.js";
   let cvPromise = null;
   const loadCv = () => {
     if (!cvPromise) {
-      cvPromise = waitForOpenCv().then((cv) => {
+      cvPromise = new Promise((resolve, reject) => {
+        if (window.cv && typeof window.cv.Mat === "function") {
+          resolve(window.cv);
+          return;
+        }
+        const script = document.createElement("script");
+        script.src = OPENCV_URL;
+        script.async = true;
+        script.onload = () => waitForOpenCv().then(resolve, reject);
+        script.onerror = () =>
+          reject(new Error("No se pudo cargar OpenCV.js. Revisa tu conexión e inténtalo de nuevo."));
+        document.head.appendChild(script);
+      }).then((cv) => {
         state.cvReady = true;
         return cv;
       });
@@ -422,13 +463,6 @@
         "ok"
       );
     });
-  });
-
-  // Precarga OpenCV en segundo plano al abrir la página (el <script async> ya
-  // está descargándolo); así el reconocimiento suele estar listo al activar la
-  // cámara, sin bloquear el botón ni el permiso de cámara.
-  loadCv().catch(() => {
-    /* si falla, la cámara igual funciona; se reintenta al activar */
   });
 
   window.addEventListener("pagehide", stopDemo);
