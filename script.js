@@ -68,6 +68,65 @@ searchPanel?.addEventListener("submit", (event) => {
   searchToggle?.setAttribute("aria-expanded", "false");
 });
 
+// Foro: muestra los últimos temas de GitHub Discussions desde forum-latest.json
+// (archivo del mismo dominio generado por el workflow, sin llamadas externas).
+// Si no hay temas o falla la carga, se conserva la tarjeta estática de invitación.
+const forumFeed = document.querySelector("[data-forum-list]");
+
+if (forumFeed) {
+  const renderTopic = (topic) => {
+    const link = document.createElement("a");
+    link.className = "forum-item";
+    link.href = topic.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    const icon = document.createElement("span");
+    icon.className = "forum-icon";
+    icon.setAttribute("aria-hidden", "true");
+
+    const body = document.createElement("span");
+    const strong = document.createElement("strong");
+    strong.textContent = topic.title;
+    const small = document.createElement("small");
+    const meta = [];
+    if (topic.category) {
+      meta.push(topic.category);
+    }
+    const comments = Number(topic.comments) || 0;
+    meta.push(comments === 1 ? "1 comentario" : `${comments} comentarios`);
+    small.textContent = meta.join(" · ");
+    body.append(strong, small);
+
+    const chevron = document.createElement("em");
+    chevron.setAttribute("aria-hidden", "true");
+    chevron.textContent = "›";
+
+    link.append(icon, body, chevron);
+    return link;
+  };
+
+  fetch("forum-latest.json")
+    .then((response) => (response.ok ? response.json() : Promise.reject()))
+    .then((data) => {
+      const topics = (data && data.topics) || [];
+      if (!topics.length) {
+        return; // sin temas: se mantiene la tarjeta estática de invitación
+      }
+
+      const card = document.createElement("article");
+      card.className = "forum-card forum-card-wide";
+      const list = document.createElement("div");
+      list.className = "forum-list forum-list-grid";
+      topics.slice(0, 6).forEach((topic) => list.append(renderTopic(topic)));
+      card.append(list);
+      forumFeed.replaceChildren(card);
+    })
+    .catch(() => {
+      /* se conserva la tarjeta estática de invitación */
+    });
+}
+
 const videoFilterButtons = document.querySelectorAll("[data-video-filter]");
 const videosGrid = document.getElementById("videos-grid");
 const videoCards = videosGrid?.querySelectorAll("[data-video-category]");

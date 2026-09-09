@@ -1,0 +1,70 @@
+name: Actualizar temas del foro (GitHub Discussions)
+
+on:
+  schedule:
+    - cron: "0 * * * *" # cada hora
+  workflow_dispatch: {} # permite ejecutarlo manualmente desde la pestaña Actions
+
+permissions:
+  contents: write
+  discussions: read
+
+jobs:
+  update-discussions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Traer últimos temas de GitHub Discussions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ORG: Drones-Latinoamerica
+        run: |
+          read -r -d '' QUERY <<'GRAPHQL' || true
+          query($org: String!) {
+            organization(login: $org) {
+              discussions(first: 6, orderBy: {field: UPDATED_AT, direction: DESC}) {
+                nodes {
+                  title
+                  url
+                  category { name }
+                  comments { totalCount }
+                }
+              }
+            }
+          }
+          GRAPHQL
+
+          # Construye el cuerpo JSON de la petición GraphQL de forma segura.
+          BODY=$(jq -n --arg q "$QUERY" --arg org "$ORG" \
+            '{query: $q, variables: {org: $org}}')
+
+          curl -sSL \
+            -H "Authorization: bearer $GH_TOKEN" \
+            -H "Content-Type: application/json" \
+            -X POST \
+            -d "$BODY" \
+            https://api.github.com/graphql -o response.json
+
+          # Transforma la respuesta al formato que consume el sitio.
+          # Si la consulta falla o no hay nodos, se produce una lista vacía.
+          jq '{topics: [ .data.organization.discussions.nodes[]?
+                | {title, url, category: (.category.name // ""), comments: (.comments.totalCount // 0)} ]}' \
+            response.json > forum-latest.json
+
+          rm -f response.json
+          echo "Temas obtenidos:"
+          jq '.topics | length' forum-latest.json
+
+      - name: Commit si hay cambios
+        run: |
+          git add forum-latest.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios en los temas del foro."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -m "Actualiza temas del foro (GitHub Discussions)"
+            git push
+          fi
