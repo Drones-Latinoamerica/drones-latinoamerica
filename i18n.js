@@ -138,7 +138,7 @@
         power: "Energía y ESC",
         frame: "Chasis (Frame)",
         props: "Hélices",
-        computers: "Computadoras de flight",
+        computers: "Computadoras de vuelo",
         printers: "Impresoras 3D",
         guards: "Protectores para drones",
       },
@@ -249,6 +249,103 @@
         privacy: "Privacidad",
         contact: "Contacto",
         rights: "© 2026 Drones Latinoamérica. Todos los derechos reservados.",
+      },
+      makers: {
+        country: "País: China",
+        dji: "Drones de consumo, fotografía aérea, drones profesionales e industriales.",
+        autel: "Fotografía aérea, drones profesionales, inspección e industria.",
+        jouav: "Drones industriales, VTOL, mapping, inspección y UAV profesionales.",
+        ehang: "eVTOL, aeronaves autónomas, movilidad aérea y tecnología UAV.",
+        keku: "Fabricación de drones, OEM/ODM y drones personalizados.",
+        space: "Fabricación de drones, OEM/ODM, drones personalizados e industriales.",
+        sanray: "Drones industriales, drones de carga pesada y soluciones UAV personalizadas.",
+        loong: "Drones agrícolas, industriales, logística, VTOL y fabricación OEM/ODM.",
+        visitArrow: "Visitar sitio →",
+      },
+      features: {
+        communityTitle: "Comunidad",
+        communityCopy: "Comparte, aprende y crece junto a otros pilotos.",
+        eventsTitle: "Eventos y encuentros",
+        eventsCopy: "Participa en retos online y presenciales.",
+        resourcesCopy: "Manuales, guías, planos y tutoriales.",
+        skillsTitle: "Mejora tus habilidades",
+        skillsCopy: "Practica, analiza y perfecciona cada vuelo.",
+        trainCopy: "Entrena en entornos controlados antes de volar en campo.",
+        levelsCopy: "Desde principiantes hasta pilotos avanzados.",
+        joinCommunityLink: "Únete a la comunidad",
+        visitCommunityArrow: "Visitar comunidad →",
+      },
+      visionUi: {
+        privateTitle: "Privado y seguro",
+        privateCopy: "El video se procesa localmente y no se almacena.",
+        levelsTitle: "Para todos los niveles",
+        levelsCopy: "Desde demostraciones básicas hasta proyectos avanzados.",
+        handsTitle: "Aprendizaje práctico",
+        handsCopy: "Experimenta con visión artificial desde el navegador.",
+        tailoredTitle: "Soluciones a medida",
+        tailoredCopy: "Desarrollos personalizados para proyectos profesionales.",
+        bulletCpp: "Detección personalizada con C++",
+        bulletTracking: "Tracking y análisis avanzado",
+        bulletSolutions: "Soluciones para drones, robótica y tráfico",
+        easy: "Fácil",
+        practicalGuide: "Guía práctica",
+        tryFree: "Pruébalo gratis",
+        circles: "Círculos",
+        triangles: "Triángulos",
+        cups: "Tazas y objetos",
+        position: "Posición:",
+        positionXY: "Posición (x, y):",
+      },
+      guidesUi: {
+        readGuide: "Leer guía →",
+        readDoc: "Leer documento →",
+        downloadPdf: "Descargar PDF →",
+        seeAllGuides: "Ver todas las Guías y Manuales",
+      },
+      newsItems: {
+        h1: "Ucrania usa drones de medio alcance para presionar la logística en Crimea",
+        d1: "La campaña busca aislar rutas, puertos y suministros estratégicos en la península ocupada.",
+        h2: "Cambios en reglas para drones llegarán en 2026",
+        d2: "El reporte resume cambios previstos en normas para pilotos recreativos y comerciales.",
+        h3: "DJI Matrice 400 refuerza el mercado de drones empresariales",
+        d3: "La plataforma ofrece hasta 59 minutos de vuelo, 6 kg de carga y sensores avanzados para inspección.",
+        h4: "FBI incauta drones cerca de estadios y advierte multas de hasta $100,000",
+        d4: "Las restricciones temporales de vuelo alrededor de sedes deportivas elevan la vigilancia a pilotos.",
+        h5: "Zelenskyy promete llevar la guerra de vuelta a Rusia tras oleada de drones",
+        d5: "El reporte sigue ataques con drones contra territorio ruso y objetivos logísticos vinculados a Crimea.",
+        h6: "Un ataque ruso con drones en Sumy deja víctimas civiles",
+        d6: "El caso muestra cómo los drones siguen marcando el impacto humanitario y operativo del conflicto.",
+        h7: "Cómo la industria militar ucraniana usa drones e impresoras 3D para combatir a Rusia",
+        d7: "Reportaje sobre la producción de drones e impresión 3D en la industria de defensa ucraniana.",
+        h8: "¿Por qué los drones FPV llevan alambres metálicos o resortes al frente?",
+        d8: "Explicación de para qué sirven los alambres y resortes frontales en los drones FPV.",
+      },
+      reels: {
+        spinning: "Repujado de metal por rotación (metal spinning)",
+        molding: "Moldeo de silicona para colada de resina",
+        fiber: "Laminado de fibra de vidrio",
+        assembly: "Línea de ensamblaje en fábrica",
+        founders: "Emprendedores latinos: ideas y negocios",
+        workshop: "Proceso de taller y fabricación",
+        dip: "Inserción de componentes DIP (through-hole) en fábrica",
+        psu: "Proceso de fabricación de fuentes de poder",
+        battery: "Fabricación profesional de baterías para teléfonos",
+        quality: "Control de calidad y tecnología en la línea de producción",
+        pcbaFull: "Fábrica de PCBA a máxima producción",
+        pcbaSmt: "Fabricación de PCBA y ensamblaje SMT profesional",
+        factoryReal: "Grabación real dentro de una fábrica de electrónica",
+        ict: "Pruebas en circuito (ICT) en la línea de producción",
+        pcbLine: "Fábrica de PCB con línea de producción SMT",
+        psu3000: "Cómo se fabrica una fuente de poder de 3000W",
+        oem: "Fabricación de PCBA OEM por contrato",
+        appliances: "Fabricante profesional de PCBA para electrodomésticos",
+        changzhou: "Fábrica propia de electrónica en Changzhou",
+        safeTitle: "Seguro y confiable",
+        chuyka: "Detector de drones Chuyka para seguridad civil",
+        amesh: "Drones con red A-Mesh para coordinación aérea",
+        ground: "Drones que emergen directamente del suelo",
+        shenzhen: "Fábrica de drones económicos en Shenzhen, China",
+        instagram: "Reel recomendado de Instagram",
       },
       ui: {
         language: "Idioma",
@@ -496,6 +593,103 @@
         contact: "Contact",
         rights: "© 2026 Drones Latin America. All rights reserved.",
       },
+      makers: {
+        country: "Country: China",
+        dji: "Consumer drones, aerial photography, professional and industrial drones.",
+        autel: "Aerial photography, professional drones, inspection and industry.",
+        jouav: "Industrial drones, VTOL, mapping, inspection and professional UAVs.",
+        ehang: "eVTOL, autonomous aircraft, air mobility and UAV technology.",
+        keku: "Drone manufacturing, OEM/ODM and custom drones.",
+        space: "Drone manufacturing, OEM/ODM, custom and industrial drones.",
+        sanray: "Industrial drones, heavy-lift drones and custom UAV solutions.",
+        loong: "Agricultural and industrial drones, logistics, VTOL and OEM/ODM manufacturing.",
+        visitArrow: "Visit site →",
+      },
+      features: {
+        communityTitle: "Community",
+        communityCopy: "Share, learn and grow alongside other pilots.",
+        eventsTitle: "Events & meetups",
+        eventsCopy: "Take part in online and in-person challenges.",
+        resourcesCopy: "Manuals, guides, blueprints and tutorials.",
+        skillsTitle: "Sharpen your skills",
+        skillsCopy: "Practice, review and perfect every flight.",
+        trainCopy: "Train in controlled environments before flying in the field.",
+        levelsCopy: "From beginners to advanced pilots.",
+        joinCommunityLink: "Join the community",
+        visitCommunityArrow: "Visit community →",
+      },
+      visionUi: {
+        privateTitle: "Private and secure",
+        privateCopy: "Video is processed locally and never stored.",
+        levelsTitle: "For every level",
+        levelsCopy: "From basic demos to advanced projects.",
+        handsTitle: "Hands-on learning",
+        handsCopy: "Experiment with computer vision right from your browser.",
+        tailoredTitle: "Tailor-made solutions",
+        tailoredCopy: "Custom development for professional projects.",
+        bulletCpp: "Custom detection with C++",
+        bulletTracking: "Advanced tracking and analysis",
+        bulletSolutions: "Solutions for drones, robotics and traffic",
+        easy: "Easy",
+        practicalGuide: "Practical guide",
+        tryFree: "Try it free",
+        circles: "Circles",
+        triangles: "Triangles",
+        cups: "Cups and objects",
+        position: "Position:",
+        positionXY: "Position (x, y):",
+      },
+      guidesUi: {
+        readGuide: "Read guide →",
+        readDoc: "Read document →",
+        downloadPdf: "Download PDF →",
+        seeAllGuides: "See all Guides & Manuals",
+      },
+      newsItems: {
+        h1: "Ukraine uses medium-range drones to squeeze logistics in Crimea",
+        d1: "The campaign aims to cut off strategic routes, ports and supplies on the occupied peninsula.",
+        h2: "Drone rule changes are coming in 2026",
+        d2: "The report summarises upcoming changes to rules for recreational and commercial pilots.",
+        h3: "DJI Matrice 400 strengthens the enterprise drone market",
+        d3: "The platform offers up to 59 minutes of flight, 6 kg payload and advanced inspection sensors.",
+        h4: "FBI seizes drones near stadiums and warns of fines up to $100,000",
+        d4: "Temporary flight restrictions around sports venues increase scrutiny of pilots.",
+        h5: "Zelenskyy vows to take the war back to Russia after a wave of drones",
+        d5: "The report tracks drone attacks on Russian territory and logistics targets linked to Crimea.",
+        h6: "A Russian drone attack on Sumy leaves civilian casualties",
+        d6: "The case shows how drones keep shaping the humanitarian and operational impact of the conflict.",
+        h7: "How Ukraine's military industry uses drones and 3D printers to fight Russia",
+        d7: "A report on drone production and 3D printing in Ukraine's defence industry.",
+        h8: "Why do FPV drones carry metal wires or springs at the front?",
+        d8: "An explanation of what the front wires and springs on FPV drones are for.",
+      },
+      reels: {
+        spinning: "Metal spinning",
+        molding: "Silicone moulds for resin casting",
+        fiber: "Fiberglass lamination",
+        assembly: "Factory assembly line",
+        founders: "Latin founders: ideas and businesses",
+        workshop: "Workshop and manufacturing process",
+        dip: "DIP (through-hole) component insertion in a factory",
+        psu: "Power supply manufacturing process",
+        battery: "Professional phone battery manufacturing",
+        quality: "Quality control and technology on the production line",
+        pcbaFull: "PCBA factory running at full capacity",
+        pcbaSmt: "Professional PCBA manufacturing and SMT assembly",
+        factoryReal: "Real footage from inside an electronics factory",
+        ict: "In-circuit testing (ICT) on the production line",
+        pcbLine: "PCB factory with an SMT production line",
+        psu3000: "How a 3000W power supply is made",
+        oem: "PCBA OEM contract manufacturing",
+        appliances: "Professional PCBA manufacturer for home appliances",
+        changzhou: "In-house electronics factory in Changzhou",
+        safeTitle: "Safe and reliable",
+        chuyka: "Chuyka drone detector for civil security",
+        amesh: "Drones with an A-Mesh network for aerial coordination",
+        ground: "Drones that emerge straight from the ground",
+        shenzhen: "Low-cost drone factory in Shenzhen, China",
+        instagram: "Recommended Instagram reel",
+      },
       ui: {
         language: "Language",
         spanish: "Español",
@@ -527,11 +721,16 @@
   const flatEs = flatten(translations.es, "", {});
   const flatEn = flatten(translations.en, "", {});
 
+  // En el HTML un párrafo puede ocupar varias líneas, así que su texto trae
+  // saltos de línea e indentación en medio. Normalizamos los espacios para
+  // que el texto del DOM coincida con el de las traducciones.
+  const normalize = (value) => value.replace(/\s+/g, " ").trim();
+
   // Mapa texto-español -> texto-inglés (se ignoran las claves cuyo texto es
   // idéntico en ambos idiomas: no hay nada que intercambiar).
   const ES_TO_EN = new Map();
   Object.keys(flatEs).forEach((key) => {
-    const es = flatEs[key];
+    const es = normalize(flatEs[key]);
     const en = flatEn[key];
     if (en && es !== en && !ES_TO_EN.has(es)) {
       ES_TO_EN.set(es, en);
@@ -586,7 +785,7 @@
       }
 
       const trimmed = original.trim();
-      const translated = ES_TO_EN.get(trimmed);
+      const translated = ES_TO_EN.get(normalize(trimmed));
       if (translated) {
         node.nodeValue = original.replace(trimmed, translated);
       }
@@ -629,7 +828,7 @@
           return;
         }
 
-        const translated = ES_TO_EN.get(original.trim());
+        const translated = ES_TO_EN.get(normalize(original));
         if (translated) {
           el.setAttribute(attr, translated);
         }
