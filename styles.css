@@ -239,6 +239,135 @@ input {
   gap: 14px;
 }
 
+/* ---- Selector de idioma (escritorio) ---- */
+.lang-switch {
+  position: relative;
+  display: inline-flex;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 10px;
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.lang-toggle:hover {
+  color: var(--white);
+  border-color: rgba(126, 211, 33, 0.6);
+  background: rgba(126, 211, 33, 0.1);
+}
+
+.lang-toggle svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lang-caret {
+  font-size: 0.7rem;
+  opacity: 0.75;
+}
+
+/* El display de una clase gana al [hidden] del navegador: hay que
+   ocultarlo explícitamente o el desplegable aparece abierto al cargar. */
+.lang-menu[hidden] {
+  display: none;
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  display: grid;
+  min-width: 150px;
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  background: #0d151b;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.45);
+}
+
+.lang-menu .lang-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  color: rgba(255, 255, 255, 0.82);
+  background: none;
+  border: 0;
+  border-radius: 7px;
+  font: inherit;
+  font-size: 0.84rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.lang-menu .lang-option:hover {
+  color: var(--white);
+  background: rgba(126, 211, 33, 0.14);
+}
+
+.lang-option::before {
+  content: "✓";
+  width: 12px;
+  font-size: 0.8rem;
+  opacity: 0;
+}
+
+.lang-option.is-active {
+  color: var(--green-3);
+}
+
+.lang-option.is-active::before {
+  opacity: 1;
+}
+
+/* ---- Selector de idioma dentro del menú móvil ---- */
+.nav-lang {
+  display: none;
+}
+
+.nav-lang-title {
+  display: block;
+  margin-bottom: 4px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.nav-lang .lang-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 0;
+  color: rgba(255, 255, 255, 0.86);
+  background: none;
+  border: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -4335,6 +4464,19 @@ input {
 
   .nav-toggle {
     display: inline-flex;
+  }
+
+  /* En móvil el selector vive dentro del menú hamburguesa. */
+  .lang-switch {
+    display: none;
+  }
+
+  .nav-lang {
+    display: block;
+    grid-column: 1 / -1;
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .header-actions {

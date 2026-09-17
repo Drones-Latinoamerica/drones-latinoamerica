@@ -8,6 +8,9 @@
       name="description"
       content="Comunidad de pilotos, constructores e innovadores de drones en Latinoamérica. Cursos, proyectos, foro, eventos, recursos y marketplace."
     />
+    <link rel="alternate" hreflang="es" href="https://drones-latinoamerica.com/" />
+    <link rel="alternate" hreflang="en" href="https://drones-latinoamerica.com/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://drones-latinoamerica.com/" />
     <link rel="preload" href="assets/hero-workshop-una-antenna.png" as="image" />
     <link rel="stylesheet" href="styles.css?v=marketplace-protectores-20260831" />
   </head>
@@ -32,6 +35,16 @@
         <a href="#eventos">Eventos</a>
         <a href="#marketplace">Marketplace</a>
         <a href="#recursos">Recursos</a>
+
+        <div class="nav-lang" data-i18n-skip>
+          <span class="nav-lang-title" data-lang-heading>Idioma</span>
+          <button class="lang-option" type="button" data-lang-option="es" role="menuitemradio" aria-checked="true">
+            Español
+          </button>
+          <button class="lang-option" type="button" data-lang-option="en" role="menuitemradio" aria-checked="false">
+            English
+          </button>
+        </div>
       </nav>
 
       <div class="header-actions">
@@ -41,6 +54,34 @@
           </svg>
           Buscar
         </button>
+
+        <div class="lang-switch" data-lang-switch data-i18n-skip>
+          <button
+            class="lang-toggle"
+            type="button"
+            data-lang-toggle
+            aria-expanded="false"
+            aria-haspopup="true"
+            aria-label="Cambiar idioma"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M3 12h18" />
+              <path d="M12 3c2.5 2.7 3.8 5.8 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.8-3.8-9S9.5 5.7 12 3Z" />
+            </svg>
+            <span data-lang-current>ES</span>
+            <span class="lang-caret" aria-hidden="true">▾</span>
+          </button>
+          <div class="lang-menu" data-lang-menu hidden role="menu">
+            <button class="lang-option" type="button" data-lang-option="es" role="menuitemradio" aria-checked="true">
+              Español
+            </button>
+            <button class="lang-option" type="button" data-lang-option="en" role="menuitemradio" aria-checked="false">
+              English
+            </button>
+          </div>
+        </div>
+
         <a class="btn btn-primary" href="unete.html">Únete gratis</a>
       </div>
 
@@ -3098,6 +3139,7 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="i18n.js"></script>
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f6743ff4270e4b03aa8d2a02ad3c1890"}'></script><!-- End Cloudflare Web Analytics -->
   </body>
 </html>

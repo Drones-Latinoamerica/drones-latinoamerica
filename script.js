@@ -239,6 +239,12 @@ videoFilterButtons.forEach((button) => {
 
 applyVideoFilter(activeVideoCategory);
 
+// Permite que el sistema de idiomas vuelva a pintar los textos que este
+// widget genera desde JS (etiquetas de categoría y descripción).
+window.reapplyVideoFilter = () => {
+  applyVideoFilter(activeVideoCategory, { keepExpanded: true });
+};
+
 const quoteForm = document.querySelector(".site-form");
 if (quoteForm) {
   const params = new URLSearchParams(window.location.search);
