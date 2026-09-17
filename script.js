@@ -132,6 +132,9 @@ const videosGrid = document.getElementById("videos-grid");
 const videoCards = videosGrid?.querySelectorAll("[data-video-category]");
 const videoEmptyMessage = document.querySelector("[data-video-empty]");
 const videosSeeMoreButton = document.querySelector('[data-see-more="videos-grid"]');
+const videoDescriptionBox = document.querySelector("[data-video-description-box]");
+const videoDescriptionLabel = document.querySelector("[data-video-description-label]");
+const videoDescriptionText = document.querySelector("[data-video-description-text]");
 let activeVideoCategory = "drones";
 let areVideosExpanded = false;
 
@@ -147,12 +150,34 @@ const updateVideosSeeMoreState = (visibleCount) => {
     : videosSeeMoreButton.dataset.labelMore || "Ver todos los videos";
 };
 
+// Muestra bajo las pestañas el nombre completo y la descripción de la
+// categoría activa. Los textos viven en los data-* de cada botón.
+const updateVideoDescription = (category) => {
+  if (!videoDescriptionBox) {
+    return;
+  }
+
+  const button = document.querySelector(`[data-video-filter="${category}"]`);
+  const label = button?.dataset.videoLabel || "";
+  const description = button?.dataset.videoDescription || "";
+
+  if (videoDescriptionLabel) {
+    videoDescriptionLabel.textContent = label ? `${label}:` : "";
+  }
+  if (videoDescriptionText) {
+    videoDescriptionText.textContent = description;
+  }
+
+  videoDescriptionBox.toggleAttribute("hidden", !label && !description);
+};
+
 const applyVideoFilter = (category, { keepExpanded = false } = {}) => {
   if (!videosGrid || !videoCards) {
     return;
   }
 
   activeVideoCategory = category;
+  updateVideoDescription(category);
   if (!keepExpanded) {
     areVideosExpanded = false;
   }

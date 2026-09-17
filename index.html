@@ -744,55 +744,84 @@
           </div>
 
           <div class="video-category-tabs" aria-label="Categorías de videos recomendados">
-            <button class="video-category is-active" type="button" data-video-filter="drones" aria-pressed="true">
+            <button class="video-category is-active" type="button" data-video-filter="drones"
+              data-video-label="Drones"
+              data-video-description="Construcción, configuración y vuelo de drones: guías paso a paso, componentes y pruebas en campo." aria-pressed="true">
               <span class="video-category-icon icon-drone" aria-hidden="true"></span>
               Drones
             </button>
-            <button class="video-category" type="button" data-video-filter="cohetes" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="cohetes"
+              data-video-label="Cohetería experimental"
+              data-video-description="Diseño, construcción y lanzamiento de cohetes amateur, motores y sistemas de recuperación." aria-pressed="false">
               <span class="video-category-icon icon-rocket" aria-hidden="true"></span>
               Cohetes
             </button>
-            <button class="video-category" type="button" data-video-filter="aeromodelismo" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="aeromodelismo"
+              data-video-label="Aeromodelismo"
+              data-video-description="Aviones y alas fijas de radiocontrol: construcción, ajustes y vuelo." aria-pressed="false">
               <span class="video-category-icon icon-plane" aria-hidden="true"></span>
               Aeromodelismo
             </button>
-            <button class="video-category" type="button" data-video-filter="inteligencia-artificial" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="inteligencia-artificial"
+              data-video-label="Inteligencia Artificial"
+              data-video-description="Visión artificial, detección de objetos y vuelo autónomo aplicados a drones y robótica." aria-pressed="false">
               <span class="video-category-icon icon-ai" aria-hidden="true"></span>
               Inteligencia Artificial
             </button>
-            <button class="video-category" type="button" data-video-filter="impresoras-3d" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="impresoras-3d"
+              data-video-label="Impresión 3D"
+              data-video-description="Impresión de piezas, chasis y soportes a medida para drones y prototipos." aria-pressed="false">
               <span class="video-category-icon icon-printer" aria-hidden="true"></span>
               Impresoras 3D
             </button>
-            <button class="video-category" type="button" data-video-filter="quimica" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="quimica"
+              data-video-label="Química aplicada"
+              data-video-description="Materiales, resinas, adhesivos y procesos químicos útiles en la fabricación." aria-pressed="false">
               <span class="video-category-icon icon-flask" aria-hidden="true"></span>
               Química
             </button>
-            <button class="video-category" type="button" data-video-filter="variados" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="variados"
+              data-video-label="Variados"
+              data-video-description="Procesos de taller, herramientas y técnicas de fabricación que no encajan en una sola categoría." aria-pressed="false">
               <span class="video-category-icon icon-grid" aria-hidden="true"></span>
               Variados
             </button>
-            <button class="video-category" type="button" data-video-filter="linea-ensamblaje" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="linea-ensamblaje"
+              data-video-label="Línea de ensamblaje (Assembly Line)"
+              data-video-description="Producción en serie: ensamblaje de electrónica, PCBA, SMT y control de calidad en fábrica." aria-pressed="false">
               <span class="video-category-icon icon-conveyor" aria-hidden="true"></span>
               Línea de Ensamblaje
             </button>
-            <button class="video-category" type="button" data-video-filter="metal-spinning" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="metal-spinning"
+              data-video-label="Repujado de metal por rotación (Metal Spinning)"
+              data-video-description="Para fabricar componentes metálicos redondos o cónicos, como carcasas, soportes o piezas mecánicas del dron." aria-pressed="false">
               <span class="video-category-icon icon-spinning" aria-hidden="true"></span>
               Metal Spinning
             </button>
-            <button class="video-category" type="button" data-video-filter="moldeo-silicona" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="moldeo-silicona"
+              data-video-label="Moldeo de plástico y resina (Plastic &amp; Resin Molding)"
+              data-video-description="Para crear soportes de cámara, protectores, cajas para electrónica, tapas y piezas personalizadas del dron." aria-pressed="false">
               <span class="video-category-icon icon-mold" aria-hidden="true"></span>
               Moldeo de Silicona
             </button>
-            <button class="video-category" type="button" data-video-filter="fibra-vidrio" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="fibra-vidrio"
+              data-video-label="Moldeo de fibra de vidrio (Fiberglass Molding)"
+              data-video-description="Para fabricar el fuselaje, carcasas, cubiertas y otras partes ligeras y resistentes del dron." aria-pressed="false">
               <span class="video-category-icon icon-layers" aria-hidden="true"></span>
               Fibra de Vidrio
             </button>
-            <button class="video-category" type="button" data-video-filter="emprendedores" aria-pressed="false">
+            <button class="video-category" type="button" data-video-filter="emprendedores"
+              data-video-label="Emprendedores Latinos"
+              data-video-description="Historias, ideas y negocios de emprendedores de Latinoamérica." aria-pressed="false">
               <span class="video-category-icon icon-bulb" aria-hidden="true"></span>
               Emprendedores Latinos
             </button>
           </div>
+
+          <p class="video-category-description" data-video-description-box>
+            <strong data-video-description-label></strong>
+            <span data-video-description-text></span>
+          </p>
 
           <div class="video-grid collapsible is-collapsed" id="videos-grid">
             <a class="video-card" data-video-category="drones" href="https://www.youtube.com/watch?v=S9dvDU5RmQU" target="_blank" rel="noopener noreferrer">
