@@ -3802,12 +3802,6 @@ input {
   background: var(--green);
 }
 
-/* Reels en otros idiomas (vietnamita, chino, francés...). */
-.video-lang.lang-other {
-  color: var(--white);
-  background: rgba(15, 23, 32, 0.78);
-}
-
 .video-play {
   position: absolute;
   inset: 0;
