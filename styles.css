@@ -887,9 +887,22 @@ input {
 
 .simulators-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 20px;
   align-items: stretch;
+}
+
+/* Pasos intermedios: 4 en una fila solo cuando hay ancho de sobra. */
+@media (max-width: 1500px) {
+  .simulators-grid {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 1180px) {
+  .simulators-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .simulator-card {
