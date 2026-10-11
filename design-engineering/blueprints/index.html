@@ -4,64 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Planos técnicos | Diseño e Ingeniería</title>
-    <meta name="description" content="Recursos para interpretar planos técnicos, vistas y dimensiones de drones." />
+    <meta name="description" content="Biblioteca colaborativa de planos técnicos para drones." />
     <link rel="stylesheet" href="../../styles.css" />
     <link rel="stylesheet" href="../styles.css" />
   </head>
-  <body class="engineering-page">
+  <body class="engineering-page" data-library-category="blueprints">
     <header class="site-header" data-header>
-      <a class="brand" href="../../index.html#inicio" aria-label="Drones Latinoamérica">
-        <img class="brand-logo" src="../../assets/logo-drones-latinoamerica.png" alt="DRONES LATINOAMÉRICA" />
-      </a>
-      <nav class="main-nav" aria-label="Navegación principal" data-nav>
-        <a href="../../index.html#inicio">Inicio</a>
-        <a href="../../index.html#simuladores-drones">Simuladores</a>
-        <a class="is-active" href="../../index.html#diseno-ingenieria">Diseño e Ingeniería</a>
-      </nav>
-      <div class="engineering-lang" aria-label="Idioma">
-        <button class="is-active" type="button" data-lang-option="es" aria-checked="true">ES</button>
-        <button type="button" data-lang-option="en" aria-checked="false">EN</button>
-      </div>
+      <a class="brand" href="../../index.html#inicio" aria-label="Drones Latinoamérica"><img class="brand-logo" src="../../assets/logo-drones-latinoamerica.png" alt="DRONES LATINOAMÉRICA" /></a>
+      <nav class="main-nav" aria-label="Navegación principal" data-nav><a href="../../index.html#inicio">Inicio</a><a href="../../index.html#comunidad">Comunidad</a><a href="../../index.html#cursos">Cursos</a><a href="../../index.html#proyectos">Proyectos</a><a href="../../index.html#foro">Foro</a><a href="../../index.html#marketplace">Marketplace</a><a class="is-active" href="../../index.html#diseno-ingenieria">Recursos</a></nav>
+      <div class="engineering-lang" aria-label="Idioma"><button class="is-active" type="button" data-lang-option="es" aria-checked="true">ES</button><button type="button" data-lang-option="en" aria-checked="false">EN</button></div>
     </header>
-    <main class="engineering-page-main">
-      <div class="container">
-        <nav class="engineering-breadcrumb" aria-label="Ruta de navegación">
-          <a href="../../index.html#inicio">Inicio</a><span aria-hidden="true">›</span>
-          <a href="../../index.html#diseno-ingenieria">Diseño e Ingeniería</a><span aria-hidden="true">›</span>
-          <strong>Planos técnicos</strong>
-        </nav>
-        <section class="engineering-detail-hero">
-          <div class="engineering-detail-copy">
-            <p class="section-kicker">Diseño e Ingeniería</p>
-            <h1>Planos técnicos</h1>
-            <p>Aprende a interpretar vistas, cotas y proporciones para convertir una idea de aeronave en una estructura construible.</p>
-            <a class="btn btn-primary" href="../../index.html#diseno-ingenieria">Volver a Diseño e Ingeniería</a>
-          </div>
-          <div class="engineering-detail-media">
-            <img src="../../assets/design-engineering/blueprint-fixed-wing.jpg" alt="Plano técnico azul de un dron de ala fija con medidas y diferentes vistas" />
-          </div>
-        </section>
-        <div class="engineering-detail-grid">
-          <article class="engineering-info-card">
-            <h2>Qué encontrarás</h2>
-            <ul>
-              <li>Vistas superior, lateral y frontal</li>
-              <li>Cotas, ejes y referencias de escala</li>
-              <li>Configuraciones de ala fija, multirrotor y VTOL</li>
-            </ul>
-          </article>
-          <article class="engineering-info-card">
-            <h2>Cómo utilizar este recurso</h2>
-            <p>Comienza por identificar la escala y las vistas ortogonales. Después, relaciona cada cota con el material y el proceso de fabricación previsto.</p>
-          </article>
-          <article class="engineering-info-card engineering-safety">
-            <h2>Antes de construir</h2>
-            <p>Verifica siempre las especificaciones del fabricante y la compatibilidad eléctrica y mecánica antes de construir o energizar un sistema.</p>
-          </article>
-        </div>
-      </div>
-    </main>
+    <main id="design-library-root" class="engineering-page-main" aria-live="polite"></main>
     <script src="../../script.js"></script>
     <script src="../../i18n.js"></script>
+    <script src="../library.js"></script>
   </body>
 </html>

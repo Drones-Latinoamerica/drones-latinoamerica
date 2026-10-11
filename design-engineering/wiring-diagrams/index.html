@@ -4,30 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Diagramas de cableado | Diseño e Ingeniería</title>
-    <meta name="description" content="Recursos para comprender las conexiones eléctricas y electrónicas de un dron." />
+    <meta name="description" content="Biblioteca colaborativa de diagramas de cableado para drones." />
     <link rel="stylesheet" href="../../styles.css" />
     <link rel="stylesheet" href="../styles.css" />
   </head>
-  <body class="engineering-page">
+  <body class="engineering-page" data-library-category="wiring">
     <header class="site-header" data-header>
       <a class="brand" href="../../index.html#inicio" aria-label="Drones Latinoamérica"><img class="brand-logo" src="../../assets/logo-drones-latinoamerica.png" alt="DRONES LATINOAMÉRICA" /></a>
-      <nav class="main-nav" aria-label="Navegación principal" data-nav>
-        <a href="../../index.html#inicio">Inicio</a><a href="../../index.html#simuladores-drones">Simuladores</a><a class="is-active" href="../../index.html#diseno-ingenieria">Diseño e Ingeniería</a>
-      </nav>
+      <nav class="main-nav" aria-label="Navegación principal" data-nav><a href="../../index.html#inicio">Inicio</a><a href="../../index.html#comunidad">Comunidad</a><a href="../../index.html#cursos">Cursos</a><a href="../../index.html#proyectos">Proyectos</a><a href="../../index.html#foro">Foro</a><a href="../../index.html#marketplace">Marketplace</a><a class="is-active" href="../../index.html#diseno-ingenieria">Recursos</a></nav>
       <div class="engineering-lang" aria-label="Idioma"><button class="is-active" type="button" data-lang-option="es" aria-checked="true">ES</button><button type="button" data-lang-option="en" aria-checked="false">EN</button></div>
     </header>
-    <main class="engineering-page-main"><div class="container">
-      <nav class="engineering-breadcrumb" aria-label="Ruta de navegación"><a href="../../index.html#inicio">Inicio</a><span aria-hidden="true">›</span><a href="../../index.html#diseno-ingenieria">Diseño e Ingeniería</a><span aria-hidden="true">›</span><strong>Diagramas de cableado</strong></nav>
-      <section class="engineering-detail-hero">
-        <div class="engineering-detail-copy"><p class="section-kicker">Diseño e Ingeniería</p><h1>Diagramas de cableado</h1><p>Organiza la distribución de potencia y señales para conectar cada componente de forma clara, segura y mantenible.</p><a class="btn btn-primary" href="../../index.html#diseno-ingenieria">Volver a Diseño e Ingeniería</a></div>
-        <div class="engineering-detail-media"><img src="../../assets/design-engineering/wiring-diagram-quadcopter.jpg" alt="Diagrama de cableado con motores, ESC, controladora, batería, GPS y receptor" /></div>
-      </section>
-      <div class="engineering-detail-grid">
-        <article class="engineering-info-card"><h2>Qué encontrarás</h2><ul><li>Distribución de batería y alimentación</li><li>Conexiones entre controladora, ESC y motores</li><li>Señales de receptor, GPS y periféricos</li></ul></article>
-        <article class="engineering-info-card"><h2>Cómo utilizar este recurso</h2><p>Sigue primero las líneas de potencia y luego las señales. Comprueba polaridad, voltaje y capacidad de corriente antes de conectar la batería.</p></article>
-        <article class="engineering-info-card engineering-safety"><h2>Antes de construir</h2><p>Verifica siempre las especificaciones del fabricante y la compatibilidad eléctrica y mecánica antes de construir o energizar un sistema.</p></article>
-      </div>
-    </div></main>
-    <script src="../../script.js"></script><script src="../../i18n.js"></script>
+    <main id="design-library-root" class="engineering-page-main" aria-live="polite"></main>
+    <script src="../../script.js"></script>
+    <script src="../../i18n.js"></script>
+    <script src="../library.js"></script>
   </body>
 </html>

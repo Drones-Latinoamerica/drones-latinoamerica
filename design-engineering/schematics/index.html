@@ -4,28 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Esquemas electrónicos | Diseño e Ingeniería</title>
-    <meta name="description" content="Recursos para comprender circuitos y señales en sistemas electrónicos de drones." />
+    <meta name="description" content="Biblioteca colaborativa de esquemas electrónicos para drones." />
     <link rel="stylesheet" href="../../styles.css" />
     <link rel="stylesheet" href="../styles.css" />
   </head>
-  <body class="engineering-page">
+  <body class="engineering-page" data-library-category="schematics">
     <header class="site-header" data-header>
       <a class="brand" href="../../index.html#inicio" aria-label="Drones Latinoamérica"><img class="brand-logo" src="../../assets/logo-drones-latinoamerica.png" alt="DRONES LATINOAMÉRICA" /></a>
-      <nav class="main-nav" aria-label="Navegación principal" data-nav><a href="../../index.html#inicio">Inicio</a><a href="../../index.html#simuladores-drones">Simuladores</a><a class="is-active" href="../../index.html#diseno-ingenieria">Diseño e Ingeniería</a></nav>
+      <nav class="main-nav" aria-label="Navegación principal" data-nav><a href="../../index.html#inicio">Inicio</a><a href="../../index.html#comunidad">Comunidad</a><a href="../../index.html#cursos">Cursos</a><a href="../../index.html#proyectos">Proyectos</a><a href="../../index.html#foro">Foro</a><a href="../../index.html#marketplace">Marketplace</a><a class="is-active" href="../../index.html#diseno-ingenieria">Recursos</a></nav>
       <div class="engineering-lang" aria-label="Idioma"><button class="is-active" type="button" data-lang-option="es" aria-checked="true">ES</button><button type="button" data-lang-option="en" aria-checked="false">EN</button></div>
     </header>
-    <main class="engineering-page-main"><div class="container">
-      <nav class="engineering-breadcrumb" aria-label="Ruta de navegación"><a href="../../index.html#inicio">Inicio</a><span aria-hidden="true">›</span><a href="../../index.html#diseno-ingenieria">Diseño e Ingeniería</a><span aria-hidden="true">›</span><strong>Esquemas electrónicos</strong></nav>
-      <section class="engineering-detail-hero">
-        <div class="engineering-detail-copy"><p class="section-kicker">Diseño e Ingeniería</p><h1>Esquemas electrónicos</h1><p>Analiza cómo circulan la energía y las señales mediante símbolos y conexiones normalizadas.</p><a class="btn btn-primary" href="../../index.html#diseno-ingenieria">Volver a Diseño e Ingeniería</a></div>
-        <div class="engineering-detail-media"><img src="../../assets/design-engineering/schematic-drone-system.jpg" alt="Esquema de circuitos de un dron con símbolos electrónicos profesionales" /></div>
-      </section>
-      <div class="engineering-detail-grid">
-        <article class="engineering-info-card"><h2>Qué encontrarás</h2><ul><li>Símbolos eléctricos esenciales</li><li>Rutas de potencia, tierra y señal</li><li>Bloques funcionales del sistema de vuelo</li></ul></article>
-        <article class="engineering-info-card"><h2>Cómo utilizar este recurso</h2><p>Lee el esquema por bloques: alimentación, control, sensores y actuadores. Usa las referencias comunes para seguir cada señal.</p></article>
-        <article class="engineering-info-card engineering-safety"><h2>Antes de construir</h2><p>Verifica siempre las especificaciones del fabricante y la compatibilidad eléctrica y mecánica antes de construir o energizar un sistema.</p></article>
-      </div>
-    </div></main>
-    <script src="../../script.js"></script><script src="../../i18n.js"></script>
+    <main id="design-library-root" class="engineering-page-main" aria-live="polite"></main>
+    <script src="../../script.js"></script>
+    <script src="../../i18n.js"></script>
+    <script src="../library.js"></script>
   </body>
 </html>
