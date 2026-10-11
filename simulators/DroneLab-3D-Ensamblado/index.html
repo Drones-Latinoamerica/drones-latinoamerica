@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<meta content="#080e1b" name="theme-color"/>
+<meta content="DroneLab V5.6: monta un dron y equipa al piloto con GPS, FPV y hélices automáticas al pulsar cada motor." name="description"/>
+<title>DroneLab 3D V5.6 — Hélices con un clic</title>
+<style>
+  :root {color-scheme:dark;--bg:#080e1b;--panel:#111b2d;--line:#29364d;--text:#ecf3ff;--muted:#8999b4;--cyan:#52e6f3;--lime:#c6fa78;--amber:#ffc285;--pink:#f178af;--radius:18px}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse 70% 60% at 53% -10%,#19314a 0,transparent 70%),#080e1b;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  button{font:inherit;cursor:pointer}button:focus-visible,.part:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}button:disabled{opacity:.43;cursor:not-allowed}
+  .shell{max-width:1510px;margin:auto;padding:0 26px}
+  header{border-bottom:1px solid #1c293e;background:#0a1220b0;backdrop-filter:blur(18px)}.header-inner{height:78px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .brand{display:flex;align-items:center;gap:12px}.brandmark{display:grid;place-items:center;width:43px;height:43px;background:linear-gradient(140deg,#52e6f3,#347fa1);border-radius:13px;box-shadow:0 0 34px #29bed530}.brandmark svg{width:28px;height:28px}
+  .brandtext{font-size:20px;font-weight:900;letter-spacing:2px;line-height:1}.brandtext em{font-style:normal;color:var(--cyan)}.brand-sub{font-size:9px;font-weight:800;color:#829bb9;letter-spacing:2.2px;margin-top:7px}
+  .header-right{display:flex;align-items:center;gap:13px;font-size:11px;font-weight:800;letter-spacing:1.3px}.header-pill{padding:9px 12px;border:1px solid #30506a;border-radius:999px;color:var(--cyan);background:#14304790;white-space:nowrap}.hdr-version{color:#7387a3}
+  main{padding-top:32px;padding-bottom:42px}.eyebrow{font-size:11px;letter-spacing:2.6px;font-weight:900;color:var(--cyan)}.eyebrow span{padding:0 10px;color:#486079}
+  .intro{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;margin:11px 0 27px}.intro h1{font-size:clamp(32px,4.5vw,56px);line-height:1.07;letter-spacing:-2.5px;margin:8px 0 10px;font-weight:860}.intro h1 i{font-style:normal;color:var(--cyan)}.intro p{max-width:680px;color:#a6b7cf;font-size:14px;line-height:1.72;margin:0}.intro-aside{min-width:180px;display:flex;gap:11px;align-items:center;justify-content:flex-end;padding-bottom:8px;color:#a6b7cf;font-size:12px}.live-mark{display:block;width:8px;height:8px;background:#c5f77d;border-radius:100%;box-shadow:0 0 12px #c5f77d}
+  .workbench{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(330px,.72fr);gap:16px}
+  .panel{background:linear-gradient(140deg,#142238,#0f192b 70%);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;min-width:0;box-shadow:0 15px 40px #00000017}
+  .panel-top{height:60px;border-bottom:1px solid #2a3850;display:flex;align-items:center;justify-content:space-between;padding:0 19px;gap:10px;background:#14223880}.panel-title{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:900;letter-spacing:1.6px}.title-dash{background:var(--cyan);height:15px;width:3px;border-radius:3px}.micro-badge{font-size:10px;border-radius:5px;padding:6px 8px;color:#97b7c9;background:#233a50;letter-spacing:.4px}
+  .tools{display:flex;gap:7px}.tool{min-width:35px;height:35px;border-radius:9px;background:#1a2a40;color:#c9d6e8;border:1px solid #30455d;display:flex;align-items:center;justify-content:center;font-size:17px}.tool:hover{background:#233e53;border-color:var(--cyan);color:var(--cyan)}.tool.active{background:#225568;border-color:#6ddfea;color:white}
+  .viewport{height:clamp(385px,38vw,570px);position:relative;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse 72% 65% at 54% 48%,#23405b 0%,#111d31 53%,#0b1424 100%);touch-action:none;cursor:grab}.viewport:active{cursor:grabbing}.viewport canvas{display:block;width:100%;height:100%}
+  .viewport:after{pointer-events:none;position:absolute;content:"";inset:0;box-shadow:inset 0 0 100px #070d1d91}
+  .viewport-ui{position:absolute;z-index:2;pointer-events:none}.camera-pill{top:15px;left:18px;border:1px solid #416079a0;padding:8px 10px;border-radius:7px;background:#0c1923c9;font-size:10px;color:#aed5e6;font-weight:800;letter-spacing:1px}.camera-pill b{color:#bffb86}.nav-help{bottom:16px;left:18px;font-size:11px;color:#c2d1dfc2;display:flex;align-items:center;gap:7px;background:#091a2ab8;border:1px solid #26394d;padding:9px 11px;border-radius:8px}.front-tag{right:17px;top:17px;color:#ebbd90;font-size:10px;letter-spacing:1px;font-weight:800;background:#32231cdd;padding:8px 10px;border:1px solid #79543e;border-radius:7px}
+  .flight-indicator{bottom:16px;right:16px;border:1px solid #a9ef73;background:#24452ac9;display:none;padding:9px 11px;border-radius:7px;font-size:10px;color:#ccffa0;font-weight:900;letter-spacing:1px}.flight-indicator.show{display:block}
+  .canvas-footer{display:flex;justify-content:space-between;gap:15px;align-items:center;min-height:65px;padding:13px 18px;border-top:1px solid #2a3850}.status{display:flex;gap:9px;align-items:center;color:#a6bad0;font-size:12px;line-height:1.4}.status-dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 9px #52e6f366}.link-btn{color:var(--cyan);background:none;border:0;font-size:11px;font-weight:850;white-space:nowrap;padding:9px}.link-btn:hover{text-decoration:underline}
+  .guide .panel-top{border-bottom:1px solid #253852}.step-index{font-size:11px;color:var(--cyan);font-weight:800;letter-spacing:1px}.guide-content{padding:28px 26px 20px;min-height:285px}.guide-icon{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;background:#1e3a4e;border:1px solid #3c6375;color:var(--cyan);font-size:32px;margin-bottom:20px}.step-label{font-size:10px;color:var(--cyan);font-weight:900;letter-spacing:2px}.guide h2{font-size:26px;letter-spacing:-1px;line-height:1.15;margin:9px 0 10px}.guide p{color:#adbed3;font-size:13px;line-height:1.7;margin:0}.instruction{display:flex;gap:12px;background:#1b2d41;padding:13px 14px;border:1px solid #305069;border-radius:11px;margin-top:20px;font-size:12px;line-height:1.5;color:#d9e7f0}.instruction b{font-size:11px;color:var(--cyan);white-space:nowrap}
+  .tip{background:#192335;border-top:1px solid #283850;border-bottom:1px solid #283850;padding:16px 25px}.tip strong{font-size:10px;letter-spacing:1.5px;color:#ffcc8e}.tip p{font-size:11.5px;color:#9babbe;line-height:1.55;margin:8px 0 0}
+  .progress{padding:19px 25px}.progress-line{display:flex;justify-content:space-between;color:#96a7c1;font-size:10px;font-weight:900;letter-spacing:.8px;gap:8px}.progress-line strong{color:#e1efff}.progress-track{height:7px;background:#26384d;border-radius:10px;margin:13px 0 11px;overflow:hidden}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#1cc2d1,#c7f879);border-radius:10px;transition:width .3s}.dots{display:flex;gap:7px}.dots span{height:5px;flex:1;background:#2a3c52;border-radius:4px}.dots .done{background:#5edbd1}.dots .current{background:#c9f783}
+  .guide-bottom{padding:0 25px 25px}.primary{min-height:47px;padding:0 17px;background:linear-gradient(110deg,#82eeee,#58d7e8);color:#072030;border:none;border-radius:10px;font-size:13px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;gap:10px}.primary:not(:disabled):hover{filter:brightness(1.12)}.primary.full{width:100%}.safety{font-size:10px;color:#778aa3;text-align:center;margin:10px 0 0}.test-control{display:none;margin:15px 0 0;padding:13px;border:1px solid #315c58;border-radius:10px;background:#193339}.test-control.show{display:block}.test-control label{display:flex;justify-content:space-between;color:#b8e1d7;font-size:11px;font-weight:800;margin-bottom:10px}.test-control input{width:100%;accent-color:var(--lime)}.test-control small{font-size:10px;color:#98beb2}
+  .inventory{margin-top:18px}.inventory-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin:28px 0 15px}.inventory-head h2{font-size:25px;letter-spacing:-.8px;margin:7px 0 0}.inventory-head p{color:#8da1b9;font-size:12px;margin:0 0 3px}.parts{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:11px}.part{min-height:170px;text-align:left;padding:14px 12px;border-radius:13px;border:1px solid #283950;background:linear-gradient(150deg,#18263b,#101b2e);color:white;position:relative;display:flex;flex-direction:column;align-items:flex-start;transition:border-color .15s, transform .15s,background .15s;user-select:none;touch-action:pan-y}.part:not(.locked):hover{transform:translateY(-3px);border-color:#4cacc1}.part.selected{border-color:#62e8ee;box-shadow:inset 0 0 0 1px #62e8ee6b,0 0 27px #2bcee41b;background:linear-gradient(155deg,#234459,#102333)}.part.complete{opacity:.52}.part.locked{opacity:.52;cursor:not-allowed}.part-count{position:absolute;right:10px;top:10px;background:#263a51;border:1px solid #38536e;color:#c1d8ea;font-size:10px;padding:4px 7px;border-radius:7px;font-weight:900}.part-art{width:100%;height:66px;display:grid;place-items:center;color:#7fc8ce}.part-art svg{height:62px;width:85px;max-width:100%}.part-name{font-weight:800;font-size:12px;margin:6px 0 4px;line-height:1.35}.part-sub{font-size:10px;color:#88a1ba;line-height:1.35}.part-state{margin-top:auto;padding-top:10px;font-weight:900;font-size:9px;letter-spacing:.9px;color:#5ce9ef}.part.complete .part-state{color:#b8e993}.part.locked .part-state{color:#70879c}
+  .legend{display:flex;flex-wrap:wrap;gap:17px;margin-top:16px;font-size:11px;color:#8ea3b8}.legend i{display:inline-block;margin-right:5px;width:7px;height:7px;border-radius:50%;background:#5bddf3}.legend i.inst{background:#bce88a}.legend i.lock{background:#586f85}
+  footer{border-top:1px solid #28384a;margin-top:32px;padding-top:20px;color:#8293aa;font-size:11px;display:flex;justify-content:space-between;gap:20px;line-height:1.5}footer strong{color:#bfd9e8}
+  .toast{position:fixed;bottom:23px;left:50%;max-width:min(480px,95%);transform:translate(-50%,15px);z-index:70;background:#214455;border:1px solid #6ed7e7;color:#e7fdff;box-shadow:0 15px 55px #0009;border-radius:11px;padding:13px 20px;font-size:13px;line-height:1.45;opacity:0;pointer-events:none;transition:.22s;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}.toast.bad{background:#563334;border-color:#f09b83}
+  .dragging-label{position:fixed;z-index:95;pointer-events:none;top:0;left:0;display:none;background:#122f42e8;border:1px solid #79e4ed;box-shadow:0 4px 20px #0008;padding:11px 15px;border-radius:10px;font-size:13px;font-weight:850;color:#cbfaff;transform:translate(15px,15px)}.dragging-label.show{display:block}
+  .modal-backdrop{position:fixed;inset:0;z-index:99;background:#04101bd9;backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}.modal-backdrop.show{display:flex}.modal{max-width:500px;width:100%;border:1px solid #43637d;background:linear-gradient(140deg,#1b3547,#111f33);box-shadow:0 30px 70px #0009;border-radius:22px;padding:35px;text-align:center}.modal-emoji{font-size:45px;margin-bottom:12px}.modal h2{font-size:30px;margin:8px 0}.modal p{font-size:13px;color:#aec4d7;line-height:1.8}.modal-buttons{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:25px}.secondary{padding:11px 15px;min-height:46px;border-radius:9px;border:1px solid #526b7e;background:#243849;color:#e2eefa;font-weight:800;font-size:12px}
+  @media(max-width:1200px){.parts{grid-template-columns:repeat(4,minmax(0,1fr))}.part{min-height:160px}.workbench{grid-template-columns:minmax(0,1.3fr) minmax(300px,.77fr)}}
+  @media(max-width:900px){.workbench{grid-template-columns:1fr}.guide{display:grid;grid-template-columns:1fr 1fr}.guide .panel-top{grid-column:span 2}.guide-content{min-height:unset}.guide .tip{border-top:0;border-left:1px solid #283850;align-self:stretch;padding-top:27px}.guide .progress,.guide .guide-bottom{border-top:1px solid #283850}.guide .guide-bottom{display:flex;flex-direction:column;justify-content:center;padding-top:15px}.viewport{height:480px}}
+  @media(max-width:620px){.shell{padding:0 13px}.header-inner{height:68px}.brandtext{font-size:18px}.header-right{font-size:9px}.hdr-version{display:none}.header-pill{font-size:9px;padding:7px 9px}.intro{margin-top:10px;display:block}.intro h1{font-size:36px;letter-spacing:-1.5px}.intro p{font-size:12.5px}.intro-aside{display:none}main{padding-top:23px}.panel-top{padding:0 12px;height:58px}.panel-title{letter-spacing:.7px;font-size:10px}.micro-badge{font-size:9px;padding:5px}.tool{min-width:30px;width:30px;height:31px;font-size:15px}.viewport{height:390px}.front-tag{font-size:8px;right:10px}.camera-pill{font-size:9px;left:10px}.nav-help{font-size:9px;bottom:11px;left:9px;max-width:72%}.canvas-footer{padding:10px 13px}.status{font-size:11px}.link-btn{font-size:10px}.guide{display:block}.guide .panel-top{display:flex}.guide-content{padding:20px}.guide .tip{border-left:0;border-top:1px solid #283850;padding:18px 20px}.guide .progress{padding:16px 20px}.guide .guide-bottom{padding:0 20px 20px}.guide-icon{width:52px;height:52px;margin-bottom:12px;font-size:26px}.guide h2{font-size:23px}.parts{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.part{min-height:155px}.inventory-head{display:block}.inventory-head p{margin-top:8px}.inventory-head h2{font-size:22px}.eyebrow{font-size:9px}footer{display:block}footer span{display:block;margin-bottom:5px}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition-duration:0s!important}}
+
+  [hidden]{display:none!important}
+  .workbench{align-items:start}
+  .electrical{margin:0 20px 16px;padding:16px;border:1px solid #345c69;border-radius:12px;background:linear-gradient(140deg,#1c3a42,#112b35)}
+  .electrical-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}.electrical-heading strong{font-size:11px;letter-spacing:1px;color:#bbf7e8}.electrical-heading small{font-size:10px;color:#80adbb}
+  .voltage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.voltage-grid>div{border:1px solid #356674;border-radius:9px;background:#112c38;padding:10px 5px;min-width:0;text-align:center;display:flex;flex-direction:column;gap:7px}.voltage-grid small{font-size:9px;color:#90b1c1;font-weight:750}.voltage-grid b{font-size:17px;color:#b7ffc2;letter-spacing:-.6px}.voltage-grid b.danger{color:#ffa58d}.voltage-grid span{font-size:8px;color:#a7e9aa;letter-spacing:.5px;font-weight:900}.voltage-grid span.danger{color:#ff9f93}
+  .power-config{margin-top:14px}.power-config label{font-size:11px;color:#aac6cd;font-weight:800;display:block;margin-bottom:7px}.power-config select,.socket-chooser select{width:100%;min-height:39px;border-radius:8px;border:1px solid #456276;background:#0f2435;color:#ebfaff;padding:7px;font-size:12px}.power-config input{width:100%;accent-color:#9cf6ad}.power-explain{font-size:11px;color:#cbd5e2;line-height:1.55;margin:13px 0}.power-result{font-size:11px;line-height:1.5;color:#bcf9c5;margin-top:8px}.power-result[data-state=bad]{color:#ffc0a6}
+  .secondary.full{width:100%}
+  .wiring-panel{margin-top:16px}.wiring-body{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(300px,1.15fr)}.wiring-body>div{padding:23px}.wiring-controls{border-right:1px solid #2c435a}.wiring-body h3{font-size:18px;margin:0 0 8px}.wiring-controls p{font-size:12px;line-height:1.7;color:#aabbd0;margin:0 0 16px}.socket-chooser{display:grid;grid-template-columns:1fr 1fr;gap:12px}.socket-chooser label{font-size:11px;font-weight:850;color:#b7dbe1;display:grid;gap:7px}.wire-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.wire-feedback{display:grid;gap:8px;margin-top:18px;border-radius:9px;padding:12px;border:1px solid #344e62;background:#152b40;color:#c4d9e6;font-size:11px}.wire-feedback b{color:#ffd1b6}.wire-legend{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px 14px;font-size:10px;color:#96b7c1}.wire-list{max-height:300px;overflow-y:auto;display:grid;gap:6px;padding-right:6px}.wire-row{display:flex;align-items:center;gap:10px;padding:9px 11px;background:#15263b;border:1px solid #2a4257;border-radius:8px}.wire-row.wire-done{border-color:#426b62;background:#1a3538}.wire-seq{font-size:10px;color:#8aa3b5;min-width:22px}.wire-label{flex:1;font-size:11px;display:flex;flex-direction:column;gap:5px}.wire-label small{font-size:10px;color:#819db3}.wire-check{font-size:17px;color:#728ca3}.wire-done .wire-check{color:#b4ff99}
+  .workshop-note{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}.workshop-note>div{background:#111d2d;border:1px solid #273a50;border-radius:12px;padding:18px}.workshop-note b{font-size:12px;color:#b9e9e8}.workshop-note p{font-size:11px;color:#91a7bd;line-height:1.6;margin:8px 0 0}
+  @media(max-width:1050px){.wiring-body{grid-template-columns:1fr}.wiring-controls{border-right:0;border-bottom:1px solid #2c435a}}
+  @media(max-width:620px){.electrical{margin:0 14px 14px;padding:13px}.voltage-grid b{font-size:14px}.voltage-grid small{font-size:8px}.wiring-body>div{padding:15px}.socket-chooser{grid-template-columns:1fr}.workshop-note{grid-template-columns:1fr}.wire-actions .primary{width:100%}}
+
+/* DRONELAB V3.2 — paneles reordenados y banco horizontal */
+.workbench{grid-template-columns:minmax(0,1.53fr) minmax(345px,.79fr);gap:18px;align-items:stretch}
+.workbench>.panel{min-width:0}
+.viewport{height:clamp(430px,42vw,585px)}
+.bench{display:flex;flex-direction:column;background:linear-gradient(158deg,#172941,#0e1929 80%)}
+.bench .panel-top{flex:none}
+.bench-body{padding:20px 18px 19px;display:flex;flex:1;min-height:0;flex-direction:column;gap:0}
+.bench-lead{border-radius:14px;border:1px solid #31576a;background:linear-gradient(110deg,#1d4052,#193145 75%);padding:17px 17px 18px;margin-bottom:22px}
+.bench-lead .eyebrow{font-size:10px;letter-spacing:1.5px;color:#81eaf4}
+.bench-lead h2{font-size:clamp(20px,2vw,25px);margin:10px 0 7px;line-height:1.15;letter-spacing:-.6px}
+.bench-lead p{font-size:11.5px;line-height:1.55;color:#adc8d8;margin:0}
+.bench-rail-top{display:flex;gap:8px;justify-content:space-between;align-items:center;margin:0 0 12px;font-size:9.5px;letter-spacing:.9px;font-weight:900;color:#a9c3d7}
+.bench-rail-top span:last-child{letter-spacing:0;color:#67e4ea;white-space:nowrap}
+.parts-window{overflow-x:auto;overflow-y:hidden;width:100%;padding:2px 0 13px;overscroll-behavior-x:contain;scrollbar-color:#58d5e2 #172f43;scrollbar-width:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.parts-window::-webkit-scrollbar{height:11px}.parts-window::-webkit-scrollbar-track{background:#172f43;border-radius:99px}.parts-window::-webkit-scrollbar-thumb{background:#51c8d8;border:2px solid #172f43;border-radius:99px}
+.parts-window:focus-visible{outline:2px solid #67e4ed;outline-offset:2px;border-radius:9px}
+.bench .parts{display:flex;gap:11px;width:max-content;min-width:100%;grid-template-columns:none}
+.bench .part{width:176px;min-width:176px;min-height:191px;padding:13px;scroll-snap-align:start;flex:none;touch-action:pan-x}
+.bench .part-art{height:76px}.bench .part-art svg{height:69px;width:90px}
+.bench .part-name{font-size:12px}.bench .part-sub{font-size:10px}
+.bench-nav{display:flex;align-items:center;gap:11px;margin-top:10px}
+.bench-arrow{flex:none;width:36px;height:36px;border-radius:10px;border:1px solid #3d6b80;background:#214055;color:#a5f3f6;font-size:19px;font-weight:800;display:grid;place-items:center}
+.bench-arrow:not(:disabled):hover{background:#2d6477}
+#partsSlider{width:100%;min-width:0;accent-color:#68e5eb;cursor:ew-resize;height:20px}
+.bench-legend{display:flex;gap:11px;flex-wrap:wrap;font-size:10px;color:#a2b6ca;margin-top:16px}
+.bench-legend span{display:inline-flex;gap:6px;align-items:center}.bench-legend i{width:7px;height:7px;border-radius:100%;display:block}.bench-legend .ready{background:#57dff0}.bench-legend .placed{background:#c6f785}.bench-legend .waiting{background:#647990}
+.bench-summary{padding:14px 0 17px;margin-top:auto}.bench-summary>div:first-child{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:10px;color:#a7b8cc}.bench-summary strong{font-size:9px;letter-spacing:1px;color:#c9ddeb}.bench-summary-track{height:6px;background:#263c50;margin-top:11px;border-radius:5px;overflow:hidden}.bench-summary-track>div{height:100%;width:0%;background:linear-gradient(90deg,#55d4e9,#bdf283);transition:width .2s}
+.bench-info{border:1px solid #2a4359;border-radius:12px;background:#12273b;padding:14px}.bench-info strong{font-size:10px;letter-spacing:1px;color:#abeaf0}.bench-info p{margin:6px 0 9px;font-size:11px;line-height:1.52;color:#9aadc4}
+.bench-info button{border:none;background:none;font-size:11px;font-weight:900;color:#73e5ed;padding:5px 0}.bench-info button:hover{text-decoration:underline}
+.guide{margin-top:18px;display:block!important;grid-template-columns:none!important}
+.guide .panel-top{grid-column:auto}
+.guide-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-areas:"content progress" "tip actions" "power power";gap:0;align-items:stretch}
+.guide .guide-content{grid-area:content;min-height:0;padding:24px 28px 22px}
+.guide .guide-icon{width:49px;height:49px;font-size:24px;margin-bottom:12px}
+.guide .guide-content h2{margin:7px 0 8px}
+.guide .instruction{margin-top:14px}
+.guide .tip{grid-area:tip;border-top:1px solid #2e4156;border-bottom:0;border-left:0!important;padding:15px 28px 20px;background:transparent}
+.guide .progress{grid-area:progress;border-top:0!important;border-left:1px solid #2c4155;padding:25px 25px 15px}
+.guide .electrical{grid-area:power;margin:8px 22px 20px;padding:16px}
+.guide .guide-bottom{grid-area:actions;border-top:1px solid #2e4156!important;border-left:1px solid #2c4155;padding:17px 25px 20px;display:block!important}
+.support-notes{margin-top:20px}.workshop-note{margin-top:0}
+@media(max-width:1100px){.workbench{grid-template-columns:minmax(0,1.25fr) minmax(335px,.8fr)}.bench .part{width:164px;min-width:164px}.bench-body{padding:15px}.bench-info p{font-size:10.5px}}
+@media(max-width:900px){.workbench{grid-template-columns:minmax(0,1fr)}.viewport{height:460px}.bench .part{width:180px;min-width:180px}.bench-body{display:block}.bench-info{margin-top:0}.bench-summary{margin:12px 0 0}.guide{display:block!important}.guide-layout{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}}
+@media(max-width:620px){.viewport{height:390px}.bench .panel-top .micro-badge{display:none}.bench-body{padding:16px 13px}.bench-lead{margin-bottom:19px}.bench .part{width:161px;min-width:161px;min-height:175px}.bench .part-art{height:65px}.bench .part-art svg{height:59px}.bench .part-count{font-size:9px}.bench .parts{gap:9px}.bench-legend{font-size:9px}.guide-layout{display:flex;flex-direction:column}.guide .guide-content{padding:19px}.guide .tip{order:2;padding:16px 19px;border-top:1px solid #30445a}.guide .progress{order:1;border-left:0;padding:15px 19px 18px;border-top:1px solid #30445a!important}.guide .electrical{order:3;margin:0 13px 13px}.guide .guide-bottom{order:4;border-left:0;padding:4px 19px 19px}.guide .panel-top{height:58px}.bench-info{padding:12px}}
+  
+/* DroneLab V3.2 — tablero compacto + conexiones Origen → Destino */
+:root{--cyan:#2ed5f6;--lime:#8cf0b6;--line:#233e5b;--panel:#101e32}
+.shell{max-width:1710px;padding:0 18px}
+.header-inner{height:60px}.brandtext{font-size:19px;letter-spacing:1px}.brand-sub{letter-spacing:1.4px;font-size:9px}
+main{padding-top:12px;padding-bottom:26px}.intro{margin:0 0 13px;align-items:center}.intro h1{font-size:clamp(22px,2.1vw,33px);letter-spacing:-1px;margin:0 0 4px}.intro p{font-size:11px;line-height:1.45}.intro-aside{font-size:10px;min-width:unset}
+.workbench{display:grid;grid-template-columns:minmax(0,1.57fr) minmax(330px,1fr);gap:12px;align-items:stretch}
+.panel{border-radius:12px}.panel-top{height:46px;padding:0 15px}.panel-title{font-size:11px;letter-spacing:1.15px}
+.viewport{height:clamp(440px,36vw,550px)}
+.side-stack{min-width:0;display:flex;flex-direction:column;gap:11px}
+.bench{flex:0 0 auto;display:block;min-height:0}.bench-body{padding:12px 13px;display:block}
+.bench-lead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 13px;margin-bottom:11px;border-radius:9px}
+.bench-lead h2{font-size:16px;line-height:1.2;margin:3px 0 0}.bench-lead p{flex:0 1 46%;font-size:10px;line-height:1.5}
+.bench-lead .eyebrow{font-size:8px;letter-spacing:1px}.bench-rail-top{margin-bottom:8px}
+.bench .part{width:128px;min-width:128px;min-height:145px;padding:10px;border-radius:9px}.bench .part-art{height:55px}.bench .part-art svg{height:50px;width:67px}.bench .part-name{font-size:11px;margin:3px 0 2px}.bench .part-sub{font-size:9px}.bench .part-state{font-size:8px;padding-top:6px}.bench .part-count{font-size:9px;padding:2px 5px}
+.parts-window{padding-bottom:10px}.parts-window::-webkit-scrollbar{height:9px}.bench-nav{margin-top:5px;gap:8px}.bench-arrow{height:27px;width:28px;border-radius:7px;font-size:15px}.bench-legend{margin-top:8px;font-size:9px}
+.bench-summary{padding:8px 0 9px;margin:0}.bench-summary-track{margin-top:7px}.bench-info{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:8px}.bench-info>span{font-size:10px;color:#acccda;line-height:1.3}.bench-info button{white-space:nowrap;font-size:10px}
+.guide{margin-top:0!important;display:block!important;flex:1;min-height:0}.guide .panel-top{height:45px}.guide-layout{display:flex;flex-direction:column;gap:0}
+.guide .guide-content{padding:10px 14px 9px!important;min-height:0}.guide .guide-icon{display:none}.guide .step-label{font-size:9px}.guide .guide-content h2{font-size:18px;letter-spacing:-.5px;margin:4px 0 4px}.guide .guide-content p{font-size:11px;line-height:1.45}.guide .instruction{padding:8px 10px;margin-top:7px;font-size:10px;line-height:1.4;border-radius:8px}
+.guide .tip{grid-area:auto;border:0!important;border-top:1px solid #2e4156!important;padding:8px 14px!important;background:transparent}.tip summary{cursor:pointer;color:#ffc888;font-size:10px;font-weight:800}.tip .tip-fallback{display:none}.guide .tip p{margin:5px 0 0;line-height:1.4;font-size:10px}
+.guide .progress{border:0!important;border-top:1px solid #2e4156!important;padding:9px 14px 6px}.guide .progress-line{font-size:9px}.guide .progress-track{margin:7px 0 6px}.guide .dots{gap:3px}.guide .dots span{height:3px}
+.guide .guide-bottom{border:0!important;padding:6px 14px 10px!important}.guide .guide-bottom .primary{min-height:34px;font-size:11px}.guide .safety{font-size:9px;line-height:1.3;margin:5px 0 0}
+.guide .electrical{margin:6px 12px 8px;padding:11px;grid-area:auto}.electrical-heading strong{font-size:11px}.voltage-grid{gap:6px}.voltage-grid b{font-size:15px}.guide .power-config{margin-top:8px}.guide .power-config label{font-size:10px}
+.wiring-panel{margin-top:11px!important;border:1px solid #236d87;box-shadow:0 0 0 1px #05c1eb27,0 0 29px #00bff515;background:#0b192a;border-radius:12px}
+.wire-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid #25516d;background:linear-gradient(90deg,#10334a,#0f253c)}
+.wire-heading{display:flex;align-items:center;gap:11px;min-width:0}.wire-symbol{font-size:28px;color:#57e2f7;line-height:1}.wire-heading>div{display:flex;flex-direction:column;gap:2px}.wire-heading strong{font-size:15px;letter-spacing:.7px;white-space:nowrap;color:#b5faff}.wire-heading span:not(.wire-symbol){font-size:10px;color:#b3c6dd;line-height:1.2}
+.wire-toolbar{display:flex;gap:8px;align-items:center}.wire-counter{font-size:10px;font-weight:900;color:#67dff5;white-space:nowrap}.mini-progress{height:6px;width:95px;background:#253c53;border-radius:99px;overflow:hidden}.mini-progress>div{height:100%;background:linear-gradient(90deg,#39cddd,#b7ef82);width:0;transition:width .3s}.wire-outline{background:#153249;color:#c5e8f9;border:1px solid #3d6680;border-radius:7px;font-size:10px;font-weight:750;padding:7px 10px;white-space:nowrap}.wire-outline:hover{border-color:#57deee;background:#21465e}
+.wire-workspace{display:grid;grid-template-columns:155px minmax(0,1fr)}.wire-workspace[hidden]{display:none}
+.wire-filter{display:flex;flex-direction:column;gap:6px;padding:11px;border-right:1px solid #27465f;background:#0e1e31}.filter-caption{color:#719fb7;font-size:9px;letter-spacing:1px;margin-bottom:5px;font-weight:900}.filter-pill{display:flex;align-items:center;gap:7px;text-align:left;width:100%;border:1px solid #294962;background:#12273c;color:#9eb8cc;border-radius:7px;padding:10px 8px;font-size:10px}.filter-pill b{margin-left:auto;font-size:9px}.filter-pill.active{color:white;border-color:#27cfff;background:#124360;box-shadow:inset 0 0 0 1px #06c4f52c}.filter-note{font-size:10px;line-height:1.5;color:#9dbad1;padding:10px 3px 0;margin-top:auto}.filter-note strong{color:#baf3ec}
+.wire-content{min-width:0;padding:8px 10px 9px}.wire-columns{display:grid;grid-template-columns:124px minmax(140px,1fr) 24px minmax(145px,1fr) minmax(150px,1.15fr) 115px;gap:9px;padding:2px 12px 8px;color:#7ba0ba;font-size:9px;letter-spacing:.8px;font-weight:850}.wire-columns .arrow-col{text-align:center}.wire-action-head{text-align:center}
+.wire-list{overflow-y:auto;overflow-x:hidden;height:275px;max-height:275px;display:flex;flex-direction:column;gap:5px;padding:0 5px 0 0;scrollbar-color:#4cc9e8 #102d42;scrollbar-width:auto;overscroll-behavior:contain}
+.wire-list::-webkit-scrollbar{width:12px}.wire-list::-webkit-scrollbar-track{background:#0d2336;border-radius:7px}.wire-list::-webkit-scrollbar-thumb{background:#4ebfd5;border:2px solid #0d2336;border-radius:7px}
+.wire-row{display:grid;grid-template-columns:124px minmax(140px,1fr) 24px minmax(145px,1fr) minmax(150px,1.15fr) 115px;gap:9px;align-items:center;background:linear-gradient(100deg,#142f47,#102338);border:1px solid #27506a;border-radius:8px;padding:8px 12px;min-height:60px}
+.wire-row.wire-done{border-color:#386858;background:linear-gradient(100deg,#143c3b,#102a36)}.wire-row.wire-focus{border-color:#ffd173;box-shadow:inset 0 0 0 1px #ffd17344}
+.wire-type{display:flex;align-items:center;gap:6px;font-size:9px;font-weight:900;white-space:nowrap;text-transform:uppercase}.wire-seq{display:flex;align-items:center;justify-content:center;color:#e5f5ff;flex:none;width:25px;height:25px;border:1px solid #365b74;background:#1b3b53;border-radius:6px;font-size:10px}.wire-type i,.filter-pill i,.wire-legend i{height:8px;width:8px;flex:none;border-radius:50%;background:#80b8d0}.c-power{background:#ff6476!important}.c-ground{background:#aeb8c6!important}.c-reg{background:#5ce9aa!important}.c-signal{background:#3eafff!important}
+.wire-route{display:flex;flex-direction:column;gap:4px;min-width:0}.wire-route small{color:#80b3c9;font-size:8px;letter-spacing:.65px;font-weight:900}.wire-route strong{font-size:11px;color:#eef6ff;line-height:1.3;overflow-wrap:anywhere}.wire-arrow{text-align:center;color:#66bde3;font-size:21px}.wire-detail{font-size:10px;line-height:1.4;color:#a5c0d4}.wire-action{background:linear-gradient(120deg,#095ea0,#098ad0);border:1px solid #31bffc;color:white;padding:9px 6px;border-radius:6px;font-size:11px;font-weight:850;min-height:34px;width:100%}.wire-action:hover:not(:disabled){background:#1a95d2}.wire-action:disabled{opacity:.40;cursor:not-allowed}.wire-action.complete{background:#124e44;border-color:#3f9371;color:#b7ffe2}.wire-action.complete:not(:disabled):hover{background:#276451}
+.wire-footer{border-top:1px solid #1f425b;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 15px;color:#b0cadd;font-size:10px}.wire-legend{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:9px;color:#9eb1c2}.wire-legend span{display:inline-flex;align-items:center;gap:5px}
+.wire-empty{padding:28px;text-align:center;color:#aac5d7;font-size:12px}
+.support-notes{margin-top:11px}.workshop-note>div{padding:11px 13px}.workshop-note p{margin:4px 0 0;line-height:1.35;font-size:10px}footer{padding:14px 0 0;font-size:10px}
+@media(max-width:1250px){.workbench{grid-template-columns:minmax(0,1.35fr) minmax(318px,.9fr)}.viewport{height:465px}.bench .part{width:125px;min-width:125px}.wire-columns,.wire-row{grid-template-columns:110px minmax(100px,1fr) 18px minmax(100px,1fr) minmax(130px,1fr) 96px;gap:6px}.wire-type{font-size:8px}}
+@media(max-width:950px){.workbench{grid-template-columns:1fr}.viewport{height:460px}.side-stack{display:grid;grid-template-columns:1fr 1fr;align-items:start}.bench .part{width:137px;min-width:137px}.wire-workspace{grid-template-columns:132px minmax(0,1fr)}.wire-columns{display:none}.wire-row{grid-template-columns:102px 1fr 18px 1fr 95px}.wire-row .wire-detail{grid-column:2 / 5;grid-row:2}.wire-row .wire-action{grid-column:5;grid-row:1 / 3}}
+@media(max-width:700px){.shell{padding:0 10px}.header-inner{height:58px}.header-right .header-pill{display:none}.intro-aside{display:none}.intro h1{font-size:25px}.intro p{font-size:10px}.viewport{height:360px}.nav-help{font-size:9px;left:9px;bottom:7px;right:9px}.side-stack{grid-template-columns:1fr}.bench .part{width:140px;min-width:140px}.guide .guide-content{padding:12px 14px!important}.wire-header{flex-wrap:wrap}.wire-heading span:not(.wire-symbol){font-size:9px}.wire-toolbar{width:100%;flex-wrap:wrap;justify-content:space-between}.mini-progress{flex:1}.wire-workspace{grid-template-columns:1fr}.wire-filter{display:flex;flex-direction:row;align-items:center;overflow-x:auto;padding:8px 9px;gap:5px;border:0;border-bottom:1px solid #28485f}.filter-caption{display:none}.filter-pill{white-space:nowrap;width:auto;padding:7px;font-size:9px}.filter-note{display:none}.wire-content{padding:8px}.wire-row{grid-template-columns:1fr 20px 1fr;gap:5px 8px;padding:10px}.wire-row .wire-type{grid-column:1 / -1}.wire-row .wire-route{min-width:0}.wire-row .wire-detail{grid-column:1 / 3;grid-row:auto}.wire-row .wire-action{grid-column:3;grid-row:auto}.wire-list{height:330px;max-height:330px}.wire-footer{flex-direction:column;align-items:start}.wire-outline{padding:7px 6px}.bench-lead{margin-bottom:9px}.bench-info{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+
+
+/* ===== V3.3: Modelo grande, inventario horizontal ABAJO y cableado en ventana ===== */
+.workbench{display:grid!important;grid-template-columns:minmax(0,1.8fr) minmax(320px,.72fr)!important;gap:14px;align-items:start!important}
+.left-workspace{display:flex;flex-direction:column;gap:13px;min-width:0}
+.side-stack{display:flex!important;flex-direction:column!important;gap:13px;min-width:0}
+.viewport{height:clamp(405px,37vw,545px)}
+.bench{margin:0;display:block;min-height:0!important}
+.bench-body{padding:11px 14px 12px!important}
+.bench-lead{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 12px!important;margin:0 0 9px!important;min-height:0}
+.bench-lead h2{font-size:14px!important;margin:2px 0!important}
+.bench-lead p{font-size:10px!important;max-width:50%;line-height:1.3!important}
+.bench .part{width:141px!important;min-width:141px!important;min-height:145px!important}
+.bench .parts{display:flex!important;width:max-content!important;min-width:100%;gap:11px}
+.bench .part-art{height:56px!important}.bench .part-art svg{height:51px!important}
+.bench-rail-top{margin-bottom:6px!important}
+.parts-window{overflow-x:auto!important;overflow-y:hidden!important;scroll-behavior:smooth;scrollbar-gutter:stable;scrollbar-color:#60d8ea #0e293d;scrollbar-width:auto;padding-bottom:7px!important;scroll-snap-type:x proximity}
+.parts-window::-webkit-scrollbar{height:11px!important}
+.parts-window::-webkit-scrollbar-track{background:#0f2a3f;border-radius:10px}
+.parts-window::-webkit-scrollbar-thumb{background:#50cdda;border:2px solid #0f2a3f;border-radius:10px}
+.bench-nav{display:flex;align-items:center;gap:10px;margin-top:5px!important}
+.bench-nav input[type=range]{flex:1;width:100%;min-width:0;accent-color:#61e2f0}
+.bench-legend{margin-top:8px!important}
+.bench-summary{padding:7px 0 8px!important}
+.bench-info{padding:6px 10px!important}
+.guide .panel-top{height:48px!important}
+.guide .guide-content{padding:16px 15px 13px!important}
+.guide .guide-content h2{font-size:19px!important}
+.guide .guide-content p{font-size:11px;line-height:1.55}
+.guide .guide-content .instruction{font-size:11px}
+.guide-wiring-btn{margin-top:12px;width:100%;padding:10px 9px;display:flex;align-items:center;gap:9px;text-align:left;border-radius:10px;border:1px solid #3fcddd;background:linear-gradient(110deg,#12516a,#113044);color:#e2faff;box-shadow:0 3px 18px #23b7d119}
+.guide-wiring-btn:hover,.open-wire-button:hover{background:#17627b;filter:brightness(1.08)}
+.guide-wiring-btn>span:first-child{font-size:23px;color:#84eef9}
+.guide-wiring-btn>span:nth-child(2){display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.guide-wiring-btn b{font-size:11px}.guide-wiring-btn small{font-size:9px;color:#a9d9e7}
+.guide-wiring-btn strong{font-size:10px;color:#bdfcf9;background:#124157;padding:6px;border-radius:6px}
+.guide-open-arrow{font-size:17px;color:#8fe9f6}
+.canvas-footer{min-height:55px!important;gap:8px}
+.canvas-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.open-wire-button{display:flex;gap:8px;align-items:center;justify-content:center;padding:10px 12px;min-height:35px;background:#14455c;border:1px solid #45d8e6;border-radius:8px;color:#cefdff;font-size:11px;font-weight:850;white-space:nowrap}
+.open-wire-button span{background:#0e283b;color:#86ecfa;padding:4px 6px;border-radius:5px}
+/* Taller de cables sólo en modal emergente */
+.wiring-overlay{display:none;position:fixed;inset:0;z-index:1200;background:rgba(3,9,20,.78);backdrop-filter:blur(7px);align-items:center;justify-content:center;padding:clamp(10px,2vw,28px)}
+.wiring-overlay.show{display:flex}
+.dialog-open{overflow:hidden}
+.wiring-dialog{width:min(1420px,100%);max-height:min(760px,calc(100dvh - 30px));min-height:0;outline:none;display:flex;flex-direction:column}
+.wiring-dialog .wiring-panel{display:flex;flex-direction:column;min-height:0;max-height:100%;width:100%;margin:0!important;border:1px solid #49d3ec;border-radius:16px;box-shadow:0 24px 100px #000b,0 0 0 1px #0bb9dc50,0 0 70px #09a6d026;overflow:hidden}
+.wiring-dialog .wire-header{flex:0 0 auto;min-height:70px;padding:13px 18px}
+.wiring-dialog .wire-heading strong{font-size:18px!important;color:#d5fbff}
+.wiring-dialog .wire-heading span:not(.wire-symbol){font-size:11px!important}
+.wiring-dialog .wire-workspace{flex:1;min-height:0;display:grid;grid-template-columns:170px minmax(0,1fr);overflow:hidden}
+.wiring-dialog .wire-content{display:flex;flex-direction:column;min-height:0;overflow:hidden;padding:12px 12px 10px}
+.wiring-dialog .wire-list{height:auto!important;max-height:none!important;flex:1;min-height:180px;overflow-y:auto!important;scrollbar-width:auto;scrollbar-color:#50d3e7 #0c2337}
+.wiring-dialog .wire-filter{overflow-y:auto;min-height:0;gap:9px;padding:15px 12px}
+.wiring-dialog .wire-row{grid-template-columns:110px minmax(115px,1fr) 22px minmax(115px,1fr) minmax(140px,.95fr) 113px;gap:9px;min-height:69px;padding:9px 12px}
+.wiring-dialog .wire-columns{grid-template-columns:110px minmax(115px,1fr) 22px minmax(115px,1fr) minmax(140px,.95fr) 113px;gap:9px}
+.wiring-dialog .wire-route small{font-size:9px;color:#63e1f3}.wiring-dialog .wire-route strong{font-size:12px!important;line-height:1.4}
+.wiring-dialog .wire-detail{font-size:10.5px}
+.wiring-dialog .wire-action{min-height:40px}
+.wiring-dialog .wire-footer{flex:0 0 auto;min-height:39px}
+.wire-dismiss{border-color:#b65b6c!important;background:#4e2739!important;color:#ffe3e6!important;font-weight:900!important}
+.wire-dismiss:hover{background:#713041!important}
+@media(max-width:1180px){
+ .workbench{grid-template-columns:minmax(0,1.4fr) minmax(295px,.78fr)!important}
+ .viewport{height:460px}
+ .wiring-dialog .wire-row,.wiring-dialog .wire-columns{grid-template-columns:94px minmax(105px,1fr) 15px minmax(105px,1fr) minmax(110px,1fr) 97px;gap:6px}
+ .wire-type{font-size:8px}.wiring-dialog .wire-route strong{font-size:10.5px!important}
+}
+@media(max-width:900px){
+ .workbench{grid-template-columns:1fr!important}.side-stack{display:block!important}.guide{display:block!important}
+ .viewport{height:420px}.left-workspace{gap:12px}
+ .wiring-dialog .wire-workspace{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}
+ .wiring-dialog .wire-filter{display:flex;flex-direction:row;overflow-x:auto;gap:7px;padding:8px;border-right:0;border-bottom:1px solid #31506b}
+ .wiring-dialog .filter-caption,.wiring-dialog .filter-note{display:none}
+ .wiring-dialog .filter-pill{white-space:nowrap;width:auto;padding:8px 10px}
+ .wiring-dialog .wire-columns{display:none}
+ .wiring-dialog .wire-row{grid-template-columns:94px minmax(110px,1fr) 18px minmax(110px,1fr) 103px;gap:6px 9px}
+ .wiring-dialog .wire-detail{grid-column:2 / 5;grid-row:2}
+ .wiring-dialog .wire-action{grid-column:5;grid-row:1 / 3}
+}
+@media(max-width:620px){
+ .intro{margin-bottom:10px}.viewport{height:355px}
+ .canvas-footer{flex-wrap:wrap}.canvas-actions{width:100%;justify-content:space-between}
+ .bench .part{width:137px!important;min-width:137px!important}
+ .bench-lead p{max-width:58%}
+ .wiring-overlay{padding:7px;align-items:stretch}
+ .wiring-dialog{max-height:calc(100dvh - 14px);height:calc(100dvh - 14px)}
+ .wiring-dialog .wiring-panel{border-radius:10px}
+ .wiring-dialog .wire-header{padding:10px;gap:8px;align-items:start}
+ .wiring-dialog .wire-heading{gap:7px}
+ .wiring-dialog .wire-heading strong{font-size:14px!important}
+ .wiring-dialog .wire-heading span:not(.wire-symbol){font-size:9px!important;max-width:290px}
+ .wiring-dialog .wire-symbol{font-size:21px}
+ .wiring-dialog .wire-toolbar{display:flex;flex-wrap:wrap;gap:7px;width:100%}
+ .wiring-dialog .wire-counter{font-size:10px}.wiring-dialog .mini-progress{width:40px;flex:1}
+ .wiring-dialog .wire-workspace{min-height:0}
+ .wiring-dialog .wire-row{display:grid;grid-template-columns:1fr 24px 1fr;gap:9px 7px;padding:10px}
+ .wiring-dialog .wire-row .wire-type{grid-column:1 / -1;grid-row:auto;font-size:10px}
+ .wiring-dialog .wire-row .wire-route{min-width:0}
+ .wiring-dialog .wire-row .wire-arrow{grid-column:2;grid-row:2;align-self:center}
+ .wiring-dialog .wire-row .wire-detail{grid-column:1 / -1;grid-row:3}
+ .wiring-dialog .wire-row .wire-action{grid-column:1 / -1;grid-row:4;min-height:39px}
+ .wiring-dialog .wire-route strong{font-size:11px!important}
+ .wiring-dialog .wire-footer{flex-wrap:wrap;gap:5px}
+ .wiring-dialog .wire-legend{gap:7px}
+}
+
+
+/* V3.4 · Pantalla única de escritorio: 3D, banco compacto, guía y cables en el mismo lugar */
+@media (min-width:901px) {
+ html,body{height:100%;overflow:hidden}
+ body{display:flex;flex-direction:column}
+ header{flex:none;height:52px}
+ .header-inner{height:52px!important}
+ .shell{width:100%;max-width:1780px;padding-left:16px;padding-right:16px}
+ main.shell{flex:1;min-height:0;display:flex;flex-direction:column;padding-top:6px;padding-bottom:10px}
+ .intro{flex:none;margin:0 0 8px;min-height:49px;align-items:center}
+ .intro h1{font-size:25px;line-height:1.15;letter-spacing:-.65px;margin:0 0 3px}
+ .intro p{font-size:10.5px;line-height:1.4}
+ .intro-aside{font-size:10px;padding-bottom:0}
+ .workbench{flex:1;min-height:0;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(315px,345px)!important;align-items:stretch!important;gap:12px}
+ .left-workspace{min-height:0;display:flex;flex-direction:column;gap:10px}
+ .left-workspace>section.panel{min-height:0;flex:1;display:flex;flex-direction:column}
+ .left-workspace .panel-top{height:40px;min-height:40px;padding:0 14px}
+ .viewport{height:auto!important;flex:1;min-height:125px}
+ .canvas-footer{flex:none;min-height:43px!important;padding:6px 12px}
+ .canvas-footer .status{font-size:10px}
+ .left-workspace .bench{flex:none;height:185px;min-height:185px!important;margin:0}
+ .bench .panel-top{height:36px;min-height:36px}
+ .bench-body{padding:6px 11px!important}
+ .bench-lead{display:none!important}
+ .bench-rail-top{padding:0 2px;margin:0 0 3px!important;font-size:9px}
+ .bench .part{width:121px!important;min-width:121px!important;min-height:104px!important;height:104px!important;padding:7px 8px!important;border-radius:8px;overflow:hidden}
+ .bench .parts{display:flex!important;width:max-content!important;gap:8px!important}
+ .bench .part-art{height:37px!important;min-height:37px}.bench .part-art svg{height:35px!important}
+ .bench .part-count{font-size:8px;padding:2px 4px;top:4px;right:4px}
+ .bench .part-name{font-size:10px;margin:2px 0}
+ .bench .part-sub{font-size:8px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .bench .part-state{font-size:8px;padding-top:3px}
+ .parts-window{min-height:110px;max-height:110px;overflow-x:auto!important;scrollbar-width:thin!important;padding-bottom:2px!important;scrollbar-color:#5cdeee #0a2939!important}
+ .parts-window::-webkit-scrollbar{height:7px!important}
+ .bench-nav{margin-top:3px!important;gap:9px}
+ .bench-arrow{height:23px!important;min-height:23px!important;min-width:27px!important;padding:0 5px!important;font-size:12px}
+ .bench .bench-legend,.bench .bench-summary,.bench .bench-info{display:none!important}
+ .side-stack{display:flex!important;min-height:0;flex-direction:column!important}
+ .side-stack>.guide{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+ .guide .panel-top{height:40px!important;min-height:40px!important;padding:0 12px}
+ .guide-layout{flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#5ccddb #0b2138}
+ .guide-layout.is-wiring{overflow:hidden}
+ .guide .guide-content{min-height:0!important;flex:none;padding:11px 12px 9px!important}
+ .guide .guide-icon{display:none}
+ .guide h2{font-size:18px!important;line-height:1.15!important;letter-spacing:-.35px!important;margin:5px 0 6px!important}
+ .guide .step-label{font-size:9px}
+ .guide .guide-content p{font-size:10.2px;line-height:1.4}
+ .guide .instruction{margin-top:8px;padding:7px 8px;font-size:10px!important;line-height:1.3}
+ .guide .tip{padding:8px 12px}
+ .guide .tip strong,.guide .tip p{font-size:9px}
+ .guide .electrical{margin:8px!important;padding:10px!important}
+ .guide .progress{flex:none;padding:8px 12px 6px}
+ .guide .progress-line{font-size:9px}
+ .guide .progress-track{margin:7px 0 7px}
+ .guide .dots{gap:3px}
+ .guide .dots span{height:4px}
+ .guide .guide-bottom{flex:none;padding:5px 12px 10px}
+ .guide-bottom .primary{min-height:34px;font-size:11px}
+ .guide-bottom .safety{font-size:9px;margin:5px 0 0}
+ .support-notes,footer{display:none}
+}
+/* La guía contiene los 19 cables SOLO cuando el montaje está en la etapa 10 */
+.guide-inline-wiring{display:flex;flex-direction:column;min-height:0;flex:1;margin:3px 10px 8px;border:1px solid #2e7594;background:#0e2439;border-radius:10px;overflow:hidden}
+.guide-inline-wiring[hidden]{display:none!important}
+.inline-wiring-heading{flex:none;padding:10px 11px 6px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.inline-wiring-heading>div:first-child{display:flex;flex-direction:column;gap:4px}
+.inline-wiring-heading b{font-size:10px;letter-spacing:.5px;color:#9df7ff}
+.inline-wiring-heading span{font-size:9px;color:#a5c7df}
+.inline-wiring-heading .mini-progress{min-width:40px;width:60px;height:5px}
+.inline-wire-instruction{padding:0 11px 7px;margin:0!important;font-size:10px;line-height:1.4;color:#b0d0e3}
+.guide-inline-wiring .wire-filter{border:0;border-top:1px solid #274458;border-bottom:1px solid #274458;flex:none;display:flex!important;flex-direction:row!important;align-items:center;gap:4px;overflow-x:auto;overflow-y:hidden;min-height:34px;padding:5px 6px;scrollbar-width:thin}
+.guide-inline-wiring .filter-pill{flex:none;width:auto!important;min-width:0!important;white-space:nowrap;font-size:9px;padding:6px 7px!important;border-radius:6px}
+.guide-inline-wiring .wire-content{display:flex;min-height:0;flex:1;flex-direction:column;overflow:hidden;padding:5px!important}
+.guide-inline-wiring .wire-list{height:auto!important;max-height:none!important;min-height:0!important;flex:1;overflow-x:hidden!important;overflow-y:auto!important;scrollbar-width:thin;scrollbar-color:#4dcde0 #0e293d}
+.guide-inline-wiring .wire-row{display:grid;grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);gap:4px 4px;padding:8px;margin:0 0 6px;min-height:108px;border:1px solid #2c4a60;border-radius:8px;background:#122d43}
+.guide-inline-wiring .wire-row.wire-done{background:#122f35;border-color:#2d6964}
+.guide-inline-wiring .wire-row .wire-type{grid-column:1 / -1;grid-row:1;display:flex;align-items:center;gap:6px;font-size:9px;white-space:nowrap}
+.guide-inline-wiring .wire-row .wire-type .wire-seq{font-size:9px;padding:2px 5px}
+.guide-inline-wiring .wire-row .wire-route{grid-row:2;min-width:0}
+.guide-inline-wiring .wire-row .wire-route strong{font-size:10px!important;line-height:1.25}
+.guide-inline-wiring .wire-row .wire-route small{font-size:9px;color:#5fdef6}
+.guide-inline-wiring .wire-row .wire-arrow{grid-row:2;align-self:center;font-size:16px}
+.guide-inline-wiring .wire-row .wire-detail{grid-column:1 / -1;grid-row:3;font-size:9px;line-height:1.35;color:#a6bdcf}
+.guide-inline-wiring .wire-row .wire-action{grid-column:1 / -1;grid-row:4;width:100%;min-height:28px;font-size:10px;padding:4px}
+.guide-inline-wiring .inline-wire-bottom{flex:none;display:flex;justify-content:space-between;align-items:center;gap:7px;background:#0c2133;border-top:1px solid #28475b;padding:6px 8px}
+.guide-inline-wiring #wireNext{font-size:9px;color:#93bfd2;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;min-width:0}
+.guide-inline-wiring .inline-wire-bottom button{flex:none;white-space:nowrap;font-size:9px;padding:5px;border-radius:5px}
+.guide-layout.is-wiring .tip,.guide-layout.is-wiring .electrical{display:none!important}
+/* Espacios compactos incluso en móvil: sin popup y con componentes accesibles */
+@media(max-width:900px){
+ html,body{overflow-x:hidden;overflow-y:auto;height:auto}
+ .shell{padding:0 10px}
+ main.shell{display:block;padding-top:8px}
+ .intro{margin:5px 0 12px}
+ .workbench{display:flex!important;flex-direction:column!important;gap:10px}
+ .left-workspace{display:flex;flex-direction:column;gap:9px;min-height:0}
+ .left-workspace .panel-top{height:43px;padding:0 10px}
+ .viewport{height:clamp(260px,58vw,400px)!important;min-height:260px}
+ .canvas-footer{padding:8px 10px;min-height:40px!important}
+ .bench{min-height:0!important;height:auto;margin:0}
+ .bench .panel-top{height:39px}
+ .bench-body{padding:9px!important}
+ .bench-lead{display:none!important}
+ .bench .part{min-width:117px!important;width:117px!important;min-height:116px!important;padding:7px!important}
+ .bench .part-art{height:38px!important}.bench .part-art svg{height:37px!important}
+ .bench .part-name{font-size:10px}.bench .part-sub{font-size:8px}.bench .part-state{font-size:8px}
+ .bench-legend,.bench-summary,.bench-info{display:none!important}
+ .side-stack{display:block!important}
+ .side-stack>.guide{display:flex;flex-direction:column;height:600px;max-height:none;min-height:0}
+ .guide-layout{min-height:0;flex:1;display:flex;flex-direction:column;overflow-y:auto}
+ .guide-layout.is-wiring{overflow:hidden}
+ .guide .guide-content{min-height:0!important;flex:none;padding:10px 12px!important}
+ .guide .guide-icon{display:none}
+ .guide .guide-content h2{font-size:19px!important;margin:5px 0!important}
+ .guide .guide-content p{font-size:11px}
+ .guide .instruction{font-size:10px;margin-top:7px;padding:8px}
+ .guide .tip{padding:8px 12px}
+ .guide .progress{padding:8px 12px 5px;flex:none}
+ .guide .guide-bottom{padding:6px 12px 10px;flex:none}
+ .guide-inline-wiring{min-height:0;flex:1;margin:4px 10px 6px}
+ .support-notes{margin-top:9px}
+}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0!important;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+
+/* ===== V3.5 · Referencia visual y cableado compacto ===== */
+.reference-card{margin-top:10px;border:1px solid #2e4f67;border-radius:12px;background:linear-gradient(180deg,#11263a,#0c1d2f);overflow:hidden}
+.ref-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #24445a}
+.ref-head strong{font-size:10px;letter-spacing:1px;color:#9ff4ff}.ref-head span{font-size:9px;font-weight:800;color:#d2faff;background:#14384b;padding:4px 7px;border-radius:999px}
+.ref-photo-wrap{padding:12px 12px 0}.ref-photo{height:150px;border-radius:12px;border:1px solid #24455b;background:radial-gradient(circle at 35% 28%,#24486b,#12283c 52%,#0d1e2f 100%);display:grid;place-items:center;color:#8ceaff;box-shadow:inset 0 0 0 1px #ffffff08}.ref-photo svg{width:85%;height:85%;max-width:240px}
+.ref-info{padding:12px}.ref-info h3{margin:0 0 7px;font-size:17px;letter-spacing:-.3px}.ref-info p{margin:0 0 8px;color:#a8bfd3;font-size:11px;line-height:1.5}.ref-specs{margin:0;padding:0;list-style:none;display:grid;gap:6px}.ref-specs li{padding:7px 9px;border-radius:8px;background:#12283c;border:1px solid #26445a;font-size:10px;color:#d5e8f2}
+.guide-inline-wiring .wire-list{padding-right:4px}
+.guide-inline-wiring .wire-card{border:1px solid #2b4d63;border-radius:9px;background:#132b40;margin:0 0 7px;overflow:hidden}
+.guide-inline-wiring .wire-card[open]{border-color:#3b96b3;background:#14354c}
+.guide-inline-wiring .wire-card.done{border-color:#2d6c66;background:#113536}
+.guide-inline-wiring .wire-card summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px}
+.guide-inline-wiring .wire-card summary::-webkit-details-marker{display:none}
+.guide-inline-wiring .wire-summary-left{display:flex;align-items:center;gap:7px;min-width:0}
+.guide-inline-wiring .wire-card .wire-seq{font-size:9px;font-weight:900;letter-spacing:.6px;background:#0e2232;border:1px solid #31556d;color:#ccf7ff;padding:3px 5px;border-radius:999px;white-space:nowrap}
+.guide-inline-wiring .wire-chip{font-size:8px;padding:3px 6px;border-radius:999px;font-weight:900;letter-spacing:.4px;white-space:nowrap}
+.guide-inline-wiring .wire-chip.power{background:#4a2128;color:#ff9ca8}.guide-inline-wiring .wire-chip.ground{background:#273746;color:#bdd0dc}.guide-inline-wiring .wire-chip.reg{background:#314720;color:#d6ff8f}.guide-inline-wiring .wire-chip.signal{background:#193c4c;color:#8ae8ff}
+.guide-inline-wiring .wire-card .wire-state{font-size:9px;color:#cde7f8;white-space:nowrap}
+.guide-inline-wiring .wire-card-body{padding:0 10px 10px;display:grid;gap:7px}
+.guide-inline-wiring .wire-grid{display:grid;grid-template-columns:1fr;gap:7px}
+.guide-inline-wiring .wire-mini{padding:8px;border-radius:8px;border:1px solid #2c4e63;background:#102638}.guide-inline-wiring .wire-mini small{display:block;font-size:8px;letter-spacing:.6px;color:#6cd9ef;margin-bottom:3px}.guide-inline-wiring .wire-mini strong{font-size:10px;line-height:1.35;color:#ecf8ff}
+.guide-inline-wiring .wire-card-body .wire-detail{font-size:9px;line-height:1.4;color:#a7c1d2;margin:0}
+.guide-inline-wiring .wire-card-actions{display:flex;gap:7px}.guide-inline-wiring .wire-card-actions button{flex:1;min-height:28px}
+.guide-inline-wiring .wire-outline{border:1px solid #3e6f88;background:#112a3d;color:#d2f8ff;border-radius:7px;font-size:10px;padding:5px 8px}
+.guide-inline-wiring .wire-outline:hover{background:#17374f}
+@media (min-width:901px){.reference-card{margin-top:8px}.ref-photo{height:128px}.ref-info h3{font-size:15px}.ref-info p{font-size:10px}.ref-specs li{font-size:9px;padding:6px 8px}.guide-inline-wiring .wire-card summary{padding:7px 8px}.guide-inline-wiring .wire-card-body{padding:0 8px 8px}.guide-inline-wiring .wire-chip{font-size:7px}.guide-inline-wiring .wire-mini strong{font-size:9px}.guide-inline-wiring .wire-card-actions button{font-size:9px}}
+@media (max-width:900px){.ref-photo{height:165px}.guide-inline-wiring .wire-card-actions{flex-direction:column}}
+
+
+/* =========== DroneLab V4 visual system =========== */
+:root{--cyan:#35d7ff;--lime:#a6ec91}
+html,body{margin:0;background:#040c17!important;color:#e4f3ff;font-family:Inter,'Segoe UI',system-ui,sans-serif}
+header{height:58px!important;background:#07101e!important;border-bottom:1px solid #193751!important;flex:none}
+.header-inner{height:58px!important;max-width:none!important;padding:0 18px!important;display:flex!important;align-items:center!important;justify-content:space-between;gap:14px}
+.brandmark{border:0!important;background:none!important;box-shadow:none!important;color:#d5f8ff;font-size:33px;width:44px!important;height:40px!important}
+.brandtext{font-size:23px!important;letter-spacing:-.8px!important;white-space:nowrap}.brandtext em{color:#00dfff!important;font-style:normal}
+.brand-sub{font-size:9px!important;letter-spacing:.5px!important}
+.top-nav{display:flex;align-items:center;padding:3px;border-radius:11px;border:1px solid #21435f;background:#0b1b2f;gap:2px}
+.nav-mode{background:transparent;color:#bacfe3;font-size:11px;white-space:nowrap;border:0;padding:11px 14px;border-radius:8px;cursor:pointer}
+.nav-mode:hover{background:#183550}.nav-mode.active{background:linear-gradient(145deg,#085b8e,#092849);color:white;outline:1px solid #21bcff;box-shadow:0 0 19px #089fe536}
+.header-right{gap:7px!important}.header-pill{font-size:9px!important;padding:8px!important}.hdr-version{font-size:10px!important}
+.shell{max-width:1900px!important}.intro{display:none!important}
+main.shell{max-width:none!important;padding:9px 13px 10px!important;min-height:0!important}
+.workbench{display:grid!important;grid-template-columns:minmax(0,1.52fr) minmax(445px,1fr)!important;gap:10px!important;flex:1!important;min-height:0!important;align-items:stretch!important}
+.left-workspace{height:100%!important;min-height:0!important;display:flex!important;flex-direction:column!important}
+.left-workspace>section.panel{height:100%!important;flex:1!important;min-height:0!important}
+.panel{border:1px solid #1d4160!important;background:#0c1c30!important;border-radius:12px!important;overflow:hidden}
+.panel-top{background:#0c1c2e!important;height:42px!important;min-height:42px!important;border-bottom:1px solid #21415b!important;padding:0 13px!important}
+.panel-title{font-size:11px!important;letter-spacing:1.2px!important;color:#ecf7ff!important}
+.title-dash{background:#19cfff!important;height:16px!important;width:3px!important}
+.viewport{height:auto!important;min-height:0!important;flex:1!important;border:0!important;background:radial-gradient(ellipse at 50% 50%,#133658 0%,#092039 60%,#081427 100%)!important}
+canvas{width:100%;height:100%}.nav-help{color:#b3d8ed!important;background:#071627d9!important}
+.canvas-footer{flex:none;height:43px!important;min-height:43px!important;padding:5px 12px!important;background:#0a1d31!important;border-top:1px solid #224763!important}
+.side-stack{height:100%!important;min-height:0!important;display:flex!important;flex-direction:column!important;gap:10px!important}
+.side-stack>.bench{height:206px!important;flex:none!important;min-height:0!important;display:flex!important;flex-direction:column!important}
+.bench-body{padding:9px!important;display:flex!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important;flex:1!important}
+.bench-rail-top{margin:0 0 4px!important;display:flex!important;justify-content:space-between!important;font-size:9px!important;color:#9adcec!important}
+.parts-window{flex:1!important;min-height:0!important;max-height:120px!important;overflow:auto hidden!important;padding:0 0 4px!important;scrollbar-width:thin!important;scrollbar-color:#2bd5e6 #082337!important}
+.parts{width:max-content!important;display:flex!important;gap:7px!important;min-height:0!important}
+.bench .part{width:94px!important;min-width:94px!important;height:110px!important;min-height:110px!important;padding:5px!important;background:#102942!important;border:1px solid #244b67!important;flex-shrink:0}
+.bench .part:hover:not(:disabled){background:#1a3e5b!important;border-color:#45dfff!important;transform:translateY(-1px)}
+.bench .part-art{height:65px!important;min-height:65px!important;display:block!important;position:relative;overflow:hidden;border-radius:5px;background:#0b2035!important}
+.bench .part-art img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;mix-blend-mode:screen;filter:contrast(1.05) saturate(1.12)}
+.bench .part-name{font-size:10px!important;text-align:center;margin:4px 0 0!important;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
+.bench .part-count{top:3px!important;right:3px!important;background:#071d2d!important;border-radius:4px!important;font-size:7px!important}
+.bench .part-sub,.bench .part-state,.bench .part svg{display:none!important}
+.bench-nav{margin:5px 0 0!important;gap:7px!important;min-height:26px!important}.bench-arrow{height:25px!important;min-height:25px!important;width:28px!important;border-radius:6px!important}
+.bench .bench-legend,.bench .bench-summary,.bench .bench-info{display:none!important}
+.side-stack>.guide{display:flex!important;flex:1!important;flex-direction:column!important;min-height:0!important;margin:0!important;overflow:hidden!important}
+.guide .panel-top{height:42px!important;min-height:42px!important}.guide-layout{display:flex!important;flex-direction:column!important;min-height:0!important;overflow:auto!important;scrollbar-width:thin;scrollbar-color:#36b8cf #10283c}
+.guide .guide-content{padding:11px 12px 8px!important;min-height:0!important;flex:none!important}
+.guide .step-label{font-size:9px!important;color:#54dff6!important}.guide .guide-content h2{font-size:16px!important;margin:5px 0!important;line-height:1.2!important}
+.guide .guide-content p{font-size:10.2px!important;line-height:1.43!important;color:#bcd0e5!important}
+.guide .instruction{margin-top:6px!important;padding:7px 9px!important;background:#142a40!important;font-size:9px!important;min-height:0!important}
+.guide .tip{padding:6px 12px!important;background:transparent!important;flex:none!important}.guide .tip summary{font-size:9px!important;color:#f8c77a!important}.guide .tip p{font-size:10px!important}
+.reference-card{margin:5px 11px 8px!important;background:#10263b!important;border-color:#2a5067!important;flex:none!important}
+.ref-head{padding:6px 10px!important}.ref-head strong{font-size:9px!important}.ref-head span{font-size:8px!important}
+.ref-body-v4{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px;padding:8px!important;align-items:center}
+.ref-photo-wrap{padding:0!important}.ref-photo{height:112px!important;border-radius:8px!important;background:#081c2f!important;overflow:hidden}
+.ref-photo img{width:100%;height:100%;object-fit:contain;display:block;background:#081c2c}.ref-photo svg{max-width:100px}
+.ref-info{padding:0!important;min-width:0!important}.ref-info h3{font-size:12px!important;margin:0 0 3px!important}.ref-info p{font-size:9px!important;line-height:1.35!important;margin:0 0 5px!important}
+.ref-specs{display:grid!important;gap:3px!important}.ref-specs li{padding:2px 5px!important;font-size:8px!important;border:0!important;background:#153149!important;line-height:1.25!important}
+.guide .progress{padding:6px 12px!important;flex:none!important;border:0!important}.guide .progress-line{font-size:8px!important}.progress-track{margin:4px 0 5px!important}.guide .dots{margin-bottom:0!important}
+.guide .guide-bottom{padding:2px 12px 8px!important;flex:none!important;border:0!important}.guide-bottom .primary{height:30px!important;min-height:30px!important;font-size:10px!important}.guide .safety{font-size:8px!important;margin:4px 0 0!important}
+.guide .electrical{padding:8px!important;margin:5px 10px!important}.electrical-heading strong{font-size:9px!important}.voltage-grid{margin:5px 0!important}.voltage-grid>div{padding:6px 3px!important}.voltage-grid b{font-size:14px!important}.power-config{margin-top:7px!important}
+.cable-deck{display:none;flex:none;min-height:0;background:#0a2036;border:1px solid #22c7f7;border-radius:12px;box-shadow:0 0 22px #0abbf51f;overflow:hidden}
+.cable-deck:not([hidden]){display:block}.deck-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 15px;border-bottom:1px solid #1d4c6d}
+.deck-heading h3{font-size:13px!important;color:#dcfaff!important;margin:2px 0}.deck-sub{font-size:9px;color:#9dcde4}.deck-heading .eyebrow{font-size:8px}.deck-progress strong{font-size:10px;color:#41e1f7}.deck-progress .mini-progress{width:90px;height:5px;margin-top:7px;background:#13354f;overflow:hidden;border-radius:8px}.deck-progress .mini-progress>div{height:100%;background:#37e8d1}
+.wire-carousel{display:flex;align-items:stretch;gap:7px;padding:8px 12px;min-height:104px}.wire-carousel .wire-list{flex:1;min-width:0;display:block!important;overflow:hidden!important;margin:0!important;padding:0!important;height:auto!important;max-height:none!important}
+.cable-stepper{font-size:26px;background:#143650;border:1px solid #316888;color:#d1f6ff;border-radius:8px;min-width:36px;cursor:pointer}.cable-stepper:hover{background:#256589}
+.one-wire{display:grid;grid-template-columns:88px minmax(0,1fr) 26px minmax(0,1fr) minmax(90px,.8fr) 130px;align-items:center;gap:7px;height:100%;padding:6px 9px;border:1px solid #2d5976;border-radius:10px;background:#122f48}
+.one-wire .wire-number{display:flex;flex-direction:column;gap:6px}.one-wire .wire-number b{font-size:10px;color:#dffaff}.one-wire .type{font-size:8px;font-weight:800;letter-spacing:.2px}.one-wire .wire-port{min-width:0}.one-wire .wire-port small{display:block;font-size:8px;letter-spacing:1px;color:#6bdffd;margin-bottom:3px}.one-wire .wire-port strong{font-size:11px;line-height:1.24;color:#edfaff;overflow-wrap:anywhere}.one-wire .wire-arrow{font-size:23px;color:#79d7f9}.one-wire .wire-spec{display:flex;flex-direction:column;gap:5px}.one-wire .wire-spec span{font-size:9px;color:#accddd}.one-wire .wire-swatch{display:block;height:5px;border-radius:8px;background:#f66474;width:80px}.one-wire .wire-main{display:flex;flex-direction:column;gap:6px}.one-wire .wire-main button{background:#0869ac;border:1px solid #21c4ff;color:white;border-radius:7px;font-size:11px;font-weight:800;min-height:35px;cursor:pointer}.one-wire .wire-main button.done{background:#18594a;border-color:#53c9a4}.one-wire .wire-main .wire-3d{background:transparent;border-color:#315f77;font-size:9px;min-height:22px}
+.cable-bottom{padding:0 13px 7px;display:flex;align-items:center;justify-content:space-between;gap:10px}.cable-bottom span{font-size:9px;color:#a4c9d8}.cable-bottom #focusNextWire{font-size:9px;border:0;background:none;color:#4de3fb;cursor:pointer}
+footer{display:none!important}
+@media (min-width:901px){html,body{height:100%;overflow:hidden}body{display:flex;flex-direction:column}main.shell{height:calc(100vh - 58px);display:flex;flex-direction:column;overflow:hidden}main:has(.cable-deck:not([hidden])) .workbench{flex:1!important;min-height:0!important}main:has(.cable-deck:not([hidden])) .cable-deck{margin-top:8px}}
+@media(max-width:1170px){.workbench{grid-template-columns:minmax(0,1.24fr) minmax(335px,1fr)!important}.ref-body-v4{grid-template-columns:92px minmax(0,1fr)}.ref-photo{height:96px!important}.one-wire{grid-template-columns:73px minmax(0,1fr) 18px minmax(0,1fr) 100px;}.one-wire .wire-main{grid-column:5;}.one-wire .wire-spec{display:none}.top-nav .nav-mode{padding:10px}}
+@media(max-width:900px){html,body{height:auto!important;overflow-y:auto!important}main.shell{display:block!important;overflow:visible!important}.workbench{display:flex!important;flex-direction:column!important}.left-workspace>section.panel{min-height:400px!important}.viewport{height:310px!important;min-height:310px!important}.side-stack{display:flex!important}.side-stack>.guide{min-height:450px!important}.header-right{display:none}.top-nav{overflow-x:auto;max-width:60vw}.nav-mode{font-size:9px;padding:7px!important}.one-wire{grid-template-columns:1fr 24px 1fr;gap:7px}.one-wire .wire-number{grid-column:1 / -1;flex-direction:row;align-items:center}.one-wire .wire-port:first-of-type{grid-column:1}.one-wire .wire-port:nth-of-type(2){grid-column:3}.one-wire .wire-spec{grid-column:1 / -1;display:flex}.one-wire .wire-main{grid-column:1 / -1;display:flex;flex-direction:row}.wire-carousel{min-height:190px}.cable-stepper{min-width:25px}.cable-deck{margin-top:10px}.ref-body-v4{grid-template-columns:120px minmax(0,1fr)}}
+@media(max-width:580px){.brand-sub{display:none}.brandtext{font-size:17px!important}.header-inner{padding:0 9px!important;gap:4px}.brandmark{font-size:24px;width:28px!important}.top-nav{max-width:53vw}.top-nav .nav-mode{font-size:0;padding:9px 7px!important}.top-nav .nav-mode:before{font-size:16px}.nav-mode[data-mode=assembly]:before{content:'◈'}.nav-mode[data-mode=wiring]:before{content:'⌁'}.nav-mode[data-mode=power]:before{content:'⚡'}.nav-mode[data-mode=flight]:before{content:'◉'}.ref-body-v4{grid-template-columns:112px minmax(0,1fr)}}
+
+/* V4.1 · Imágenes de componentes consistentes y ficha de seguridad */
+.ref-photo{background:#fff!important;border:1px solid #d5dce3!important}
+.ref-photo img{background:#fff!important;object-fit:contain!important}
+.bench .part-art{background:#fff!important;border-radius:9px;overflow:hidden}
+.bench .part-art img{background:#fff!important;object-fit:contain!important;mix-blend-mode:normal!important;filter:none!important}
+.wire-cable-photo{display:block;width:100%;height:37px;object-fit:contain;border:1px solid #d9e1e7;border-radius:6px;background:white}
+.one-wire .wire-spec{display:flex!important;gap:2px;min-width:0}
+.one-wire .wire-spec span{font-size:8px!important}
+.one-wire .wire-spec strong{font-size:9px!important}
+.pdb-warning{padding:9px 10px;border:1px solid #df984d;background:#422a19;border-radius:9px;color:#ffdfb9;margin:0 0 8px}
+.pdb-warning b{font-size:10px;letter-spacing:.4px;color:#ffd38b}
+.pdb-warning p{font-size:10px!important;line-height:1.37!important;color:#f5d8bc!important;margin:5px 0 0!important}
+.pdb-warning strong{color:#fff0d8}
+.guide .electrical{border:1px solid #ad7752!important}
+@media (max-width:1170px){.one-wire{grid-template-columns:75px minmax(0,1fr) 18px minmax(0,1fr) 105px 95px!important;gap:5px}.one-wire .wire-main{grid-column:auto!important}.wire-cable-photo{height:29px}.one-wire .wire-spec strong{font-size:8px!important}}
+@media (max-width:900px){.one-wire{grid-template-columns:1fr 18px 1fr!important}.one-wire .wire-spec{grid-column:1 / -1!important;display:grid!important;grid-template-columns:110px 1fr!important;align-items:center}.one-wire .wire-spec img{grid-row:span 3;height:70px}.one-wire .wire-main{grid-column:1 / -1!important}.wire-cable-photo{height:70px}}
+
+
+/* V4.2 simplified verification */
+.power-schematic{margin:12px 0 10px;padding:12px;border:1px solid #31556f;border-radius:14px;background:linear-gradient(180deg,#10293d,#0f2336)}
+.schematic-line{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.schematic-line .node{padding:10px 12px;border-radius:10px;border:1px solid #2f6176;background:#123249;color:#eaf8ff;font-weight:800;font-size:12px}
+.schematic-line .node.pdb{border-color:#56c9c0;background:#14373b}
+.schematic-line .node.fc{border-color:#94d17d;background:#1d3426}
+.schematic-line .arrow{font-size:20px;color:#82eeff;font-weight:900}
+.power-schematic small{display:block;color:#a7c1d2;line-height:1.45}
+.power-fixed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0 12px}
+.power-fixed-grid > div{border:1px solid #2f6176;border-radius:12px;padding:12px;background:linear-gradient(180deg,#11324b,#10273a)}
+.power-fixed-grid small{display:block;font-size:10px;color:#8ed6de;letter-spacing:.8px;margin-bottom:6px}
+.power-fixed-grid b{display:block;font-size:26px;color:#e8fff0}
+.power-fixed-grid span{display:inline-block;margin-top:5px;font-size:10px;font-weight:900;color:#98ff8c;letter-spacing:.9px}
+@media (max-width:900px){.power-fixed-grid{grid-template-columns:1fr}.schematic-line{justify-content:flex-start}}
+
+
+/* DroneLab V5: select between drone assembly and pilot station */
+.scene-switch{display:flex;gap:3px;padding:3px;border:1px solid #285e7a;background:#061b2a;border-radius:9px;margin-left:auto;margin-right:8px}
+.scene-switch button{padding:6px 12px;min-width:65px;font-size:11px;border-radius:7px;cursor:pointer;background:transparent;border:none;color:#95b9cf;font-weight:800}
+.scene-switch button:hover{background:#164259}.scene-switch button.active{color:white;background:#076e93;box-shadow:0 0 0 1px #39dfff}
+.pilot-overlay{position:absolute;inset:0;z-index:4;display:none;flex-direction:column;align-items:center;justify-content:space-between;gap:8px;background:radial-gradient(ellipse at 50% 45%,#24455e 0,#091a2f 80%);padding:16px 18px;overflow:auto}
+.viewport.pilot-active .pilot-overlay{display:flex}.viewport.pilot-active #scene{visibility:hidden}.viewport.pilot-active .camera-pill,.viewport.pilot-active .front-tag,.viewport.pilot-active .nav-help,.viewport.pilot-active .flight-indicator{display:none!important}
+.pilot-intro{text-align:center;display:flex;flex-direction:column;gap:4px}.pilot-intro span{font-size:10px;color:#54dbe8;letter-spacing:2px;font-weight:900}.pilot-intro strong{font-size:12px;color:#e1efff}
+.goggle-stage{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:500px;width:min(100%,460px);min-height:170px;flex:1}
+.fpv-goggles{position:relative;width:88%;max-width:335px;height:190px;border-radius:44px 44px 54px 54px;border:14px solid #243d4f;background:linear-gradient(135deg,#0b121d,#183549);box-shadow:0 24px 40px #0008,inset 0 0 0 3px #6e8ba0,0 0 30px #1ca6d22a;display:flex;align-items:center;justify-content:center}
+.fpv-goggles::before,.fpv-goggles::after{content:'';position:absolute;top:52px;width:55px;height:72px;border:13px solid #162938;background:#071321;z-index:-1}.fpv-goggles::before{left:-60px;border-radius:22px 0 0 22px}.fpv-goggles::after{right:-60px;border-radius:0 22px 22px 0}
+.fpv-goggles-top{position:absolute;top:-28px;width:105px;height:23px;background:#263e4d;border-radius:10px 10px 2px 2px;border:2px solid #536f81}
+.pilot-screen{position:relative;width:85%;height:73%;border:4px solid #2c5269;border-radius:26px;overflow:hidden;background:repeating-linear-gradient(90deg,#0d1422 0 3px,#1a2635 4px 6px);box-shadow:inset 0 0 20px #000a}
+.pilot-screen.online{background:linear-gradient(180deg,#3b8bb5 0 43%,#a3d0db 49%,#6b8a71 50%,#284b3d 75%,#162b2c 100%)}
+.fpv-horizon{display:none;position:absolute;left:-15%;right:-15%;height:32%;top:53%;transform:rotate(-8deg);background:linear-gradient(115deg,#506e54,#446c3a 45%,#253a27);border-top:3px solid #cbd5b6}.pilot-screen.online .fpv-horizon{display:block}
+.fpv-horizon i{position:absolute;left:25%;width:36%;height:100%;background:linear-gradient(180deg,#c8c5a3,#a9aaa0);transform:perspective(150px) rotateX(60deg);clip-path:polygon(48% 0,52% 0,92% 100%,5% 100%)}
+.fpv-crosshair{display:none;position:absolute;top:37%;left:45%;font-size:25px;color:#ebfcff;text-shadow:0 0 7px #182a33}.pilot-screen.online .fpv-crosshair{display:block}
+.video-static{display:flex;align-items:center;justify-content:center;height:100%;font-size:15px;font-weight:900;letter-spacing:3px;color:#95acc1}.pilot-screen.online .video-static{display:none}
+.video-overlay{position:absolute;bottom:7px;left:7px;font-size:7px;color:#c9f8fc;letter-spacing:1px;background:#071825bb;padding:4px}
+.goggle-label{position:absolute;bottom:-11px;background:#203f55;border-radius:7px;padding:4px 12px;font-size:9px;color:#c2eeff;letter-spacing:1px}
+.pilot-controller{display:flex;align-items:center;gap:10px;margin-top:12px;color:#d7e6f4;font-weight:800;font-size:14px}.pilot-controller small{color:#8faec1;font-weight:500;font-size:11px}
+.pilot-status{text-align:center;max-width:510px;width:100%;border:1px solid #275a74;background:#0d273b;border-radius:12px;padding:9px 14px}.pilot-status span{font-size:11px;font-weight:900;letter-spacing:1px;color:#ffd18b}.pilot-status span.online{color:#8cf2a5}.pilot-status p{margin:6px 0;font-size:11px}.pilot-status small{color:#9ddde7;font-size:9px}
+.pilot-note{font-size:9px;text-align:center;color:#8fa9b8}
+@media(max-width:1200px){.scene-switch button{font-size:10px;padding:5px 8px;min-width:46px}.fpv-goggles{height:150px;max-width:285px}}
+
+.pilot-figure{position:relative;width:min(520px,92%);height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;perspective:1200px}
+.pilot-body-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;height:100%}.pilot-tilt{position:relative;width:100%;height:100%;transform-style:preserve-3d;will-change:transform;transition:transform .08s linear}
+.pilot-head{position:relative;width:128px;height:128px;border-radius:50%;background:radial-gradient(circle at 50% 34%,#e7c29c 0 34%,#c79168 35% 72%,#81573f 73% 100%);box-shadow:0 8px 28px #0004}
+.pilot-hair{position:absolute;left:12px;right:12px;top:4px;height:46px;border-radius:50px 50px 24px 24px;background:linear-gradient(180deg,#1d2a38,#0c1720)}
+.pilot-neck{width:30px;height:18px;background:#bb845d;border-radius:0 0 10px 10px;margin-top:-4px}
+.pilot-torso{position:relative;width:220px;height:170px;border-radius:28px 28px 40px 40px;background:linear-gradient(180deg,#21384d,#142536);box-shadow:0 10px 28px #0004}
+.pilot-torso:before,.pilot-torso:after{content:"";position:absolute;top:18px;width:72px;height:18px;border-radius:14px;background:#bb845d}.pilot-torso:before{left:-46px;transform:rotate(23deg)}.pilot-torso:after{right:-46px;transform:rotate(-23deg)}
+.pilot-hands{position:absolute;left:50%;top:84px;transform:translateX(-50%);width:170px;height:46px;display:flex;justify-content:space-between;pointer-events:none}.pilot-hands i{display:block;width:28px;height:28px;border-radius:50%;background:#c08a63;box-shadow:0 2px 8px #0004}
+.pilot-slot{position:absolute;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;border-radius:16px;border:1px dashed #5bd9ef;background:#0b2437;color:#dff6ff;font-size:10px;font-weight:800;letter-spacing:1px;cursor:pointer;box-shadow:0 0 0 1px #0d2f46 inset;transition:.2s}
+.pilot-slot:hover{transform:translateY(-1px);border-color:#8ff0ff}.pilot-slot.active{border-style:solid;box-shadow:0 0 0 2px #5bd9ef inset,0 0 0 4px #5bd9ef33}.pilot-slot.installed{border-color:#7ee5a2;color:#bdf8d0;background:#133425;border-style:solid}.pilot-slot:disabled{opacity:.95;cursor:default}
+.pilot-slot-goggles{left:50%;top:37px;transform:translateX(-50%);min-width:150px;height:44px}.pilot-slot-goggles.active:hover{transform:translateX(-50%) translateY(-1px)}
+.pilot-slot-radio{left:50%;bottom:18px;transform:translateX(-50%);min-width:170px;height:46px}.pilot-slot-radio.active:hover{transform:translateX(-50%) translateY(-1px)}
+.fpvg-on-face{position:absolute;left:50%;top:40px;transform:translateX(-50%);width:138px;display:none;pointer-events:none}.fpvg-on-face.visible{display:block}
+.fpvg-on-face .fpv-goggles{max-width:none;width:138px;height:80px;border-width:10px;box-shadow:0 8px 24px #0007}
+.fpvg-on-face .goggle-label{display:none}.fpvg-on-face .pilot-screen{height:42px;border-radius:14px}
+.pilot-controller-visual{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);display:none;align-items:center;gap:8px;background:#0f2436;border:2px solid #34637f;border-radius:18px;padding:10px 16px;box-shadow:0 10px 28px #0005;pointer-events:none}.pilot-controller-visual.visible{display:flex}.pilot-controller-visual .icon{font-size:24px}.pilot-controller-visual strong{display:block;font-size:13px;color:#eaf6ff}.pilot-controller-visual small{display:block;font-size:10px;color:#8fb3c9}
+.pilot-gear-note{font-size:11px;color:#8bdff1;text-align:center;max-width:430px}
+@media(max-width:700px){.pilot-head{width:98px;height:98px}.pilot-torso{width:180px;height:142px}.pilot-slot-goggles{min-width:126px;top:26px}.pilot-slot-radio{min-width:140px;bottom:12px}.fpvg-on-face{top:27px;width:112px}.fpvg-on-face .fpv-goggles{width:112px;height:66px}.pilot-controller-visual{padding:8px 12px}.pilot-controller-visual strong{font-size:11px}}
+
+@media(max-width:700px){.scene-switch{margin:0 2px 0 auto}.scene-switch button{font-size:10px;padding:5px 7px}.pilot-overlay{gap:5px;padding:9px}.pilot-intro strong{font-size:10px}.fpv-goggles{height:126px;max-width:235px;border-width:9px}.pilot-status{padding:6px}.pilot-controller{font-size:11px;margin-top:0}}
+
+
+/* V5.3 · Estación del piloto independiente y figura mejorada */
+.pilot-overlay{justify-content:center!important;gap:8px!important;overflow:hidden!important;padding:12px 18px!important}
+.pilot-intro{flex:0 0 auto}.pilot-intro span{font-size:11px}.pilot-intro strong{font-size:12px;letter-spacing:.12px}
+.pilot-figure{position:relative!important;width:min(660px,100%)!important;height:auto!important;min-height:0!important;aspect-ratio:680/550!important;max-height:min(530px,68%)!important;flex:1 1 auto!important;display:block!important;overflow:hidden;perspective:1400px}
+.pilot-character{width:100%;height:100%;display:block;filter:drop-shadow(0 18px 34px #0006);transform:translateZ(18px)}
+.pilot-installed-visual{opacity:0;pointer-events:none;transition:opacity .25s ease}.pilot-installed-visual.visible{opacity:1}
+.pilot-target{position:absolute;z-index:5;transform:translate(-50%,-50%);background:#0c2a41ee;border:1px dashed #6bdded;border-radius:12px;padding:8px 11px;color:#dffcff;font-size:11px;line-height:1.2;font-weight:800;white-space:nowrap;box-shadow:0 6px 22px #0009;cursor:pointer;transition:background .2s,box-shadow .2s}
+.pilot-target:hover{background:#15536a;box-shadow:0 0 0 2px #49bcd244,0 8px 25px #0009}
+.pilot-target.installed{opacity:0;pointer-events:none}.pilot-tilt{transform-origin:50% 54%}
+.pilot-status{flex:0 0 auto;max-width:550px;padding:11px 15px!important}
+.pilot-status span{font-size:13px!important;color:#a4d6fa}.pilot-status span.online{color:#80f1ae}
+.pilot-status p{font-size:12px!important;margin:5px 0!important}
+.pilot-note{flex:0 0 auto;line-height:1.45;font-size:10px!important}
+@media(max-width:700px){.pilot-overlay{overflow:auto!important;justify-content:flex-start!important;padding:8px!important}.pilot-figure{width:100%!important;flex:0 0 auto!important;max-height:350px!important}.pilot-target{font-size:8px!important;padding:6px!important}.pilot-status{max-width:100%}}
+
+</style>
+</head>
+<body>
+<header><div class="shell header-inner v4-header">
+<div class="brand"><div class="brandmark">✥</div><div><div class="brandtext">DroneLab <em>3D</em></div><div class="brand-sub">SIMULADOR DE ARMADO DE DRONES</div></div></div>
+<nav aria-label="Modo de aprendizaje" class="top-nav">
+<button class="nav-mode active" data-mode="assembly">◈ Montaje</button>
+<button class="nav-mode" data-mode="wiring">⌁ Cableado</button>
+<button class="nav-mode" data-mode="power">⚡ Configuración</button>
+<button class="nav-mode" data-mode="flight">◉ Prueba de motores</button>
+</nav>
+<div class="header-right"><span class="header-pill">◉ INTERACTIVO</span><span class="hdr-version">V5.3</span></div>
+</div></header>
+<main class="shell">
+
+<div class="workbench">
+<div class="left-workspace">
+<section aria-label="Zona de armado tridimensional" class="panel"><div class="panel-top"><div class="panel-title"><span class="title-dash"></span> MESA DE MONTAJE <span class="micro-badge">MODELO 3D</span></div><div class="scene-switch" aria-label="Seleccionar qué construir"><button type="button" data-scene-view="dron" class="active" aria-pressed="true">🚁 Dron</button><button type="button" data-scene-view="piloto" aria-pressed="false">👤 Piloto</button></div><div class="tools"><button aria-label="Deshacer última pieza" class="tool" id="undoBtn" title="Deshacer última pieza">↶</button><button aria-label="Restablecer cámara" class="tool" id="resetCamBtn" title="Restablecer cámara">⌖</button><button aria-label="Mostrar u ocultar posiciones" aria-pressed="true" class="tool" id="hintBtn" title="Mostrar u ocultar posiciones">◎</button><button aria-label="Reiniciar construcción" class="tool" id="resetBtn" title="Reiniciar construcción">⟳</button></div></div>
+<div class="viewport" id="viewport"><canvas aria-label="Visor tridimensional interactivo del dron, puedes girarlo y seleccionar las posiciones de montaje" id="scene" role="img"></canvas><div class="pilot-overlay" id="pilotOverlay" aria-label="Vista del piloto con gafas FPV y radio de control">
+<div class="pilot-intro"><span>ESTACIÓN DEL PILOTO · EQUIPO PERSONAL</span><strong>Coloca solo los accesorios del piloto. El dron se termina por separado y el piloto queda listo al final.</strong></div>
+<div class="pilot-figure" id="pilotFigure"><div class="pilot-tilt" id="pilotTilt"><svg class="pilot-character" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 550" role="img" aria-label="Piloto de dron ilustrado con chaqueta y accesorios FPV interactivos">
+<defs>
+  <radialGradient id="pHalo"><stop stop-color="#226487" stop-opacity=".65"/><stop offset="1" stop-color="#142e42" stop-opacity="0"/></radialGradient>
+  <linearGradient id="pJacket" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#415c70"/><stop offset=".43" stop-color="#22384b"/><stop offset="1" stop-color="#101e30"/></linearGradient>
+  <linearGradient id="pJacketArm" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#526d80"/><stop offset="1" stop-color="#192d3d"/></linearGradient>
+  <linearGradient id="pSkin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0c59f"/><stop offset=".56" stop-color="#ca956e"/><stop offset="1" stop-color="#975e42"/></linearGradient>
+  <linearGradient id="pPants" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#273e4f"/><stop offset="1" stop-color="#122030"/></linearGradient>
+  <linearGradient id="pGoggle" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#394f64"/><stop offset="1" stop-color="#101b2a"/></linearGradient>
+  <linearGradient id="pScreen" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#57c4ec"/><stop offset=".57" stop-color="#1c7698"/><stop offset="1" stop-color="#0b2b3e"/></linearGradient>
+  <filter id="pShadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="13"/></filter>
+</defs>
+<ellipse cx="340" cy="265" rx="260" ry="246" fill="url(#pHalo)"/>
+<ellipse cx="344" cy="518" rx="198" ry="20" fill="#000c" filter="url(#pShadow)"/>
+<!-- boots / lower body -->
+<path d="M260 376Q294 367 328 379L322 500L253 499Q251 441 260 376Z" fill="url(#pPants)" stroke="#405668" stroke-width="3"/>
+<path d="M349 378Q391 360 426 380L433 499L366 502Q353 448 349 378Z" fill="url(#pPants)" stroke="#405668" stroke-width="3"/>
+<path d="M252 480L324 480L326 514Q284 527 242 511Z" fill="#111b28" stroke="#506276" stroke-width="3"/>
+<path d="M368 482L432 480L445 510Q404 523 368 515Z" fill="#111b28" stroke="#506276" stroke-width="3"/>
+<!-- arms continuous, realistic bent pilot posture -->
+<path d="M276 271Q237 256 209 291L170 352Q153 380 177 397L201 399Q232 364 274 335Z" fill="url(#pJacketArm)" stroke="#7894a6" stroke-width="3"/>
+<path d="M408 271Q447 256 475 291L513 352Q530 380 506 397L482 399Q451 364 408 335Z" fill="url(#pJacketArm)" stroke="#7894a6" stroke-width="3"/>
+<path d="M179 366L213 373L197 401L165 392Z" fill="#233848" stroke="#8da5b4" stroke-width="3"/>
+<path d="M469 373L503 366L519 392L487 401Z" fill="#233848" stroke="#8da5b4" stroke-width="3"/>
+<!-- torso layered fabric -->
+<path d="M279 259Q306 247 342 251Q380 249 403 260L443 359L414 419Q344 441 270 419L237 359Z" fill="url(#pJacket)" stroke="#7897a6" stroke-width="4"/>
+<path d="M316 264L339 288L339 423L292 421Z" fill="#172a3a" opacity=".72"/>
+<path d="M365 265L341 288L341 423L391 421Z" fill="#12283a" opacity=".55"/>
+<path d="M339 287V417" stroke="#8aa9bc" stroke-width="3" opacity=".85"/>
+<path d="M299 289L322 322L310 346L282 319Z" fill="#647c8b" opacity=".65"/>
+<path d="M383 286L358 321L371 347L398 318Z" fill="#647c8b" opacity=".65"/>
+<path d="M260 380Q344 406 427 379" fill="none" stroke="#6c8795" stroke-width="4" opacity=".6"/>
+<rect x="266" y="411" width="153" height="16" rx="5" fill="#172330" stroke="#60778b" stroke-width="2"/>
+<rect x="329" y="411" width="29" height="17" rx="6" fill="#526c7c"/>
+<!-- collar and neck -->
+<path d="M320 231L358 231L366 265Q344 279 316 265Z" fill="url(#pSkin)"/>
+<path d="M305 252L339 283L319 307L296 274Z" fill="#152637" stroke="#6f8a9c" stroke-width="3"/>
+<path d="M372 250L342 282L365 306L388 271Z" fill="#152637" stroke="#6f8a9c" stroke-width="3"/>
+<!-- head, ears, face -->
+<ellipse cx="289" cy="171" rx="14" ry="25" fill="#b98663"/>
+<ellipse cx="397" cy="171" rx="14" ry="25" fill="#b98663"/>
+<path d="M283 121Q291 72 339 72Q388 75 399 126L397 184Q386 235 347 247Q304 238 286 198Z" fill="url(#pSkin)" stroke="#976a4d" stroke-width="3"/>
+<path d="M282 144Q283 84 320 72Q359 53 391 89Q405 108 396 141Q389 102 372 95Q343 119 314 104Q298 121 282 144Z" fill="#1c2632"/>
+<path d="M289 139Q282 99 317 79Q362 67 390 99" fill="none" stroke="#4f5360" stroke-width="7" opacity=".55"/>
+<path d="M303 159Q316 151 328 159M356 159Q369 151 382 159" fill="none" stroke="#553f36" stroke-width="3"/>
+<ellipse cx="320" cy="164" rx="4" ry="5" fill="#20303d"/>
+<ellipse cx="371" cy="164" rx="4" ry="5" fill="#20303d"/>
+<path d="M343 161L335 188Q345 196 353 186" fill="none" stroke="#a06a4c" stroke-width="3"/>
+<path d="M326 212Q345 220 361 210" fill="none" stroke="#784b43" stroke-width="3" stroke-linecap="round"/>
+<path d="M314 221Q343 243 374 221" fill="none" stroke="#a57859" stroke-width="2" opacity=".7"/>
+<!-- Forearms reach toward the handheld transmitter, instead of a waist-wide transmitter -->
+<path d="M181 384Q208 374 254 364" fill="none" stroke="#253c50" stroke-width="26" stroke-linecap="round"/>
+<path d="M498 384Q467 374 424 364" fill="none" stroke="#253c50" stroke-width="26" stroke-linecap="round"/>
+<path d="M251 352Q262 349 272 358L286 376Q275 394 259 382L244 369Z" fill="url(#pSkin)" stroke="#a47755" stroke-width="2"/>
+<path d="M429 352Q417 349 407 358L393 376Q404 394 420 382L435 369Z" fill="url(#pSkin)" stroke="#a47755" stroke-width="2"/>
+<path d="M403 259Q422 270 433 298L450 357L440 393Q414 402 401 384L414 359L396 315Q388 287 403 259Z" fill="#0c1620" opacity=".26"/>
+<path d="M279 259Q261 270 250 298L233 357L243 393Q269 402 282 384L269 359L286 315Q295 287 279 259Z" fill="#456273" opacity=".18"/>
+<!-- wearable gear overlays, independent visuals -->
+<g id="pilotGogglesVisual" class="pilot-installed-visual"><path d="M286 166Q341 151 398 166" fill="none" stroke="#151b24" stroke-width="14"/><rect x="291" y="139" width="111" height="61" rx="24" fill="url(#pGoggle)" stroke="#91bcd0" stroke-width="5"/><rect x="299" y="145" width="94" height="47" rx="18" fill="url(#pScreen)" stroke="#0a2332" stroke-width="4"/><path d="M302 166Q345 153 388 167" fill="none" stroke="#a8f0f5" stroke-width="3" opacity=".65"/><circle cx="385" cy="155" r="4" fill="#e0edff"/></g>
+<g id="pilotAntennaVisual" class="pilot-installed-visual"><path d="M391 140L434 79" fill="none" stroke="#2c3d4a" stroke-width="10" stroke-linecap="round"/><path d="M434 79L454 50" fill="none" stroke="#829bab" stroke-width="7" stroke-linecap="round"/><ellipse cx="456" cy="47" rx="16" ry="21" fill="#242f40" stroke="#9cd5da" stroke-width="4"/><path d="M458 35Q469 46 459 58" fill="none" stroke="#46d6e4" stroke-width="3"/></g>
+<g id="pilotBatteryVisual" class="pilot-installed-visual"><rect x="246" y="382" width="82" height="86" rx="12" fill="#172433" stroke="#9ed8e8" stroke-width="3"/><rect x="258" y="391" width="56" height="50" rx="6" fill="#246b8d"/><path d="M270 402H305M270 414H305" stroke="#7fe3ef" stroke-width="3"/><rect x="281" y="447" width="18" height="12" rx="4" fill="#0f1824"/><path d="M327 421Q366 438 394 401" stroke="#151a24" stroke-width="8" fill="none"/><path d="M240 391Q228 411 239 434" fill="none" stroke="#314659" stroke-width="8" stroke-linecap="round"/></g>
+<g id="pilotControllerVisual" class="pilot-installed-visual">
+<path d="M292 350L315 333H366L389 350L382 409Q379 420 368 423H314Q301 420 298 409Z" fill="#18293a" stroke="#9db8c8" stroke-width="4"/>
+<path d="M314 341L307 316M367 341L374 316" fill="none" stroke="#6c8290" stroke-width="5" stroke-linecap="round"/>
+<path d="M323 360Q342 348 358 360V386Q341 394 323 386Z" fill="#263848" stroke="#587388" stroke-width="3"/>
+<circle cx="317" cy="388" r="15" fill="#0c1520" stroke="#8ea9ba" stroke-width="3"/><circle cx="365" cy="388" r="15" fill="#0c1520" stroke="#8ea9ba" stroke-width="3"/>
+<path d="M317 388l1-11M365 388l-1-11" stroke="#dbe8ef" stroke-width="4" stroke-linecap="round"/>
+<rect x="335" y="392" width="13" height="8" rx="4" fill="#4b6475"/>
+<path d="M312 347Q340 336 370 347" fill="none" stroke="#0e1b27" stroke-width="5" opacity=".7"/>
+<path d="M259 365Q280 352 295 363L290 381Q278 383 264 376Z" fill="url(#pSkin)" stroke="#91674f" stroke-width="2"/>
+<path d="M421 365Q400 352 385 363L390 381Q403 383 417 376Z" fill="url(#pSkin)" stroke="#91674f" stroke-width="2"/>
+</g>
+</svg></div>
+<button type="button" class="pilot-target" style="left:50%;top:33%" data-pilot-slot="pilotGoggles">＋ Gafas FPV</button>
+<button type="button" class="pilot-target" style="left:71%;top:24%" data-pilot-slot="pilotAntenna">＋ Antena FPV</button>
+<button type="button" class="pilot-target" style="left:50%;top:65%" data-pilot-slot="pilotRadio">＋ Radio RC</button>
+<button type="button" class="pilot-target" style="left:26%;top:80%" data-pilot-slot="pilotBattery">＋ Batería</button>
+</div>
+<div class="pilot-status"><span id="pilotSignal">○ EQUIPA AL PILOTO</span><p id="pilotMessage">Toca los accesorios del banco para colocarlos.</p><small id="pilotChecklist">0 / 4 accesorios del piloto</small></div>
+<div class="pilot-note">Arrastra para girar el piloto en 3D. La radio queda orientada hacia el piloto, la batería de las gafas se ve al colocarla y la antena FPV vuelve como accesorio independiente. Equipo del piloto separado del dron.</div></div><div class="viewport-ui camera-pill">✥ MODELO 3D GIRATORIO</div><div class="viewport-ui front-tag">↑ NARIZ / FRENTE</div><div class="viewport-ui nav-help">☞ Arrastra para girar · Rueda/pellizca para zoom · Toca la posición iluminada</div><div class="viewport-ui flight-indicator" id="flightIndicator">● MOTORES EN PRUEBA</div></div>
+<div class="canvas-footer"><div class="status"><span class="status-dot"></span><span aria-live="polite" id="canvasStatus">Selecciona el chasis del inventario.</span></div><div class="canvas-actions"><button class="link-btn" id="topBtn">↑ Vista superior</button></div></div></section>
+
+</div>
+<div class="side-stack"><aside aria-label="Banco de componentes" class="panel bench">
+<div class="panel-top"><div class="panel-title"><span class="title-dash"></span> BANCO DE COMPONENTES <span class="micro-badge" id="benchTypesBadge">14 TIPOS</span></div><span class="step-index" id="benchCount">0 / 25</span></div><div class="sr-only"><span id="benchNow"></span><span id="benchHint"></span></div>
+<div class="bench-body">
+
+<div class="bench-rail-top"><span>EXPLORA LOS COMPONENTES</span><span id="railPosition">1–2 de 11</span></div>
+<div aria-label="Banco de componentes con desplazamiento horizontal" class="parts-window" id="partsWindow" role="region" tabindex="0">
+<div aria-label="Piezas del dron" class="parts" id="parts"></div>
+</div>
+<div class="bench-nav"><button aria-label="Ver componentes anteriores" class="bench-arrow" id="partsPrev" title="Componentes anteriores" type="button">←</button><input aria-label="Barra de desplazamiento horizontal de los componentes" id="partsSlider" max="100" min="0" step="1" type="range" value="0"/><button aria-label="Ver componentes siguientes" class="bench-arrow" id="partsNext" title="Componentes siguientes" type="button">→</button></div>
+<div class="bench-legend"><span><i class="ready"></i> Disponible</span><span><i class="placed"></i> Instalado</span><span><i class="waiting"></i> Siguiente etapa</span></div>
+<div class="bench-summary"><div><strong>MONTAJE DEL DRON</strong><span id="benchProgressText">0 de 25 piezas instaladas</span></div><div class="bench-summary-track"><div id="benchProgressFill"></div></div></div>
+<div class="bench-info"><span>Selecciona una pieza y toca su posición iluminada.</span><button id="showCurrentPart" type="button">◎ Ir a la pieza actual</button></div>
+</div>
+</aside><section aria-label="Guía paso a paso" class="panel guide"><div class="panel-top"><div class="panel-title"><span class="title-dash"></span> GUÍA DE MONTAJE</div><div class="step-index" id="stepIndex">PASO 01 / 13</div></div><div class="guide-layout"><div class="guide-content"><div class="guide-icon" id="stepIcon">▦</div><div class="step-label" id="stepLabel">01 · ESTRUCTURA</div><h2 id="stepTitle">Instala el chasis</h2><p id="stepDescription">Esta estructura sostiene los demás componentes del dron.</p><div class="instruction"><b id="instructionNumber">01</b><span id="stepInstruction">Selecciona el chasis y colócalo en el centro de la mesa.</span></div></div><details class="tip"><summary>✦ Consejo de montaje</summary><strong class="tip-fallback">Consejo</strong><p id="stepTip">Un chasis en X ayuda a distribuir los cuatro motores.</p></details><div class="electrical" hidden="" id="powerPanel">
+<div class="pdb-warning"><b>⚠ ADVERTENCIA DE SEGURIDAD</b><p>La FC de este ejemplo acepta solamente <strong>5 V regulados</strong>. La salida VBAT puede dañarla. Antes de cualquier montaje real, revisa el manual, mide tensión y comprueba polaridad. <strong>Esta prueba es exclusivamente virtual.</strong></p></div>
+<div class="electrical-heading"><strong>⚡ PDB + REGULADOR BEC</strong><small>Ejemplo educativo 3S</small></div>
+<div class="power-schematic"><div class="schematic-line"><span class="node bat">Batería 3S</span><span class="arrow">→</span><span class="node pdb">PDB / BEC</span><span class="arrow">→</span><span class="node fc">FC + RX</span></div><small>Esquema de verificación: la batería alimenta la PDB; la PDB envía VBAT a los ESC y 5 V regulados a la FC y al receptor.</small></div>
+<div class="power-fixed-grid"><div><small>ENTRADA LiPo</small><b id="inputVolts">11.1 V</b></div><div><small>ESC (VBAT)</small><b id="escVolts">11.1 V</b></div><div><small>SALIDA FC</small><b id="becVolts">5.0 V</b><span id="outputTag">REGULADA</span></div></div>
+<input id="becMode" type="hidden" value="5"/>
+<input id="batteryVolts" type="hidden" value="11.1"/>
+<input id="loadAmps" type="hidden" value="0.8"/>
+<span id="loadNum" hidden>0,8 A / 2,0 A</span>
+<p class="power-explain" id="powerExplanation">⚠ Verificación educativa: la FC y el receptor reciben 5 V regulados; los ESC reciben VBAT.</p>
+<button class="secondary full" hidden="" id="verifyBtn">✓ Verificar tensión y cableado</button><div aria-live="polite" class="power-result" id="powerResult"></div>
+</div>
+<section aria-label="Referencia visual de la pieza actual" class="reference-card" id="referenceCard">
+<div class="ref-head"><strong id="refHeaderTitle">IMAGEN DEL COMPONENTE</strong><span id="refBadge">Estructura</span></div>
+
+
+<div class="ref-body-v4"><div class="ref-photo-wrap"><div aria-hidden="true" class="ref-photo" id="refPhoto"></div></div><div class="ref-info">
+<h3 id="refTitle">Chasis X</h3>
+<p id="refDesc">Estructura principal del dron.</p>
+<ul class="ref-specs" id="refSpecs"><li>Configuración X</li><li>Material referencial</li><li>1 unidad</li></ul>
+</div></div></section><div class="progress"><div class="progress-line"><span>PROGRESO DE ENSAMBLAJE</span><strong id="progressNum">0 / 51 TAREAS</strong></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><div class="dots" id="dots"></div></div><div class="guide-bottom"><button class="primary full" disabled="" id="testBtn">▶ Simular motores</button><div class="test-control" id="testControl"><label for="powerRange">POTENCIA DE PRUEBA <span id="powerText">35%</span></label><input id="powerRange" max="100" min="0" step="5" type="range" value="35"/><small>Animación educativa: no representa física de vuelo real.</small></div><p class="safety" id="safetyNote">Completa el montaje y las comprobaciones para desbloquear la simulación.</p>
+</div></div></section>
+</div>
+</div><section aria-label="Una conexión de cable a la vez" class="cable-deck" hidden="" id="wiringPanel"><div class="deck-heading"><div><span class="eyebrow">PASO 11 DE 13</span><h3>⌁ TALLER DE CABLEADO</h3><span class="deck-sub">Una sola conexión a la vez · ORIGEN → DESTINO</span></div><div class="deck-progress"><strong id="wireCount">0 / 25 CONEXIONES</strong><div class="mini-progress"><div id="wireProgress"></div></div></div></div>
+<div class="wire-carousel">
+<button aria-label="Conexión anterior" class="cable-stepper" id="wirePrev" title="Anterior">‹</button>
+<div aria-label="Conexión activa" class="wire-list" id="wireList" role="region"></div>
+<button aria-label="Siguiente conexión" class="cable-stepper" id="wireNextBtn" title="Siguiente">›</button>
+</div>
+<div class="cable-bottom"><span aria-live="polite" id="wireNext">Siguiente conexión: batería → PDB</span><button class="wire-outline" id="focusNextWire" type="button">◎ Ver cable en 3D</button></div>
+<div class="sr-only" id="wireStageMessage"></div></section>
+
+<footer><span>DroneLab 3D V5.6 · Simulación educativa, no sustituye manuales ni mediciones reales.</span><span>Imágenes: renders ilustrativos generados para este simulador; no representan marcas ni modelos específicos.</span></footer>
+</main>
+<div aria-live="polite" class="toast" id="toast" role="status"></div><div class="dragging-label" id="dragLabel"></div>
+<div class="modal-backdrop" id="completion"><div aria-labelledby="doneTitle" aria-modal="true" class="modal" role="dialog"><div class="modal-emoji">🏁</div><div class="eyebrow">MISIÓN COMPLETADA · DRONELAB 3D</div><h2 id="doneTitle">¡Dron ensamblado!</h2><p>Instalaste 25 piezas y completaste 25 conexiones virtuales y verificaste la salida BEC de 5 V. Puedes explorar el montaje y simular el giro de los motores.</p><div class="modal-buttons"><button class="secondary" id="closeModalBtn">Explorar el modelo</button><button class="primary" id="modalTestBtn">▶ Probar motores</button></div></div></div>
+<script src="app.js"></script>
+
+<script>
+(function(){
+  const figure=document.getElementById('pilotFigure');
+  const tilt=document.getElementById('pilotTilt');
+  if(!figure||!tilt)return;
+  let drag=false,sx=0,sy=0,rx=-8,ry=0;
+  function apply(){tilt.style.transform=`translateZ(8px) rotateX(${rx}deg) rotateY(${ry}deg)`;}
+  apply();
+  figure.addEventListener('pointerdown',e=>{drag=true;sx=e.clientX;sy=e.clientY;figure.setPointerCapture?.(e.pointerId);});
+  figure.addEventListener('pointermove',e=>{if(!drag)return;ry=Math.max(-32,Math.min(32,ry+(e.clientX-sx)*0.18));rx=Math.max(-18,Math.min(18,rx-(e.clientY-sy)*0.12));sx=e.clientX;sy=e.clientY;apply();});
+  const stop=e=>{drag=false;};
+  figure.addEventListener('pointerup',stop);figure.addEventListener('pointercancel',stop);figure.addEventListener('pointerleave',stop);
+})();
+</script>
+
+</body></html>
