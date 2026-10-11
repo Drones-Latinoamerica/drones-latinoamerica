@@ -2,7 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://drones-latinoamerica.com/</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-10-11</lastmod>
+  </url>
+  <url>
+    <loc>https://drones-latinoamerica.com/design-engineering/blueprints/</loc>
+    <lastmod>2026-10-11</lastmod>
+  </url>
+  <url>
+    <loc>https://drones-latinoamerica.com/design-engineering/wiring-diagrams/</loc>
+    <lastmod>2026-10-11</lastmod>
+  </url>
+  <url>
+    <loc>https://drones-latinoamerica.com/design-engineering/schematics/</loc>
+    <lastmod>2026-10-11</lastmod>
+  </url>
+  <url>
+    <loc>https://drones-latinoamerica.com/design-engineering/exploded-view/</loc>
+    <lastmod>2026-10-11</lastmod>
   </url>
   <url>
     <loc>https://drones-latinoamerica.com/unete.html</loc>
