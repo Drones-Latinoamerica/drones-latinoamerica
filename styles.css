@@ -3875,6 +3875,7 @@ input {
 
 .video-grid.is-collapsed > .video-card.is-over-limit,
 .news-grid.is-collapsed > .news-card:nth-child(n + 4),
+.simulators-grid.is-collapsed > .simulator-card:nth-child(n + 5),
 .docs-grid.is-collapsed > .doc-card:nth-child(n + 4),
 .community-links-grid.is-collapsed > .community-link-card:nth-child(n + 5) {
   display: none;
