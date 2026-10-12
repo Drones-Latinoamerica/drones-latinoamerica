@@ -7,25 +7,29 @@
 
   const categories = {
     blueprints: {
-      href: "../blueprints/?v=20261011-4",
+      href: "../blueprints/?v=20261011-5",
       image: "../../assets/design-engineering/blueprint-quadcopter-example.png",
       icon: "▧",
     },
     wiring: {
-      href: "../wiring-diagrams/?v=20261011-4",
+      href: "../wiring-diagrams/?v=20261011-5",
       image: "../../assets/design-engineering/wiring-diagram-cubepilot.webp",
       icon: "⌁",
-      // Diagrama vertical (1500x2000). Sin esta marca, la miniatura lo
+      // Diagrama vertical (1131x1391). Sin esta marca, la miniatura lo
       // recorta dentro de una caja 16/10 y solo se ve un fragmento ampliado.
       tall: true,
+      // Documento real de la biblioteca, no una muestra: sin distintivo de
+      // ejemplo, sin la advertencia de "no descargable" y con descarga.
+      isExample: false,
+      download: "diagrama-cableado-ecosistema-cubepilot.webp",
     },
     schematics: {
-      href: "../schematics/?v=20261011-4",
+      href: "../schematics/?v=20261011-5",
       image: "../../assets/design-engineering/schematic-drone-system.jpg",
       icon: "◇",
     },
     exploded: {
-      href: "../exploded-view/?v=20261011-4",
+      href: "../exploded-view/?v=20261011-5",
       image: "../../assets/design-engineering/exploded-view-quadcopter.jpg",
       icon: "▣",
     },
@@ -78,11 +82,14 @@
 
   const renderTags = (tags) => tags.map((tag) => `<span class="library-tag">${escapeHtml(tag)}</span>`).join("");
 
-  const renderDocument = (category, common, config) => `
+  const renderDocument = (category, common, config) => {
+    const esEjemplo = config.isExample !== false;
+    const verTexto = esEjemplo ? common.viewExample : common.viewDocument;
+    return `
     <article class="library-document-card" data-library-document>
-      <button class="library-document-media${config.tall ? " is-tall" : ""}" type="button" data-open-example aria-label="${escapeHtml(common.viewExample)}: ${escapeHtml(category.exampleTitle)}">
+      <button class="library-document-media${config.tall ? " is-tall" : ""}" type="button" data-open-example aria-label="${escapeHtml(verTexto)}: ${escapeHtml(category.exampleTitle)}">
         <img src="${config.image}" alt="${escapeHtml(category.exampleTitle)}" />
-        <span class="library-example-badge">${escapeHtml(common.example)}</span>
+        ${esEjemplo ? `<span class="library-example-badge">${escapeHtml(common.example)}</span>` : ""}
       </button>
       <div class="library-document-body">
         <div>
@@ -90,11 +97,17 @@
           <p>${escapeHtml(category.exampleDescription)}</p>
         </div>
         <div class="library-tags">${renderTags(category.exampleTags)}</div>
-        <button class="btn btn-primary library-document-action" type="button" data-open-example>
-          ${escapeHtml(common.viewExample)} <span aria-hidden="true">→</span>
-        </button>
+        <div class="library-document-actions">
+          <button class="btn btn-primary library-document-action" type="button" data-open-example>
+            ${escapeHtml(verTexto)} <span aria-hidden="true">→</span>
+          </button>
+          ${config.download ? `<a class="btn btn-ghost library-document-download" href="${config.image}" download="${escapeHtml(config.download)}">
+            <span aria-hidden="true">↓</span> ${escapeHtml(common.download)}
+          </a>` : ""}
+        </div>
       </div>
     </article>`;
+  };
 
   const renderForm = (category, common) => `
     <section class="contribution-panel" id="contribution-form" hidden>
@@ -156,16 +169,24 @@
       </form>
     </section>`;
 
-  const renderViewer = (category, common, config) => `
+  const renderViewer = (category, common, config) => {
+    const esEjemplo = config.isExample !== false;
+    return `
     <dialog class="example-viewer" data-example-dialog>
       <div class="example-viewer-head">
-        <div><span>${escapeHtml(common.illustrative)}</span><h2>${escapeHtml(category.exampleTitle)}</h2></div>
+        <div><span>${escapeHtml(esEjemplo ? common.illustrative : common.reference)}</span><h2>${escapeHtml(category.exampleTitle)}</h2></div>
         <button type="button" data-close-example aria-label="${escapeHtml(common.close)}">×</button>
       </div>
       <img src="${config.image}" alt="${escapeHtml(category.exampleTitle)}" />
       <p>${escapeHtml(category.exampleDescription)}</p>
-      <div class="example-disclaimer"><strong>!</strong><span>${escapeHtml(common.disclaimer)}</span></div>
+      ${config.download ? `<div class="example-viewer-actions">
+        <a class="btn btn-primary" href="${config.image}" download="${escapeHtml(config.download)}">
+          <span aria-hidden="true">↓</span> ${escapeHtml(common.download)}
+        </a>
+      </div>` : ""}
+      ${esEjemplo ? `<div class="example-disclaimer"><strong>!</strong><span>${escapeHtml(common.disclaimer)}</span></div>` : ""}
     </dialog>`;
+  };
 
   const render = () => {
     const dict = getDictionary();

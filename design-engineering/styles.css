@@ -338,9 +338,53 @@
   font-weight: 800;
 }
 
+.library-document-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
 .library-document-action {
   width: 100%;
   margin-top: auto;
+}
+
+.library-document-actions .library-document-action {
+  flex: 1 1 160px;
+  margin-top: 0;
+}
+
+/* Descarga: secundaria frente a "Ver diagrama", pero claramente pulsable. */
+.library-document-download {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 16px;
+  color: #2f6a08;
+  background: #f2f8ec;
+  border: 1px solid #cfe3bb;
+  text-decoration: none;
+}
+
+.library-document-download:hover {
+  background: #e7f2db;
+  border-color: #a9cf86;
+}
+
+.example-viewer-actions {
+  display: flex;
+  justify-content: flex-start;
+  padding: 4px 22px 20px;
+}
+
+@media (max-width: 520px) {
+  .library-document-actions .library-document-action,
+  .library-document-download {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
 }
 
 .library-empty {
