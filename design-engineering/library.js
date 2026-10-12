@@ -2,17 +2,26 @@
   "use strict";
 
   const MAX_FILE_BYTES = 3 * 1024 * 1024;
+
+  /* El sitio se publica en GitHub Pages, que sirve solo archivos estaticos:
+   * no hay backend propio. El formulario apuntaba a /api/design-contributions
+   * y comprobaba /api/health, rutas que alli devuelven 404, de modo que la
+   * comprobacion fallaba siempre y el envio quedaba bloqueado.
+   * Se usa FormSubmit, el mismo servicio que ya funciona en la cotizacion.
+   * Admite adjuntos con enctype multipart/form-data, hasta 10 MB sumando
+   * todos los archivos; aqui el limite propio es de 3 MB. */
+  const FORM_ENDPOINT = "https://formsubmit.co/droneslatinos@gmail.com";
   const CATEGORY_KEY = document.body.dataset.libraryCategory;
   const root = document.getElementById("design-library-root");
 
   const categories = {
     blueprints: {
-      href: "../blueprints/?v=20261011-7",
+      href: "../blueprints/?v=20261011-9",
       image: "../../assets/design-engineering/blueprint-quadcopter-example.png",
       icon: "▧",
     },
     wiring: {
-      href: "../wiring-diagrams/?v=20261011-7",
+      href: "../wiring-diagrams/?v=20261011-9",
       image: "../../assets/design-engineering/wiring-diagram-cubepilot.webp",
       icon: "⌁",
       // Diagrama vertical (1131x1391). Sin esta marca, la miniatura lo
@@ -24,12 +33,12 @@
       download: "diagrama-cableado-ecosistema-cubepilot.webp",
     },
     schematics: {
-      href: "../schematics/?v=20261011-7",
+      href: "../schematics/?v=20261011-9",
       image: "../../assets/design-engineering/schematic-drone-system.jpg",
       icon: "◇",
     },
     exploded: {
-      href: "../exploded-view/?v=20261011-7",
+      href: "../exploded-view/?v=20261011-9",
       icon: "▣",
       // Esta categoria tiene varios documentos. Las laminas son verticales,
       // asi que llevan tall: con la caja 16/10 y object-fit cover se
@@ -55,6 +64,15 @@
     query: "",
     filters: new Set(),
   };
+
+  /* FormSubmit devuelve a esta pagina con ?enviado=1. Se lee una sola vez
+   * aqui porque render() puede ejecutarse varias veces (al cargar y al
+   * resolverse el idioma): si se leyera dentro, el primer pase limpiaria
+   * la URL y el segundo ya no encontraria la marca. */
+  let envioConfirmado = new URLSearchParams(location.search).has("enviado");
+  if (envioConfirmado) {
+    history.replaceState(null, "", location.pathname + location.hash);
+  }
 
   const escapeHtml = (value) => String(value)
     .replace(/&/g, "&amp;")
@@ -152,11 +170,17 @@
         </div>
         <button class="contribution-close" type="button" data-close-form aria-label="${escapeHtml(common.close)}">×</button>
       </div>
-      <form class="contribution-form" data-contribution-form novalidate>
+      <form class="contribution-form" data-contribution-form novalidate
+            action="${FORM_ENDPOINT}" method="POST" enctype="multipart/form-data">
         <div class="form-honeypot" aria-hidden="true">
           <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
         </div>
-        <input type="hidden" name="category" value="${escapeHtml(CATEGORY_KEY)}" />
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <input type="hidden" name="_subject" value="${escapeHtml(common.formTitle)}: ${escapeHtml(category.title)}" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_next" value="${location.origin}${location.pathname}?enviado=1" />
+        <input type="hidden" name="category" value="${escapeHtml(category.title)}" />
         <input type="hidden" name="startedAt" value="${Date.now()}" />
         <label class="form-field">
           <span>${escapeHtml(common.fullName)} *</span>
@@ -326,19 +350,8 @@
     return "";
   };
 
-  const contributionServiceIsReady = async () => {
-    try {
-      const response = await fetch("/api/health", {
-        headers: { Accept: "application/json" },
-        cache: "no-store"
-      });
-      if (!response.ok) return false;
-      const payload = await response.json();
-      return Boolean(payload && payload.ok && payload.mailConfigured);
-    } catch (_error) {
-      return false;
-    }
-  };
+  /* FormSubmit es un servicio externo: no hay nada que comprobar antes de
+   * enviar, a diferencia del backend propio que nunca existio. */
 
   const bindInteractions = (category, common) => {
     const search = root.querySelector("[data-library-search]");
@@ -383,24 +396,26 @@
     const form = root.querySelector("[data-contribution-form]");
     const formStatus = root.querySelector("[data-form-status]");
     const submitButton = form.querySelector('button[type="submit"]');
-    submitButton.disabled = true;
-    const serviceCheck = contributionServiceIsReady().then((isReady) => {
-      panel.dataset.serviceReady = String(isReady);
-      submitButton.disabled = !isReady;
-      if (!isReady) {
-        formStatus.textContent = common.serviceUnavailable;
-        formStatus.className = "form-field-wide form-status is-error";
-      }
-      return isReady;
-    });
+    // El boton nacia deshabilitado a la espera de /api/health, que en
+    // GitHub Pages devuelve 404: no se habilitaba nunca.
+    submitButton.disabled = false;
+    panel.dataset.serviceReady = "true";
+    formStatus.textContent = "";
 
-    root.querySelector("[data-open-form]").addEventListener("click", async () => {
+    root.querySelector("[data-open-form]").addEventListener("click", () => {
       panel.hidden = false;
       panel.scrollIntoView({ behavior: "smooth", block: "start" });
       panel.querySelector('input[name="fullName"]').focus({ preventScroll: true });
-      await serviceCheck;
     });
     root.querySelector("[data-close-form]").addEventListener("click", () => { panel.hidden = true; });
+
+    // Confirmar el envio al volver de FormSubmit.
+    if (envioConfirmado) {
+      panel.hidden = false;
+      formStatus.textContent = common.success;
+      formStatus.className = "form-field-wide form-status is-success";
+      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 
     const fileInput = root.querySelector("[data-file-input]");
     const fileName = root.querySelector("[data-file-name]");
@@ -413,21 +428,14 @@
       status.className = `form-field-wide form-status${error ? " is-error" : ""}`;
     });
 
-    form.addEventListener("submit", (event) => submitContribution(event, common, serviceCheck));
+    form.addEventListener("submit", (event) => submitContribution(event, common));
   };
 
-  const submitContribution = async (event, common, serviceCheck) => {
+  const submitContribution = async (event, common) => {
     event.preventDefault();
     const form = event.currentTarget;
     const status = form.querySelector("[data-form-status]");
     const submit = form.querySelector("button[type=" + '"submit"' + "]");
-
-    if (!(await serviceCheck)) {
-      status.textContent = common.serviceUnavailable;
-      status.className = "form-field-wide form-status is-error";
-      submit.disabled = true;
-      return;
-    }
 
     if (!form.reportValidity()) {
       return;
@@ -441,37 +449,16 @@
       return;
     }
 
+    // Validado: se deja que el navegador haga el POST normal a FormSubmit.
+    // Hace falta un envio nativo, no fetch, porque el adjunto viaja como
+    // multipart y la respuesta es una redireccion a _next.
     submit.disabled = true;
     submit.textContent = common.sending;
     status.textContent = "";
     status.className = "form-field-wide form-status";
-
-    try {
-      const response = await fetch("/api/design-contributions", { method: "POST", body: new FormData(form) });
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        if (response.status === 503 || payload.code === "SERVICE_UNAVAILABLE") throw new Error("SERVICE_UNAVAILABLE");
-        if (payload.code === "FILE_TOO_LARGE") throw new Error("FILE_TOO_LARGE");
-        if (payload.code === "INVALID_FILE") throw new Error("INVALID_FILE");
-        throw new Error("GENERIC");
-      }
-      form.reset();
-      form.elements.startedAt.value = Date.now();
-      form.querySelector("[data-file-name]").textContent = common.noFile;
-      status.textContent = common.success;
-      status.className = "form-field-wide form-status is-success";
-    } catch (error) {
-      const message = error.message === "SERVICE_UNAVAILABLE" ? common.serviceUnavailable
-        : error.message === "FILE_TOO_LARGE" ? common.largeFile
-          : error.message === "INVALID_FILE" ? common.invalidFile
-            : common.genericError;
-      status.textContent = message;
-      status.className = "form-field-wide form-status is-error";
-    } finally {
-      submit.disabled = false;
-      submit.innerHTML = `${escapeHtml(common.submit)} <span aria-hidden="true">→</span>`;
-    }
+    HTMLFormElement.prototype.submit.call(form);
   };
+
 
   const init = () => {
     state = { query: "", filters: new Set() };
