@@ -7,22 +7,25 @@
 
   const categories = {
     blueprints: {
-      href: "../blueprints/",
+      href: "../blueprints/?v=20261011-4",
       image: "../../assets/design-engineering/blueprint-quadcopter-example.png",
       icon: "▧",
     },
     wiring: {
-      href: "../wiring-diagrams/",
-      image: "../../assets/design-engineering/wiring-diagram-quadcopter.jpg",
+      href: "../wiring-diagrams/?v=20261011-4",
+      image: "../../assets/design-engineering/wiring-diagram-cubepilot.webp",
       icon: "⌁",
+      // Diagrama vertical (1500x2000). Sin esta marca, la miniatura lo
+      // recorta dentro de una caja 16/10 y solo se ve un fragmento ampliado.
+      tall: true,
     },
     schematics: {
-      href: "../schematics/",
+      href: "../schematics/?v=20261011-4",
       image: "../../assets/design-engineering/schematic-drone-system.jpg",
       icon: "◇",
     },
     exploded: {
-      href: "../exploded-view/",
+      href: "../exploded-view/?v=20261011-4",
       image: "../../assets/design-engineering/exploded-view-quadcopter.jpg",
       icon: "▣",
     },
@@ -77,7 +80,7 @@
 
   const renderDocument = (category, common, config) => `
     <article class="library-document-card" data-library-document>
-      <button class="library-document-media" type="button" data-open-example aria-label="${escapeHtml(common.viewExample)}: ${escapeHtml(category.exampleTitle)}">
+      <button class="library-document-media${config.tall ? " is-tall" : ""}" type="button" data-open-example aria-label="${escapeHtml(common.viewExample)}: ${escapeHtml(category.exampleTitle)}">
         <img src="${config.image}" alt="${escapeHtml(category.exampleTitle)}" />
         <span class="library-example-badge">${escapeHtml(common.example)}</span>
       </button>

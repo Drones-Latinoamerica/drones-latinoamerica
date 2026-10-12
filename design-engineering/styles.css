@@ -219,12 +219,17 @@
 }
 
 .library-results {
-  min-height: 390px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 300px));
+  gap: 18px;
+  min-height: 430px;
+  align-items: start;
 }
 
 .library-document-card {
-  display: grid;
-  grid-template-columns: minmax(360px, 0.95fr) minmax(320px, 1.05fr);
+  display: flex;
+  min-height: 430px;
+  flex-direction: column;
   overflow: hidden;
   border: 1px solid rgba(15, 23, 32, 0.11);
   border-radius: 10px;
@@ -239,7 +244,9 @@
 
 .library-document-media {
   position: relative;
-  min-height: 390px;
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 16 / 10;
   padding: 0;
   overflow: hidden;
   background: #062b53;
@@ -259,6 +266,26 @@
   transform: scale(1.018);
 }
 
+/* Diagramas verticales (p. ej. 1500x2000). Con `cover` la caja 16/10 los
+   recorta y solo se ve un fragmento muy ampliado; el usuario percibe la
+   imagen "enorme". Con `contain` la miniatura muestra el diagrama COMPLETO
+   y pequeño, que es lo que se espera de una vista previa. El detalle se
+   lee al abrirlo con "Ver ejemplo". */
+.library-document-media.is-tall {
+  aspect-ratio: 4 / 3;
+  background: #eef2f6;
+  cursor: zoom-in;
+}
+
+.library-document-media.is-tall img {
+  object-fit: contain;
+  padding: 10px;
+}
+
+.library-document-card:hover .library-document-media.is-tall img {
+  transform: scale(1.012);
+}
+
 .library-example-badge {
   position: absolute;
   top: 14px;
@@ -275,28 +302,31 @@
 
 .library-document-body {
   display: flex;
+  min-height: 225px;
+  flex: 1;
   flex-direction: column;
-  padding: clamp(26px, 4vw, 48px);
+  padding: 18px;
 }
 
 .library-document-body h2 {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   color: #0b1117;
-  font-size: clamp(1.45rem, 2.4vw, 2.15rem);
+  font-size: 1.15rem;
   line-height: 1.1;
 }
 
 .library-document-body p {
   margin: 0;
   color: rgba(15, 23, 32, 0.7);
-  line-height: 1.6;
+  line-height: 1.48;
+  font-size: 0.9rem;
 }
 
 .library-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 24px 0;
+  margin: 16px 0;
 }
 
 .library-tag {
@@ -652,13 +682,12 @@
 
 @media (max-width: 780px) {
   .library-hero,
-  .library-document-card,
   .contribution-invite {
     grid-template-columns: 1fr;
   }
 
   .library-document-media {
-    min-height: 330px;
+    min-height: 0;
   }
 
   .contribution-invite .btn {
@@ -689,11 +718,15 @@
   }
 
   .library-document-media {
-    min-height: 240px;
+    min-height: 0;
   }
 
   .library-document-body {
-    padding: 24px 20px;
+    padding: 18px;
+  }
+
+  .library-results {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .contribution-form {

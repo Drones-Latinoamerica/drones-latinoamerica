@@ -1,0 +1,18 @@
+# Perfiles de navegador usados para pruebas.
+# Contienen Cookies, "Login Data" e historial: nunca deben subirse a un
+# repositorio publico, y este lo es (GitHub Pages -> drones-latinoamerica.com).
+.chrome-profile/
+.chrome-profile-desktop/
+.chrome-profile-mobile/
+.chrome-headless/
+
+# Configuracion local de herramientas
+.claude/settings.local.json
+.claude_launch_tmp
+
+# Temporales del sistema y del editor
+Thumbs.db
+desktop.ini
+.DS_Store
+*.bak
+*~
