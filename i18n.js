@@ -245,9 +245,18 @@
             intro: "Estudia cómo se relacionan y ensamblan el chasis, los motores, la electrónica y las demás piezas de un dron.",
             search: "Buscar vistas de despiece…",
             filterOptions: ["Chasis", "Motores", "Electrónica", "Ensamblaje completo"],
-            exampleTitle: "Vista explotada isométrica de un cuadricóptero FPV",
-            exampleDescription: "Despiece acotado con la posición de cada pieza: marco de fibra de carbono, motores 2212 920KV, ESC de 30 A, controladora de vuelo, PDB, GPS, batería LiPo, gimbal y hélices, con las rutas de cableado y la lista de materiales.",
-            exampleTags: ["Chasis", "Motores", "Electrónica", "Ensamblaje completo"],
+            documents: [
+              {
+                title: "Vista explotada isométrica de un cuadricóptero FPV",
+                description: "Despiece acotado con la posición de cada pieza: marco de fibra de carbono, motores 2212 920KV, ESC de 30 A, controladora de vuelo, PDB, GPS, batería LiPo, gimbal y hélices, con las rutas de cableado y la lista de materiales.",
+                tags: ["Chasis", "Motores", "Electrónica", "Ensamblaje completo"],
+              },
+              {
+                title: "Vista explotada de un dron de ala fija",
+                description: "Despiece de un ala fija de 1500 mm de envergadura: fuselaje y cuadernas, conjunto del ala con largueros y actuadores de alerón, estabilizadores, motor sin escobillas de 980 kV con estator y bobinas, ESC, bahía de aviónica, GPS, batería LiPo de 5000 mAh, tren de aterrizaje y cámara de 4K en cárdan de 3 ejes.",
+                tags: ["Chasis", "Motores", "Electrónica", "Ensamblaje completo"],
+              },
+            ],
             invite: "¿Has elaborado vistas de despiece o guías visuales de ensamblaje? Compártelas con nuestra comunidad.",
             inviteButton: "Enviar mi diseño",
           },
@@ -736,9 +745,18 @@
             intro: "Study how a drone's frame, motors, electronics, and other parts relate to one another and fit together.",
             search: "Search exploded views…",
             filterOptions: ["Frame", "Motors", "Electronics", "Complete assembly"],
-            exampleTitle: "FPV quadcopter isometric exploded view",
-            exampleDescription: "Dimensioned exploded view showing where each part goes: carbon fibre frame, 2212 920KV motors, 30 A ESCs, flight controller, PDB, GPS, LiPo battery, gimbal and propellers, with wiring routes and the bill of materials.",
-            exampleTags: ["Frame", "Motors", "Electronics", "Full assembly"],
+            documents: [
+              {
+                title: "FPV quadcopter isometric exploded view",
+                description: "Dimensioned exploded view showing where each part goes: carbon fibre frame, 2212 920KV motors, 30 A ESCs, flight controller, PDB, GPS, LiPo battery, gimbal and propellers, with wiring routes and the bill of materials.",
+                tags: ["Frame", "Motors", "Electronics", "Full assembly"],
+              },
+              {
+                title: "Fixed-wing drone exploded view",
+                description: "Exploded view of a 1500 mm wingspan fixed-wing aircraft: fuselage and formers, wing assembly with spars and aileron actuators, stabilisers, 980 kV brushless motor with stator and windings, ESC, avionics bay, GPS, 5000 mAh LiPo battery, landing gear and a 4K camera on a 3-axis gimbal.",
+                tags: ["Frame", "Motors", "Electronics", "Full assembly"],
+              },
+            ],
             invite: "Have you created exploded views or visual assembly guides? Share them with our community.",
             inviteButton: "Submit my design",
           },

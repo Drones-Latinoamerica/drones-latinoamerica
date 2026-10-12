@@ -7,12 +7,12 @@
 
   const categories = {
     blueprints: {
-      href: "../blueprints/?v=20261011-6",
+      href: "../blueprints/?v=20261011-7",
       image: "../../assets/design-engineering/blueprint-quadcopter-example.png",
       icon: "▧",
     },
     wiring: {
-      href: "../wiring-diagrams/?v=20261011-6",
+      href: "../wiring-diagrams/?v=20261011-7",
       image: "../../assets/design-engineering/wiring-diagram-cubepilot.webp",
       icon: "⌁",
       // Diagrama vertical (1131x1391). Sin esta marca, la miniatura lo
@@ -24,19 +24,30 @@
       download: "diagrama-cableado-ecosistema-cubepilot.webp",
     },
     schematics: {
-      href: "../schematics/?v=20261011-6",
+      href: "../schematics/?v=20261011-7",
       image: "../../assets/design-engineering/schematic-drone-system.jpg",
       icon: "◇",
     },
     exploded: {
-      href: "../exploded-view/?v=20261011-6",
-      image: "../../assets/design-engineering/exploded-view-quadcopter-fpv.webp",
+      href: "../exploded-view/?v=20261011-7",
       icon: "▣",
-      // Lamina vertical (798x879): con la caja 16/10 y cover se recortaria
-      // media vista y se perderian las cotas.
-      tall: true,
-      isExample: false,
-      download: "vista-explotada-cuadricoptero-fpv.webp",
+      // Esta categoria tiene varios documentos. Las laminas son verticales,
+      // asi que llevan tall: con la caja 16/10 y object-fit cover se
+      // recortaria media vista y se perderian las cotas.
+      documents: [
+        {
+          image: "../../assets/design-engineering/exploded-view-quadcopter-fpv.webp",
+          tall: true,
+          isExample: false,
+          download: "vista-explotada-cuadricoptero-fpv.webp",
+        },
+        {
+          image: "../../assets/design-engineering/exploded-view-fixed-wing.webp",
+          tall: true,
+          isExample: false,
+          download: "vista-explotada-ala-fija.webp",
+        },
+      ],
     },
   };
 
@@ -68,6 +79,17 @@
 
   const categoryKeys = Object.keys(categories);
 
+  /* Una categoria puede traer un solo documento (campos sueltos, que es el
+   * formato original) o varios en "documents". Estas dos funciones reducen
+   * ambos casos a una lista, para que el resto del codigo no distinga. */
+  const documentosDe = (config) => config.documents || [config];
+
+  const textosDe = (category) => category.documents || [{
+    title: category.exampleTitle,
+    description: category.exampleDescription,
+    tags: category.exampleTags,
+  }];
+
   const renderCategoryLinks = (dict) => categoryKeys.map((key) => {
     const item = categories[key];
     const category = dict.categories[key];
@@ -87,31 +109,37 @@
 
   const renderTags = (tags) => tags.map((tag) => `<span class="library-tag">${escapeHtml(tag)}</span>`).join("");
 
-  const renderDocument = (category, common, config) => {
-    const esEjemplo = config.isExample !== false;
+  const renderDocument = (texto, common, doc, indice) => {
+    const esEjemplo = doc.isExample !== false;
     const verTexto = esEjemplo ? common.viewExample : common.viewDocument;
     return `
-    <article class="library-document-card" data-library-document>
-      <button class="library-document-media${config.tall ? " is-tall" : ""}" type="button" data-open-example aria-label="${escapeHtml(verTexto)}: ${escapeHtml(category.exampleTitle)}">
-        <img src="${config.image}" alt="${escapeHtml(category.exampleTitle)}" />
+    <article class="library-document-card" data-library-document data-doc="${indice}">
+      <button class="library-document-media${doc.tall ? " is-tall" : ""}" type="button" data-open-example="${indice}" aria-label="${escapeHtml(verTexto)}: ${escapeHtml(texto.title)}">
+        <img src="${doc.image}" alt="${escapeHtml(texto.title)}" loading="lazy" />
         ${esEjemplo ? `<span class="library-example-badge">${escapeHtml(common.example)}</span>` : ""}
       </button>
       <div class="library-document-body">
         <div>
-          <h2>${escapeHtml(category.exampleTitle)}</h2>
-          <p>${escapeHtml(category.exampleDescription)}</p>
+          <h2>${escapeHtml(texto.title)}</h2>
+          <p>${escapeHtml(texto.description)}</p>
         </div>
-        <div class="library-tags">${renderTags(category.exampleTags)}</div>
+        <div class="library-tags">${renderTags(texto.tags)}</div>
         <div class="library-document-actions">
-          <button class="btn btn-primary library-document-action" type="button" data-open-example>
+          <button class="btn btn-primary library-document-action" type="button" data-open-example="${indice}">
             ${escapeHtml(verTexto)} <span aria-hidden="true">→</span>
           </button>
-          ${config.download ? `<a class="btn btn-ghost library-document-download" href="${config.image}" download="${escapeHtml(config.download)}">
+          ${doc.download ? `<a class="btn btn-ghost library-document-download" href="${doc.image}" download="${escapeHtml(doc.download)}">
             <span aria-hidden="true">↓</span> ${escapeHtml(common.download)}
           </a>` : ""}
         </div>
       </div>
     </article>`;
+  };
+
+  const renderDocuments = (category, common, config) => {
+    const docs = documentosDe(config);
+    const textos = textosDe(category);
+    return docs.map((doc, i) => renderDocument(textos[i] || textos[0], common, doc, i)).join("");
   };
 
   const renderForm = (category, common) => `
@@ -174,23 +202,29 @@
       </form>
     </section>`;
 
-  const renderViewer = (category, common, config) => {
-    const esEjemplo = config.isExample !== false;
+  const renderViewer = (texto, common, doc, indice) => {
+    const esEjemplo = doc.isExample !== false;
     return `
-    <dialog class="example-viewer" data-example-dialog>
+    <dialog class="example-viewer" data-example-dialog="${indice}">
       <div class="example-viewer-head">
-        <div><span>${escapeHtml(esEjemplo ? common.illustrative : common.reference)}</span><h2>${escapeHtml(category.exampleTitle)}</h2></div>
+        <div><span>${escapeHtml(esEjemplo ? common.illustrative : common.reference)}</span><h2>${escapeHtml(texto.title)}</h2></div>
         <button type="button" data-close-example aria-label="${escapeHtml(common.close)}">×</button>
       </div>
-      <img src="${config.image}" alt="${escapeHtml(category.exampleTitle)}" />
-      <p>${escapeHtml(category.exampleDescription)}</p>
-      ${config.download ? `<div class="example-viewer-actions">
-        <a class="btn btn-primary" href="${config.image}" download="${escapeHtml(config.download)}">
+      <img src="${doc.image}" alt="${escapeHtml(texto.title)}" />
+      <p>${escapeHtml(texto.description)}</p>
+      ${doc.download ? `<div class="example-viewer-actions">
+        <a class="btn btn-primary" href="${doc.image}" download="${escapeHtml(doc.download)}">
           <span aria-hidden="true">↓</span> ${escapeHtml(common.download)}
         </a>
       </div>` : ""}
       ${esEjemplo ? `<div class="example-disclaimer"><strong>!</strong><span>${escapeHtml(common.disclaimer)}</span></div>` : ""}
     </dialog>`;
+  };
+
+  const renderViewers = (category, common, config) => {
+    const docs = documentosDe(config);
+    const textos = textosDe(category);
+    return docs.map((doc, i) => renderViewer(textos[i] || textos[0], common, doc, i)).join("");
   };
 
   const render = () => {
@@ -227,7 +261,7 @@
               <label class="library-search"><span aria-hidden="true">⌕</span><input type="search" placeholder="${escapeHtml(category.search)}" aria-label="${escapeHtml(common.searchAria)}" data-library-search /></label>
             </header>
             <div class="library-results" data-library-results>
-              ${renderDocument(category, common, config)}
+              ${renderDocuments(category, common, config)}
               <div class="library-empty" data-library-empty hidden><span aria-hidden="true">⌕</span><h2>${escapeHtml(common.noResults)}</h2><p>${escapeHtml(common.noResultsCopy)}</p></div>
             </div>
             <section class="contribution-invite">
@@ -238,24 +272,30 @@
           </div>
         </div>
       </div>
-      ${renderViewer(category, common, config)}`;
+      ${renderViewers(category, common, config)}`;
 
     bindInteractions(category, common);
   };
 
-  const matchesFilters = (category) => {
-    const haystack = normalize(`${category.exampleTitle} ${category.exampleDescription}`);
+  const matchesFilters = (texto) => {
+    const haystack = normalize(texto.title + " " + texto.description);
     const queryMatches = !state.query || haystack.includes(normalize(state.query));
-    const filterMatches = state.filters.size === 0 || category.exampleTags.some((tag) => state.filters.has(tag));
+    const filterMatches = state.filters.size === 0
+      || (texto.tags || []).some((tag) => state.filters.has(tag));
     return queryMatches && filterMatches;
   };
 
   const updateResults = (category) => {
-    const card = root.querySelector("[data-library-document]");
+    const textos = textosDe(category);
     const empty = root.querySelector("[data-library-empty]");
-    const visible = matchesFilters(category);
-    card.hidden = !visible;
-    empty.hidden = visible;
+    let algunoVisible = false;
+    root.querySelectorAll("[data-library-document]").forEach((card) => {
+      const texto = textos[Number(card.dataset.doc) || 0] || textos[0];
+      const visible = matchesFilters(texto);
+      card.hidden = !visible;
+      if (visible) algunoVisible = true;
+    });
+    empty.hidden = algunoVisible;
   };
 
   const fileSignatureIsValid = async (file, extension) => {
@@ -321,13 +361,23 @@
       updateResults(category);
     });
 
-    const dialog = document.querySelector("[data-example-dialog]");
-    root.querySelectorAll("[data-open-example]").forEach((button) => button.addEventListener("click", () => {
-      if (typeof dialog.showModal === "function") dialog.showModal();
-      else dialog.setAttribute("open", "");
-    }));
-    dialog.querySelector("[data-close-example]").addEventListener("click", () => dialog.close());
-    dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+    // Hay un visor por documento: cada boton abre el suyo por indice.
+    root.querySelectorAll("[data-open-example]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const indice = button.dataset.openExample || "0";
+        const dialog = document.querySelector('[data-example-dialog="' + indice + '"]');
+        if (!dialog) return;
+        if (typeof dialog.showModal === "function") dialog.showModal();
+        else dialog.setAttribute("open", "");
+      });
+    });
+    document.querySelectorAll("[data-example-dialog]").forEach((dialog) => {
+      const cerrar = dialog.querySelector("[data-close-example]");
+      if (cerrar) cerrar.addEventListener("click", () => dialog.close());
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    });
 
     const panel = root.querySelector("#contribution-form");
     const form = root.querySelector("[data-contribution-form]");
