@@ -7,12 +7,12 @@
 
   const categories = {
     blueprints: {
-      href: "../blueprints/?v=20261011-5",
+      href: "../blueprints/?v=20261011-6",
       image: "../../assets/design-engineering/blueprint-quadcopter-example.png",
       icon: "▧",
     },
     wiring: {
-      href: "../wiring-diagrams/?v=20261011-5",
+      href: "../wiring-diagrams/?v=20261011-6",
       image: "../../assets/design-engineering/wiring-diagram-cubepilot.webp",
       icon: "⌁",
       // Diagrama vertical (1131x1391). Sin esta marca, la miniatura lo
@@ -24,14 +24,19 @@
       download: "diagrama-cableado-ecosistema-cubepilot.webp",
     },
     schematics: {
-      href: "../schematics/?v=20261011-5",
+      href: "../schematics/?v=20261011-6",
       image: "../../assets/design-engineering/schematic-drone-system.jpg",
       icon: "◇",
     },
     exploded: {
-      href: "../exploded-view/?v=20261011-5",
-      image: "../../assets/design-engineering/exploded-view-quadcopter.jpg",
+      href: "../exploded-view/?v=20261011-6",
+      image: "../../assets/design-engineering/exploded-view-quadcopter-fpv.webp",
       icon: "▣",
+      // Lamina vertical (798x879): con la caja 16/10 y cover se recortaria
+      // media vista y se perderian las cotas.
+      tall: true,
+      isExample: false,
+      download: "vista-explotada-cuadricoptero-fpv.webp",
     },
   };
 
