@@ -3729,6 +3729,52 @@ input {
   clip-path: polygon(0 0, 100% 0, 100% 58%, 50% 100%, 0 58%);
 }
 
+/* Planos: hoja de plano con sus líneas de dibujo. */
+.icon-blueprint::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 1px;
+  width: 14px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-radius: 2px;
+}
+
+.icon-blueprint::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 8px;
+  height: 2px;
+  background: currentColor;
+  box-shadow:
+    0 4px 0 currentColor,
+    -2px 8px 0 currentColor;
+}
+
+/* Electrónica: chip con sus patillas. */
+.icon-chip::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 2px solid currentColor;
+  border-radius: 2px;
+}
+
+.icon-chip::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 0;
+  width: 4px;
+  height: 18px;
+  border-left: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  clip-path: polygon(0 0, 100% 0, 100% 22%, 0 22%, 0 78%, 100% 78%, 100% 100%, 0 100%);
+}
+
 /* Emprendedores: bombilla de la idea. */
 .icon-bulb::before {
   content: "";
