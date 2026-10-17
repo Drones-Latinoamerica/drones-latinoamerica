@@ -212,6 +212,12 @@ document.querySelectorAll("[data-see-more]").forEach((button) => {
       return;
     }
 
+    if (grid === docsGrid) {
+      areDocsExpanded = !areDocsExpanded;
+      applyDocFilter(activeDocCategory, { keepExpanded: true });
+      return;
+    }
+
     const isCollapsed = grid.classList.toggle("is-collapsed");
     button.setAttribute("aria-expanded", String(!isCollapsed));
     button.textContent = isCollapsed
@@ -241,6 +247,89 @@ applyVideoFilter(activeVideoCategory);
 
 // Permite que el sistema de idiomas vuelva a pintar los textos que este
 // widget genera desde JS (etiquetas de categoría y descripción).
+// Guías y Manuales: mismo patrón de categorías que los videos.
+const docFilterButtons = document.querySelectorAll("[data-doc-filter]");
+const docsGrid = document.getElementById("docs-grid");
+const docCards = docsGrid?.querySelectorAll("[data-doc-category]");
+const docsSeeMoreButton = document.querySelector('[data-see-more="docs-grid"]');
+const docDescriptionBox = document.querySelector("[data-doc-description-box]");
+const docDescriptionLabel = document.querySelector("[data-doc-description-label]");
+const docDescriptionText = document.querySelector("[data-doc-description-text]");
+let activeDocCategory = "drones";
+let areDocsExpanded = false;
+
+const updateDocDescription = (category) => {
+  if (!docDescriptionBox) {
+    return;
+  }
+  const button = document.querySelector(`[data-doc-filter="${category}"]`);
+  const label = button?.dataset.docLabel || "";
+  const description = button?.dataset.docDescription || "";
+  if (docDescriptionLabel) {
+    docDescriptionLabel.textContent = label ? `${label}:` : "";
+  }
+  if (docDescriptionText) {
+    docDescriptionText.textContent = description;
+  }
+  docDescriptionBox.toggleAttribute("hidden", !label && !description);
+};
+
+const applyDocFilter = (category, { keepExpanded = false } = {}) => {
+  if (!docsGrid || !docCards) {
+    return;
+  }
+
+  activeDocCategory = category;
+  updateDocDescription(category);
+  if (!keepExpanded) {
+    areDocsExpanded = false;
+  }
+
+  let visibleCount = 0;
+  docCards.forEach((card) => {
+    const isVisible = card.getAttribute("data-doc-category") === category;
+    card.classList.toggle("is-hidden", !isVisible);
+    if (isVisible) {
+      visibleCount += 1;
+      card.classList.toggle("is-over-limit", visibleCount > 3);
+    } else {
+      card.classList.remove("is-over-limit");
+    }
+  });
+
+  docsGrid.classList.toggle("is-collapsed", !areDocsExpanded);
+
+  if (docsSeeMoreButton) {
+    docsSeeMoreButton.parentElement?.toggleAttribute("hidden", visibleCount <= 3);
+    docsSeeMoreButton.setAttribute("aria-expanded", String(areDocsExpanded));
+    docsSeeMoreButton.textContent = areDocsExpanded
+      ? docsSeeMoreButton.dataset.labelLess || "Ver menos"
+      : docsSeeMoreButton.dataset.labelMore || "Ver todas las Guías y Manuales";
+  }
+};
+
+docFilterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const category = button.getAttribute("data-doc-filter");
+    if (!category) {
+      return;
+    }
+    docFilterButtons.forEach((item) => {
+      const isActive = item === button;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-pressed", String(isActive));
+    });
+    applyDocFilter(category);
+  });
+});
+
+applyDocFilter(activeDocCategory);
+
+// Permite al sistema de idiomas repintar los textos generados aquí.
+window.reapplyDocFilter = () => {
+  applyDocFilter(activeDocCategory, { keepExpanded: true });
+};
+
 window.reapplyVideoFilter = () => {
   applyVideoFilter(activeVideoCategory, { keepExpanded: true });
 };

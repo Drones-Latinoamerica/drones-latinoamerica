@@ -3411,7 +3411,8 @@ input {
   color: var(--white);
 }
 
-.video-category-tabs {
+.video-category-tabs,
+.doc-category-tabs {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -3419,7 +3420,8 @@ input {
   margin: 6px 0 22px;
 }
 
-.video-category {
+.video-category,
+.doc-category {
   display: inline-flex;
   min-width: 138px;
   min-height: 44px;
@@ -3441,19 +3443,22 @@ input {
     box-shadow 0.2s ease;
 }
 
-.video-category:hover {
+.video-category:hover,
+.doc-category:hover {
   transform: translateY(-2px);
   border-color: rgba(126, 211, 33, 0.42);
 }
 
-.video-category.is-active {
+.video-category.is-active,
+.doc-category.is-active {
   color: #071014;
   border-color: rgba(126, 211, 33, 0.55);
   background: linear-gradient(135deg, var(--green-3), var(--green-2));
   box-shadow: 0 14px 30px rgba(126, 211, 33, 0.28);
 }
 
-.video-category-icon {
+.video-category-icon,
+.doc-category-icon {
   position: relative;
   width: 18px;
   height: 18px;
@@ -3800,6 +3805,32 @@ input {
     4px 0 0 0 currentColor;
 }
 
+/* Radares: antena con sus ondas. */
+.icon-radar::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  bottom: 2px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 9px solid currentColor;
+}
+
+.icon-radar::after {
+  content: "";
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  width: 9px;
+  height: 9px;
+  border: 2px solid currentColor;
+  border-left-color: transparent;
+  border-bottom-color: transparent;
+  border-radius: 0 50% 0 0;
+}
+
 /* Emprendedores: bombilla de la idea. */
 .icon-bulb::before {
   content: "";
@@ -3823,7 +3854,8 @@ input {
   box-shadow: 0 4px 0 0 currentColor;
 }
 
-.video-category-description {
+.video-category-description,
+.doc-category-description {
   margin: 16px 0 0;
   padding: 14px 16px;
   border: 1px solid rgba(15, 23, 32, 0.1);
@@ -3835,7 +3867,8 @@ input {
   line-height: 1.55;
 }
 
-.video-category-description strong {
+.video-category-description strong,
+.doc-category-description strong {
   color: var(--ink);
   margin-right: 4px;
 }
@@ -3975,13 +4008,13 @@ input {
 .video-grid.is-collapsed > .video-card.is-over-limit,
 .news-grid.is-collapsed > .news-card:nth-child(n + 4),
 .simulators-grid.is-collapsed > .simulator-card:nth-child(n + 5),
-.docs-grid.is-collapsed > .doc-card:nth-child(n + 4),
-.community-links-grid.is-collapsed > .community-link-card:nth-child(n + 5) {
+.doc-card.is-hidden {
   display: none;
 }
 
-.guides-manuals-section .docs-grid.is-collapsed > .doc-card.doc-extra {
-  display: none !important;
+.docs-grid.is-collapsed > .doc-card.is-over-limit,
+.community-links-grid.is-collapsed > .community-link-card:nth-child(n + 5) {
+  display: none;
 }
 
 .form-section {
@@ -4513,14 +4546,16 @@ input {
     grid-template-columns: 1fr;
   }
 
-  .video-category-tabs {
+  .video-category-tabs,
+  .doc-category-tabs {
     justify-content: flex-start;
     gap: 10px;
     overflow-x: auto;
     padding-bottom: 6px;
   }
 
-  .video-category {
+  .video-category,
+  .doc-category {
     min-width: 122px;
     min-height: 40px;
     padding: 0 14px;

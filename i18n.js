@@ -464,6 +464,22 @@
         position: "Posición:",
         positionXY: "Posición (x, y):",
       },
+      docsCat: {
+        catDocDrones: "Drones",
+        lblDocDrones: "Drones",
+        dscDocDrones: "Libros, trabajos de grado y guías para diseñar y construir drones paso a paso.",
+        catDocRadar: "Radares",
+        lblDocRadar: "Radares",
+        dscDocRadar: "Proyectos de código abierto para detectar aeronaves y drones: hardware, firmware y software.",
+        openProject: "Ver proyecto en GitHub →",
+        tagProject: "Proyecto abierto",
+        radar1: "AERIS-10 — Radar de hasta 20 km",
+        radar1d: "Diseño abierto de radar con circuitos, PCB, antenas, firmware y software. Dos versiones: AERIS-10N (3 km) y AERIS-10E (20 km) de alcance de diseño, con procesamiento digital de señales, FPGA e interfaz en Python.",
+        radar2: "Passive Radar — Detección de aviones por reflejos",
+        radar2d: "Radar pasivo con receptor PlutoSDR y antenas que detecta reflejos de señales de radio. Su autor lo usó para seguir aviones sobre París.",
+        radar3: "DeFli — Receptor de aviación tripulada y no tripulada",
+        radar3d: "Guía de hardware para recibir señales ADS-B de aviones, Remote ID de drones y otras señales de radio.",
+      },
       guidesUi: {
         readGuide: "Leer guía →",
         readDoc: "Leer documento →",
@@ -976,6 +992,22 @@
         position: "Position:",
         positionXY: "Position (x, y):",
       },
+      docsCat: {
+        catDocDrones: "Drones",
+        lblDocDrones: "Drones",
+        dscDocDrones: "Books, theses and guides to design and build drones step by step.",
+        catDocRadar: "Radar",
+        lblDocRadar: "Radar",
+        dscDocRadar: "Open-source projects to detect aircraft and drones: hardware, firmware and software.",
+        openProject: "View project on GitHub →",
+        tagProject: "Open project",
+        radar1: "AERIS-10 — Radar with up to 20 km range",
+        radar1d: "An open radar design with circuits, PCB, antennas, firmware and software. Two versions: AERIS-10N (3 km) and AERIS-10E (20 km) design range, using digital signal processing, an FPGA and a Python interface.",
+        radar2: "Passive Radar — Spotting planes from their reflections",
+        radar2d: "A passive radar using a PlutoSDR receiver and antennas to detect radio signal reflections. Its author used it to track planes over Paris.",
+        radar3: "DeFli — Manned and unmanned aviation receiver",
+        radar3d: "A hardware guide to receive ADS-B signals from aircraft, drone Remote ID and other radio signals.",
+      },
       guidesUi: {
         readGuide: "Read guide →",
         readDoc: "Read document →",
@@ -1140,6 +1172,8 @@
     "data-label-less",
     "data-video-label",
     "data-video-description",
+    "data-doc-label",
+    "data-doc-description",
   ];
 
   const attrOriginals = new WeakMap();
@@ -1241,6 +1275,9 @@
     // Vuelve a pintar widgets que generan texto desde JS (filtro de videos).
     if (typeof window.reapplyVideoFilter === "function") {
       window.reapplyVideoFilter();
+    }
+    if (typeof window.reapplyDocFilter === "function") {
+      window.reapplyDocFilter();
     }
 
     document.dispatchEvent(new CustomEvent("languagechange", { detail: { lang } }));
