@@ -3775,6 +3775,31 @@ input {
   clip-path: polygon(0 0, 100% 0, 100% 22%, 0 22%, 0 78%, 100% 78%, 100% 100%, 0 100%);
 }
 
+/* Turbinas: rotor de la turbina con sus álabes. */
+.icon-turbine::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+}
+
+.icon-turbine::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow:
+    0 -4px 0 0 currentColor,
+    0 4px 0 0 currentColor,
+    -4px 0 0 0 currentColor,
+    4px 0 0 0 currentColor;
+}
+
 /* Emprendedores: bombilla de la idea. */
 .icon-bulb::before {
   content: "";
