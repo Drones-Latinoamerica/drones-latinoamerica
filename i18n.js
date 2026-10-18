@@ -294,6 +294,7 @@
         computers: "Computadoras de vuelo",
         printers: "Impresoras 3D",
         guards: "Protectores para drones",
+        jetEngines: "Turbinas y motores a reacción",
       },
       news: {
         defense: "Defensa",
@@ -828,6 +829,7 @@
         computers: "Flight computers",
         printers: "3D Printers",
         guards: "Drone guards",
+        jetEngines: "Turbines & jet engines",
       },
       news: {
         defense: "Defense",

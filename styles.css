@@ -1812,6 +1812,12 @@ input {
   background-position: center;
 }
 
+.market-cat-eighteen {
+  background-image: url("assets/market-cat-turbina-thumb.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
 .category-card strong {
   color: var(--white);
   font-size: 0.94rem;
