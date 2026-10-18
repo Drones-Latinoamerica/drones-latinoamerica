@@ -1814,7 +1814,7 @@ input {
 
 .market-cat-eighteen {
   background-image: url("assets/market-cat-turbina-thumb.jpg");
-  background-size: cover;
+  background-size: 86% auto;
   background-position: center;
 }
 
