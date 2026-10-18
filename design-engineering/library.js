@@ -21,16 +21,29 @@
       icon: "▧",
     },
     wiring: {
-      href: "../wiring-diagrams/?v=20261011-9",
-      image: "../../assets/design-engineering/wiring-diagram-cubepilot.webp",
+      href: "../wiring-diagrams/?v=20261018-fiber-wiring-1",
       icon: "⌁",
-      // Diagrama vertical (1131x1391). Sin esta marca, la miniatura lo
-      // recorta dentro de una caja 16/10 y solo se ve un fragmento ampliado.
-      tall: true,
-      // Documento real de la biblioteca, no una muestra: sin distintivo de
-      // ejemplo, sin la advertencia de "no descargable" y con descarga.
-      isExample: false,
-      download: "diagrama-cableado-ecosistema-cubepilot.webp",
+      documents: [
+        {
+          image: "../../assets/design-engineering/wiring-diagram-cubepilot.webp",
+          // Diagrama vertical (1131x1391). Sin esta marca, la miniatura lo
+          // recorta dentro de una caja 16/10 y solo se ve un fragmento ampliado.
+          tall: true,
+          isExample: false,
+          download: "diagrama-cableado-ecosistema-cubepilot.webp",
+        },
+        {
+          image: "../../assets/design-engineering/wiring-diagram-fiber-optic-overview.png",
+          isExample: false,
+          download: "diagrama-fibra-optica-modulos-aereo-terrestre.png",
+        },
+        {
+          image: "../../assets/design-engineering/wiring-diagram-fiber-optic-detailed.png",
+          tall: true,
+          isExample: false,
+          download: "diagrama-fibra-optica-sistema-fpv-detallado.png",
+        },
+      ],
     },
     schematics: {
       href: "../schematics/?v=20261011-9",

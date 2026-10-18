@@ -226,6 +226,23 @@
             exampleTitle: "Cableado del ecosistema CubePilot",
             exampleDescription: "Cómo se conectan físicamente los componentes de un dron: controladora Cube, GPS RTK, motores, ESC, batería, sensores, cámara y telemetría.",
             exampleTags: ["Alimentación", "Controladora", "Motores", "Comunicaciones"],
+            documents: [
+              {
+                title: "Cableado del ecosistema CubePilot",
+                description: "Cómo se conectan físicamente los componentes de un dron: controladora Cube, GPS RTK, motores, ESC, batería, sensores, cámara y telemetría.",
+                tags: ["Alimentación", "Controladora", "Motores", "Comunicaciones"],
+              },
+              {
+                title: "Conexión de módulos por fibra óptica",
+                description: "Diagrama general de la conexión entre el carrete de fibra, la controladora de vuelo, el módulo terrestre, el radio control y la transmisión de video.",
+                tags: ["Alimentación", "Controladora", "Comunicaciones"],
+              },
+              {
+                title: "Cableado detallado del sistema FPV por fibra óptica",
+                description: "Referencia detallada del módulo aéreo y del módulo terrestre, con señales GND, VCC, TX, RX, video, radio control de 2.4 GHz y video de 5.8 GHz.",
+                tags: ["Alimentación", "Controladora", "Comunicaciones"],
+              },
+            ],
             invite: "¿Has creado diagramas de conexiones para drones? Comparte tus conocimientos con otros aficionados.",
             inviteButton: "Enviar mi diagrama",
           },
@@ -762,6 +779,23 @@
             exampleTitle: "CubePilot ecosystem wiring",
             exampleDescription: "How a drone's components are physically connected: Cube flight controller, RTK GPS, motors, ESCs, battery, sensors, camera and telemetry.",
             exampleTags: ["Power", "Flight controller", "Motors", "Communications"],
+            documents: [
+              {
+                title: "CubePilot ecosystem wiring",
+                description: "How a drone's components are physically connected: Cube flight controller, RTK GPS, motors, ESCs, battery, sensors, camera and telemetry.",
+                tags: ["Power", "Flight controller", "Motors", "Communications"],
+              },
+              {
+                title: "Fiber-optic module connections",
+                description: "General connection diagram for the fiber spool, flight controller, ground module, radio controller and video transmission system.",
+                tags: ["Power", "Flight controller", "Communications"],
+              },
+              {
+                title: "Detailed fiber-optic FPV system wiring",
+                description: "Detailed reference for the airborne and ground modules, including GND, VCC, TX, RX, video, 2.4 GHz radio control and 5.8 GHz video links.",
+                tags: ["Power", "Flight controller", "Communications"],
+              },
+            ],
             invite: "Have you created drone connection diagrams? Share your knowledge with other enthusiasts.",
             inviteButton: "Submit my diagram",
           },
