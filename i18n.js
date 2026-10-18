@@ -295,6 +295,7 @@
         printers: "Impresoras 3D",
         guards: "Protectores para drones",
         jetEngines: "Turbinas y motores a reacción",
+        fiberOptics: "Fibra óptica",
       },
       news: {
         defense: "Defensa",
@@ -830,6 +831,7 @@
         printers: "3D Printers",
         guards: "Drone guards",
         jetEngines: "Turbines & jet engines",
+        fiberOptics: "Fiber optics",
       },
       news: {
         defense: "Defense",
