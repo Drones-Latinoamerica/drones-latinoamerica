@@ -221,6 +221,12 @@ document.querySelectorAll("[data-see-more]").forEach((button) => {
       return;
     }
 
+    if (grid === commGrid) {
+      areCommsExpanded = !areCommsExpanded;
+      applyCommFilter(activeCommCategory, { keepExpanded: true });
+      return;
+    }
+
     const isCollapsed = grid.classList.toggle("is-collapsed");
     button.setAttribute("aria-expanded", String(!isCollapsed));
     button.textContent = isCollapsed
@@ -329,6 +335,88 @@ docFilterButtons.forEach((button) => {
 applyDocFilter(activeDocCategory);
 
 // Permite al sistema de idiomas repintar los textos generados aquí.
+// Otras comunidades: mismo patrón de categorías.
+const commFilterButtons = document.querySelectorAll("[data-comm-filter]");
+const commGrid = document.getElementById("communities-grid");
+const commCards = commGrid?.querySelectorAll("[data-comm-category]");
+const commSeeMoreButton = document.querySelector('[data-see-more="communities-grid"]');
+const commDescriptionBox = document.querySelector("[data-comm-description-box]");
+const commDescriptionLabel = document.querySelector("[data-comm-description-label]");
+const commDescriptionText = document.querySelector("[data-comm-description-text]");
+let activeCommCategory = "drones";
+let areCommsExpanded = false;
+
+const updateCommDescription = (category) => {
+  if (!commDescriptionBox) {
+    return;
+  }
+  const button = document.querySelector(`[data-comm-filter="${category}"]`);
+  const label = button?.dataset.commLabel || "";
+  const description = button?.dataset.commDescription || "";
+  if (commDescriptionLabel) {
+    commDescriptionLabel.textContent = label ? `${label}:` : "";
+  }
+  if (commDescriptionText) {
+    commDescriptionText.textContent = description;
+  }
+  commDescriptionBox.toggleAttribute("hidden", !label && !description);
+};
+
+const applyCommFilter = (category, { keepExpanded = false } = {}) => {
+  if (!commGrid || !commCards) {
+    return;
+  }
+
+  activeCommCategory = category;
+  updateCommDescription(category);
+  if (!keepExpanded) {
+    areCommsExpanded = false;
+  }
+
+  let visibleCount = 0;
+  commCards.forEach((card) => {
+    const isVisible = card.getAttribute("data-comm-category") === category;
+    card.classList.toggle("is-hidden", !isVisible);
+    if (isVisible) {
+      visibleCount += 1;
+      card.classList.toggle("is-over-limit", visibleCount > 4);
+    } else {
+      card.classList.remove("is-over-limit");
+    }
+  });
+
+  commGrid.classList.toggle("is-collapsed", !areCommsExpanded);
+
+  if (commSeeMoreButton) {
+    commSeeMoreButton.parentElement?.toggleAttribute("hidden", visibleCount <= 4);
+    commSeeMoreButton.setAttribute("aria-expanded", String(areCommsExpanded));
+    commSeeMoreButton.textContent = areCommsExpanded
+      ? commSeeMoreButton.dataset.labelLess || "Ver menos"
+      : commSeeMoreButton.dataset.labelMore || "Ver todas las comunidades";
+  }
+};
+
+commFilterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const category = button.getAttribute("data-comm-filter");
+    if (!category) {
+      return;
+    }
+    commFilterButtons.forEach((item) => {
+      const isActive = item === button;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-pressed", String(isActive));
+    });
+    applyCommFilter(category);
+  });
+});
+
+applyCommFilter(activeCommCategory);
+
+window.reapplyCommFilter = () => {
+  applyCommFilter(activeCommCategory, { keepExpanded: true });
+};
+
 window.reapplyDocFilter = () => {
   applyDocFilter(activeDocCategory, { keepExpanded: true });
 };

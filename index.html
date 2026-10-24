@@ -4456,8 +4456,30 @@
             </div>
           </div>
 
+          <div class="comm-category-tabs" aria-label="Categorías de comunidades">
+            <button class="comm-category is-active" type="button" data-comm-filter="drones"
+              data-comm-label="Drones"
+              data-comm-description="Comunidades, escuelas y asociaciones de pilotos y constructores de drones."
+              aria-pressed="true">
+              <span class="comm-category-icon icon-drone" aria-hidden="true"></span>
+              Drones
+            </button>
+            <button class="comm-category" type="button" data-comm-filter="cohetes"
+              data-comm-label="Cohetes"
+              data-comm-description="Comunidades y tiendas de cohetería: motores, kits y materiales para lanzamientos."
+              aria-pressed="false">
+              <span class="comm-category-icon icon-rocket" aria-hidden="true"></span>
+              Cohetes
+            </button>
+          </div>
+
+          <p class="comm-category-description" data-comm-description-box>
+            <strong data-comm-description-label></strong>
+            <span data-comm-description-text></span>
+          </p>
+
           <div class="community-links-grid collapsible is-collapsed" id="communities-grid">
-            <a class="community-link-card" href="https://apddrones.com/" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://apddrones.com/" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>APD Drones</strong>
                 <span>apddrones.com</span>
@@ -4465,7 +4487,7 @@
               <img class="community-thumb" src="assets/comm-apddrones.jpg" alt="Vista previa del sitio web de APD Drones" loading="lazy" />
               <em class="community-visit">Visitar comunidad →</em>
             </a>
-            <a class="community-link-card" href="https://capidrone.com/" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://capidrone.com/" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>Capidrone</strong>
                 <span>capidrone.com</span>
@@ -4473,7 +4495,7 @@
               <img class="community-thumb" src="assets/comm-capidrone.jpg" alt="Vista previa del sitio web de Capidrone" loading="lazy" />
               <em class="community-visit">Visitar comunidad →</em>
             </a>
-            <a class="community-link-card" href="https://www.asodron.com/quienes-somos" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://www.asodron.com/quienes-somos" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>Asodron</strong>
                 <span>asodron.com</span>
@@ -4481,7 +4503,7 @@
               <img class="community-thumb" src="assets/comm-asodron.jpg" alt="Vista previa del sitio web de Asodron" loading="lazy" />
               <em class="community-visit">Visitar comunidad →</em>
             </a>
-            <a class="community-link-card" href="https://www.socidron.org/" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://www.socidron.org/" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>Socidron</strong>
                 <span>socidron.org</span>
@@ -4489,7 +4511,7 @@
               <img class="community-thumb" src="assets/comm-socidron.jpg" alt="Vista previa del sitio web de Socidron" loading="lazy" />
               <em class="community-visit">Visitar comunidad →</em>
             </a>
-            <a class="community-link-card" href="https://dronesmexico.mx/" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://dronesmexico.mx/" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>Drones México</strong>
                 <span>dronesmexico.mx</span>
@@ -4497,7 +4519,7 @@
               <img class="community-thumb" src="assets/comm-dronesmexico.jpg" alt="Vista previa del sitio web de Drones México" loading="lazy" />
               <em class="community-visit">Visitar comunidad →</em>
             </a>
-            <a class="community-link-card" href="https://academy.apddrones.com/" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://academy.apddrones.com/" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>APD Academy</strong>
                 <span>academy.apddrones.com</span>
@@ -4505,7 +4527,7 @@
               <img class="community-thumb" src="assets/comm-apdacademy.jpg" alt="Vista previa del sitio web de APD Academy" loading="lazy" />
               <em class="community-visit">Visitar comunidad →</em>
             </a>
-            <a class="community-link-card" href="https://dronyvideo.com/" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://dronyvideo.com/" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>Dron y Vídeo</strong>
                 <span>dronyvideo.com</span>
@@ -4513,7 +4535,7 @@
               <img class="community-thumb" src="assets/comm-dronyvideo.jpg" alt="Vista previa del sitio web de Dron y Vídeo" loading="lazy" />
               <em class="community-visit">Visitar comunidad →</em>
             </a>
-            <a class="community-link-card" href="https://www.facebook.com/cprafaelaFace" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://www.facebook.com/cprafaelaFace" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>Club de Planeadores Rafaela</strong>
                 <span>facebook.com/cprafaelaFace</span>
@@ -4522,7 +4544,7 @@
               <em class="community-visit">Visitar comunidad →</em>
             </a>
 
-            <a class="community-link-card" href="https://www.areadron.com/" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://www.areadron.com/" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>Área Dron</strong>
                 <span>areadron.com</span>
@@ -4531,7 +4553,7 @@
               <em class="community-visit">Visitar comunidad →</em>
             </a>
 
-            <a class="community-link-card" href="https://www.haztudron.com/" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://www.haztudron.com/" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>Haz Tu Dron</strong>
                 <span>haztudron.com</span>
@@ -4540,7 +4562,7 @@
               <em class="community-visit">Visitar comunidad →</em>
             </a>
 
-            <a class="community-link-card" href="https://idc.apddrones.com/" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://idc.apddrones.com/" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>IDC APD Drones</strong>
                 <span>idc.apddrones.com</span>
@@ -4549,7 +4571,7 @@
               <em class="community-visit">Visitar comunidad →</em>
             </a>
 
-            <a class="community-link-card" href="https://www.universidadviu.com/es/actualidad/nuestros-expertos/como-hacer-un-drone-casero-de-forma-sencilla" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://www.universidadviu.com/es/actualidad/nuestros-expertos/como-hacer-un-drone-casero-de-forma-sencilla" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>Universidad VIU</strong>
                 <span>universidadviu.com</span>
@@ -4558,7 +4580,7 @@
               <em class="community-visit">Visitar comunidad →</em>
             </a>
 
-            <a class="community-link-card" href="https://arduproject.es/" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://arduproject.es/" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>ArduProject</strong>
                 <span>arduproject.es</span>
@@ -4567,12 +4589,21 @@
               <em class="community-visit">Visitar comunidad →</em>
             </a>
 
-            <a class="community-link-card" href="https://eduardochamorro.github.io/beansreels/workshops/cursodron/index.html" target="_blank" rel="noopener noreferrer">
+            <a class="community-link-card" data-comm-category="drones" href="https://eduardochamorro.github.io/beansreels/workshops/cursodron/index.html" target="_blank" rel="noopener noreferrer">
               <div class="community-link-head">
                 <strong>Curso de Fabricación de Drones</strong>
                 <span>eduardochamorro.github.io</span>
               </div>
               <img class="community-thumb" src="assets/comm-cursodron.jpg" alt="Vista previa del sitio web de Curso de Fabricación de Drones" loading="lazy" />
+              <em class="community-visit">Visitar comunidad →</em>
+            </a>
+
+            <a class="community-link-card" data-comm-category="cohetes" href="https://everdonhobbies.com/search?q=aerotech" target="_blank" rel="noopener noreferrer">
+              <div class="community-link-head">
+                <strong>Everdon Hobbies</strong>
+                <span>everdonhobbies.com</span>
+              </div>
+              <img class="community-thumb" src="assets/comm-everdon.jpg" alt="Vista previa del sitio web de Everdon Hobbies" loading="lazy" />
               <em class="community-visit">Visitar comunidad →</em>
             </a>
           </div>

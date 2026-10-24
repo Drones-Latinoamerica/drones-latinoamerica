@@ -499,6 +499,12 @@
         wood1d: "Dron diseñado en Fusion 360 y construido con contrachapado de 3 mm cortado por láser, con la electrónica elegida pieza por pieza.",
         wood2: "Flone 3.0 Drone Quadcopter",
         wood2d: "Ecosistema de dron de código abierto: un cuadricóptero compacto y de bajo costo, con estructura de madera cortada por láser, que se pilota desde el móvil.",
+        catCommDrones: "Drones",
+        lblCommDrones: "Drones",
+        dscCommDrones: "Comunidades, escuelas y asociaciones de pilotos y constructores de drones.",
+        catCommRockets: "Cohetes",
+        lblCommRockets: "Cohetes",
+        dscCommRockets: "Comunidades y tiendas de cohetería: motores, kits y materiales para lanzamientos.",
         catDocDrones: "Drones",
         lblDocDrones: "Drones",
         dscDocDrones: "Libros, trabajos de grado y guías para diseñar y construir drones paso a paso.",
@@ -1061,6 +1067,12 @@
         wood1d: "A drone designed in Fusion 360 and built from 3 mm laser-cut plywood, with the electronics picked part by part.",
         wood2: "Flone 3.0 Drone Quadcopter",
         wood2d: "An open-source drone ecosystem: a compact, low-cost quadcopter with a laser-cut wooden frame, flown from your phone.",
+        catCommDrones: "Drones",
+        lblCommDrones: "Drones",
+        dscCommDrones: "Communities, schools and associations of drone pilots and builders.",
+        catCommRockets: "Rockets",
+        lblCommRockets: "Rockets",
+        dscCommRockets: "Rocketry communities and shops: motors, kits and materials for launches.",
         catDocDrones: "Drones",
         lblDocDrones: "Drones",
         dscDocDrones: "Books, theses and guides to design and build drones step by step.",
@@ -1242,6 +1254,8 @@
     "data-video-description",
     "data-doc-label",
     "data-doc-description",
+    "data-comm-label",
+    "data-comm-description",
   ];
 
   const attrOriginals = new WeakMap();
@@ -1346,6 +1360,9 @@
     }
     if (typeof window.reapplyDocFilter === "function") {
       window.reapplyDocFilter();
+    }
+    if (typeof window.reapplyCommFilter === "function") {
+      window.reapplyCommFilter();
     }
 
     document.dispatchEvent(new CustomEvent("languagechange", { detail: { lang } }));
