@@ -129,6 +129,9 @@ if (forumFeed) {
 
 const videoFilterButtons = document.querySelectorAll("[data-video-filter]");
 const videosGrid = document.getElementById("videos-grid");
+Array.from(videosGrid?.querySelectorAll("[data-video-recent]") || [])
+  .reverse()
+  .forEach((card) => videosGrid.prepend(card));
 const videoCards = videosGrid?.querySelectorAll("[data-video-category]");
 const videoEmptyMessage = document.querySelector("[data-video-empty]");
 const videosSeeMoreButton = document.querySelector('[data-see-more="videos-grid"]');

@@ -3541,6 +3541,60 @@ input {
   transform: skewX(-22deg) rotate(-18deg);
 }
 
+.icon-tools::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 1px;
+  width: 4px;
+  height: 16px;
+  border-radius: 3px;
+  background: currentColor;
+  transform: rotate(42deg);
+}
+
+.icon-tools::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  transform: rotate(42deg);
+}
+
+.icon-shield::before {
+  content: "";
+  position: absolute;
+  inset: 1px 2px;
+  border: 2px solid currentColor;
+  border-radius: 8px 8px 10px 10px;
+  clip-path: polygon(50% 0, 100% 18%, 88% 70%, 50% 100%, 12% 70%, 0 18%);
+}
+
+.icon-shield::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 5px;
+  width: 2px;
+  height: 9px;
+  background: currentColor;
+  box-shadow: -3px 3px 0 -1px currentColor, 3px 3px 0 -1px currentColor;
+}
+
+.icon-gear::before {
+  content: "⚙";
+  position: absolute;
+  inset: -4px 0 0 -1px;
+  font-size: 21px;
+  line-height: 1;
+  font-family: "Segoe UI Symbol", sans-serif;
+}
+
 .icon-ai::before {
   content: "";
   position: absolute;
