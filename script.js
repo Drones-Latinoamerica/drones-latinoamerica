@@ -413,6 +413,59 @@ commFilterButtons.forEach((button) => {
 
 applyCommFilter(activeCommCategory);
 
+// Fabricantes y tiendas: mismo patrón de categorías (sin colapso, se muestran todas).
+const mfgFilterButtons = document.querySelectorAll("[data-mfg-filter]");
+const mfgGrid = document.getElementById("manufacturers-grid");
+const mfgCards = mfgGrid?.querySelectorAll("[data-mfg-category]");
+const mfgDescriptionBox = document.querySelector("[data-mfg-description-box]");
+const mfgDescriptionLabel = document.querySelector("[data-mfg-description-label]");
+const mfgDescriptionText = document.querySelector("[data-mfg-description-text]");
+let activeMfgCategory = "fabricantes";
+
+const applyMfgFilter = (category) => {
+  if (!mfgGrid || !mfgCards) {
+    return;
+  }
+
+  activeMfgCategory = category;
+
+  const button = document.querySelector(`[data-mfg-filter="${category}"]`);
+  const label = button?.dataset.mfgLabel || "";
+  const description = button?.dataset.mfgDescription || "";
+  if (mfgDescriptionLabel) {
+    mfgDescriptionLabel.textContent = label ? `${label}:` : "";
+  }
+  if (mfgDescriptionText) {
+    mfgDescriptionText.textContent = description;
+  }
+  mfgDescriptionBox?.toggleAttribute("hidden", !label && !description);
+
+  mfgCards.forEach((card) => {
+    card.classList.toggle("is-hidden", card.getAttribute("data-mfg-category") !== category);
+  });
+};
+
+mfgFilterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const category = button.getAttribute("data-mfg-filter");
+    if (!category) {
+      return;
+    }
+    mfgFilterButtons.forEach((item) => {
+      const isActive = item === button;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-pressed", String(isActive));
+    });
+    applyMfgFilter(category);
+  });
+});
+
+applyMfgFilter(activeMfgCategory);
+
+window.reapplyMfgFilter = () => {
+  applyMfgFilter(activeMfgCategory);
+};
+
 window.reapplyCommFilter = () => {
   applyCommFilter(activeCommCategory, { keepExpanded: true });
 };

@@ -12,7 +12,7 @@
     <link rel="alternate" hreflang="en" href="https://drones-latinoamerica.com/?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://drones-latinoamerica.com/" />
     <link rel="preload" href="assets/hero-workshop-una-antenna.png" as="image" />
-    <link rel="stylesheet" href="styles.css?v=videos-20261024-1" />
+    <link rel="stylesheet" href="styles.css?v=tiendas-20261025-1" />
   </head>
   <body>
     <header class="site-header" data-header>
@@ -4426,8 +4426,30 @@
             </div>
           </div>
 
-          <div class="manufacturers-grid" aria-label="Fabricantes y empresas de drones">
-            <a class="manufacturer-card" href="https://www.dji.com/ca/camera-drones?site=brandsite&amp;from=nav" target="_blank" rel="noopener noreferrer">
+          <div class="mfg-category-tabs" aria-label="Categorías de fabricantes y tiendas">
+            <button class="mfg-category is-active" type="button" data-mfg-filter="fabricantes"
+              data-mfg-label="Fabricantes"
+              data-mfg-description="Compañías que diseñan y fabrican drones y tecnología UAV."
+              aria-pressed="true">
+              <span class="mfg-category-icon icon-drone" aria-hidden="true"></span>
+              Fabricantes
+            </button>
+            <button class="mfg-category" type="button" data-mfg-filter="tiendas"
+              data-mfg-label="Tiendas"
+              data-mfg-description="Tiendas y catálogos donde comprar drones FPV armados, kits y repuestos."
+              aria-pressed="false">
+              <span class="mfg-category-icon icon-store" aria-hidden="true"></span>
+              Tiendas
+            </button>
+          </div>
+
+          <p class="mfg-category-description" data-mfg-description-box>
+            <strong data-mfg-description-label></strong>
+            <span data-mfg-description-text></span>
+          </p>
+
+          <div class="manufacturers-grid" id="manufacturers-grid" aria-label="Fabricantes y empresas de drones">
+            <a class="manufacturer-card" data-mfg-category="fabricantes" href="https://www.dji.com/ca/camera-drones?site=brandsite&amp;from=nav" target="_blank" rel="noopener noreferrer">
               <span class="manufacturer-logo manufacturer-logo--icon">
                 <img src="assets/manufacturer-logo-dji.svg" alt="Logo de DJI" width="112" height="64" loading="lazy" />
               </span>
@@ -4439,7 +4461,7 @@
               <em>Visitar sitio →</em>
             </a>
 
-            <a class="manufacturer-card" href="https://www.autelrobotics.com/products/" target="_blank" rel="noopener noreferrer">
+            <a class="manufacturer-card" data-mfg-category="fabricantes" href="https://www.autelrobotics.com/products/" target="_blank" rel="noopener noreferrer">
               <span class="manufacturer-logo">
                 <img src="assets/manufacturer-logo-autel.svg" alt="Logo de Autel Robotics" width="240" height="71" loading="lazy" />
               </span>
@@ -4451,7 +4473,7 @@
               <em>Visitar sitio →</em>
             </a>
 
-            <a class="manufacturer-card" href="https://www.jouav.com/products/" target="_blank" rel="noopener noreferrer">
+            <a class="manufacturer-card" data-mfg-category="fabricantes" href="https://www.jouav.com/products/" target="_blank" rel="noopener noreferrer">
               <span class="manufacturer-logo">
                 <img src="assets/manufacturer-logo-jouav.svg" alt="Logo de JOUAV" width="240" height="71" loading="lazy" />
               </span>
@@ -4463,7 +4485,7 @@
               <em>Visitar sitio →</em>
             </a>
 
-            <a class="manufacturer-card" href="https://www.ehang.com/" target="_blank" rel="noopener noreferrer">
+            <a class="manufacturer-card" data-mfg-category="fabricantes" href="https://www.ehang.com/" target="_blank" rel="noopener noreferrer">
               <span class="manufacturer-logo">
                 <img src="assets/manufacturer-logo-ehang.png" alt="Logo de EHang" width="260" height="30" loading="lazy" />
               </span>
@@ -4475,7 +4497,7 @@
               <em>Visitar sitio →</em>
             </a>
 
-            <a class="manufacturer-card" href="https://www.kekudrone.com/" target="_blank" rel="noopener noreferrer">
+            <a class="manufacturer-card" data-mfg-category="fabricantes" href="https://www.kekudrone.com/" target="_blank" rel="noopener noreferrer">
               <span class="manufacturer-logo manufacturer-wordmark" aria-label="Logo de KEKU Drone">
                 <span>KEKU</span>
                 <small>Drone</small>
@@ -4488,7 +4510,7 @@
               <em>Visitar sitio →</em>
             </a>
 
-            <a class="manufacturer-card" href="https://www.spacedroneuav.com/" target="_blank" rel="noopener noreferrer">
+            <a class="manufacturer-card" data-mfg-category="fabricantes" href="https://www.spacedroneuav.com/" target="_blank" rel="noopener noreferrer">
               <span class="manufacturer-logo manufacturer-logo--wide">
                 <img src="assets/manufacturer-logo-space.png" alt="Logo de Space Drone UAV" width="240" height="77" loading="lazy" />
               </span>
@@ -4500,7 +4522,7 @@
               <em>Visitar sitio →</em>
             </a>
 
-            <a class="manufacturer-card" href="https://www.sanrayuav.com/" target="_blank" rel="noopener noreferrer">
+            <a class="manufacturer-card" data-mfg-category="fabricantes" href="https://www.sanrayuav.com/" target="_blank" rel="noopener noreferrer">
               <span class="manufacturer-logo manufacturer-logo--dark">
                 <img src="assets/manufacturer-logo-sanray.gif" alt="Logo de Sanray UAV" width="220" height="60" loading="lazy" />
               </span>
@@ -4512,7 +4534,7 @@
               <em>Visitar sitio →</em>
             </a>
 
-            <a class="manufacturer-card" href="https://www.drone-china.com/" target="_blank" rel="noopener noreferrer">
+            <a class="manufacturer-card" data-mfg-category="fabricantes" href="https://www.drone-china.com/" target="_blank" rel="noopener noreferrer">
               <span class="manufacturer-logo manufacturer-logo--loong">
                 <img src="assets/manufacturer-logo-loong.svg" alt="Logo de China Loong Drone" width="240" height="81" loading="lazy" />
               </span>
@@ -4522,6 +4544,66 @@
                 <p>Drones agrícolas, industriales, logística, VTOL y fabricación OEM/ODM.</p>
               </div>
               <em>Visitar sitio →</em>
+            </a>
+
+            <a class="manufacturer-card" data-mfg-category="tiendas" href="https://iflight-rc.eu/en-ca/collections/10-inch" target="_blank" rel="noopener noreferrer">
+              <span class="manufacturer-logo">
+                <span class="manufacturer-wordmark">iFlight Europe</span>
+              </span>
+              <div class="manufacturer-body">
+                <strong>iFlight Europe</strong>
+                <span class="manufacturer-country">Tienda en línea · Europa</span>
+                <p>Drones FPV de 10 pulgadas para largo alcance, vuelo cinematográfico y carga pesada, de uno de los fabricantes más conocidos del FPV.</p>
+              </div>
+              <em>Visitar tienda →</em>
+            </a>
+
+            <a class="manufacturer-card" data-mfg-category="tiendas" href="https://es.made-in-china.com/co_sunlipo/product_Fpv-Drones-10-Inch-Long-Range-Flight-Heavy-Payload-with-Nigh-Version-Camera-Racing-Fpv-Drone-Kit_yuyiesruhg.html" target="_blank" rel="noopener noreferrer">
+              <span class="manufacturer-logo">
+                <span class="manufacturer-wordmark">Sunlipo · Made-in-China</span>
+              </span>
+              <div class="manufacturer-body">
+                <strong>Sunlipo · Made-in-China</strong>
+                <span class="manufacturer-country">Catálogo mayorista · China</span>
+                <p>Kit de dron FPV de 10 pulgadas de largo alcance, con cámara de visión nocturna y capacidad de carga, en catálogo mayorista con fichas en español.</p>
+              </div>
+              <em>Visitar tienda →</em>
+            </a>
+
+            <a class="manufacturer-card" data-mfg-category="tiendas" href="https://www.dbonefpv.com/product-page/10-inch-drone-fpv" target="_blank" rel="noopener noreferrer">
+              <span class="manufacturer-logo">
+                <span class="manufacturer-wordmark">DBone FPV</span>
+              </span>
+              <div class="manufacturer-body">
+                <strong>DBone FPV</strong>
+                <span class="manufacturer-country">Tienda en línea</span>
+                <p>Tienda pequeña de drones FPV armados; su modelo de 10 pulgadas se vende montado y listo para configurar.</p>
+              </div>
+              <em>Visitar tienda →</em>
+            </a>
+
+            <a class="manufacturer-card" data-mfg-category="tiendas" href="https://epicfpv.ca/collections/7-quads" target="_blank" rel="noopener noreferrer">
+              <span class="manufacturer-logo">
+                <span class="manufacturer-wordmark">EpicFPV</span>
+              </span>
+              <div class="manufacturer-body">
+                <strong>EpicFPV</strong>
+                <span class="manufacturer-country">Tienda en línea · Canadá</span>
+                <p>Catálogo de drones FPV de 7 pulgadas, pensados para vuelo de largo alcance y grabación de video.</p>
+              </div>
+              <em>Visitar tienda →</em>
+            </a>
+
+            <a class="manufacturer-card" data-mfg-category="tiendas" href="https://www.aliexpress.com/item/1005008746477677.html" target="_blank" rel="noopener noreferrer">
+              <span class="manufacturer-logo">
+                <span class="manufacturer-wordmark">AliExpress · Mark4 V2</span>
+              </span>
+              <div class="manufacturer-body">
+                <strong>AliExpress · Mark4 V2</strong>
+                <span class="manufacturer-country">Marketplace · China</span>
+                <p>Dron FPV Mark4 V2 de 10 pulgadas: lanzamiento a mano, vuelo prolongado y carga de hasta 5 kg.</p>
+              </div>
+              <em>Visitar tienda →</em>
             </a>
           </div>
         </div>
@@ -4822,8 +4904,8 @@
       </div>
     </footer>
 
-    <script src="script.js?v=videos-20261024-1"></script>
-    <script src="i18n.js?v=videos-20261024-1"></script>
+    <script src="script.js?v=tiendas-20261025-1"></script>
+    <script src="i18n.js?v=tiendas-20261025-1"></script>
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f6743ff4270e4b03aa8d2a02ad3c1890"}'></script><!-- End Cloudflare Web Analytics -->
   </body>
 </html>

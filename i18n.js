@@ -513,6 +513,23 @@
           "Documentación oficial del firmware más usado en multirrotores: instalación, configuración inicial, calibración de sensores, modos de vuelo y ajuste del PID.",
         elrsDesc:
           "Enlace de radio de código abierto: cómo elegir el transmisor y el receptor, flashear el firmware, emparejar y verificar el alcance antes de volar.",
+        catMfgMakers: "Fabricantes",
+        lblMfgMakers: "Fabricantes",
+        dscMfgMakers: "Compañías que diseñan y fabrican drones y tecnología UAV.",
+        catMfgShops: "Tiendas",
+        lblMfgShops: "Tiendas",
+        dscMfgShops: "Tiendas y catálogos donde comprar drones FPV armados, kits y repuestos.",
+        visitShop: "Visitar tienda →",
+        shopIflightMeta: "Tienda en línea · Europa",
+        shopIflightDesc: "Drones FPV de 10 pulgadas para largo alcance, vuelo cinematográfico y carga pesada, de uno de los fabricantes más conocidos del FPV.",
+        shopSunlipoMeta: "Catálogo mayorista · China",
+        shopSunlipoDesc: "Kit de dron FPV de 10 pulgadas de largo alcance, con cámara de visión nocturna y capacidad de carga, en catálogo mayorista con fichas en español.",
+        shopDboneMeta: "Tienda en línea",
+        shopDboneDesc: "Tienda pequeña de drones FPV armados; su modelo de 10 pulgadas se vende montado y listo para configurar.",
+        shopEpicMeta: "Tienda en línea · Canadá",
+        shopEpicDesc: "Catálogo de drones FPV de 7 pulgadas, pensados para vuelo de largo alcance y grabación de video.",
+        shopAliMeta: "Marketplace · China",
+        shopAliDesc: "Dron FPV Mark4 V2 de 10 pulgadas: lanzamiento a mano, vuelo prolongado y carga de hasta 5 kg.",
         catCommDrones: "Drones",
         lblCommDrones: "Drones",
         dscCommDrones: "Comunidades, escuelas y asociaciones de pilotos y constructores de drones.",
@@ -1095,6 +1112,23 @@
           "Official documentation for the most widely used multirotor firmware: installation, initial setup, sensor calibration, flight modes and PID tuning.",
         elrsDesc:
           "Open-source radio link: how to pick a transmitter and receiver, flash the firmware, bind and check your range before flying.",
+        catMfgMakers: "Manufacturers",
+        lblMfgMakers: "Manufacturers",
+        dscMfgMakers: "Companies that design and build drones and UAV technology.",
+        catMfgShops: "Shops",
+        lblMfgShops: "Shops",
+        dscMfgShops: "Shops and catalogues for buying built FPV drones, kits and spare parts.",
+        visitShop: "Visit shop →",
+        shopIflightMeta: "Online shop · Europe",
+        shopIflightDesc: "10-inch FPV drones for long range, cinematic cruising and heavy-lift work, from one of the best-known names in FPV.",
+        shopSunlipoMeta: "Wholesale catalogue · China",
+        shopSunlipoDesc: "A long-range 10-inch FPV drone kit with a night-vision camera and payload capacity, listed on a wholesale catalogue.",
+        shopDboneMeta: "Online shop",
+        shopDboneDesc: "A small shop selling built FPV drones; its 10-inch model ships assembled and ready to configure.",
+        shopEpicMeta: "Online shop · Canada",
+        shopEpicDesc: "A catalogue of 7-inch FPV drones built for long-range flying and video.",
+        shopAliMeta: "Marketplace · China",
+        shopAliDesc: "Mark4 V2 10-inch FPV drone: hand launch, long endurance and a payload of up to 5 kg.",
         catCommDrones: "Drones",
         lblCommDrones: "Drones",
         dscCommDrones: "Communities, schools and associations of drone pilots and builders.",
@@ -1284,6 +1318,8 @@
     "data-doc-description",
     "data-comm-label",
     "data-comm-description",
+    "data-mfg-label",
+    "data-mfg-description",
   ];
 
   const attrOriginals = new WeakMap();
@@ -1391,6 +1427,9 @@
     }
     if (typeof window.reapplyCommFilter === "function") {
       window.reapplyCommFilter();
+    }
+    if (typeof window.reapplyMfgFilter === "function") {
+      window.reapplyMfgFilter();
     }
 
     document.dispatchEvent(new CustomEvent("languagechange", { detail: { lang } }));
