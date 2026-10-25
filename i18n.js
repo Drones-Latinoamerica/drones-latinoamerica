@@ -505,6 +505,14 @@
         f450Source: "Roberto Zabala y Nicolás Cea · GitHub",
         f450Desc:
           "Manual ilustrado de 35 páginas en español: componentes, cálculo de baterías, PID, montaje paso a paso del chasis F450, carga del firmware MultiWii, configuración de la emisora y calibración en vuelo.",
+        tagOfficialDocs: "Documentación oficial",
+        seeDocs: "Ver documentación →",
+        fpvBuildDesc:
+          "La guía de referencia del hobby FPV: elección del chasis, motores, ESC y controladora de vuelo, soldadura paso a paso, cableado del VTX y primer armado seguro.",
+        betaflightDesc:
+          "Documentación oficial del firmware más usado en multirrotores: instalación, configuración inicial, calibración de sensores, modos de vuelo y ajuste del PID.",
+        elrsDesc:
+          "Enlace de radio de código abierto: cómo elegir el transmisor y el receptor, flashear el firmware, emparejar y verificar el alcance antes de volar.",
         catCommDrones: "Drones",
         lblCommDrones: "Drones",
         dscCommDrones: "Comunidades, escuelas y asociaciones de pilotos y constructores de drones.",
@@ -1079,6 +1087,14 @@
         f450Source: "Roberto Zabala y Nicolás Cea · GitHub",
         f450Desc:
           "A 35-page illustrated manual in Spanish: components, battery sizing, PID, step-by-step assembly of the F450 frame, flashing the MultiWii firmware, transmitter setup and in-flight calibration.",
+        tagOfficialDocs: "Official docs",
+        seeDocs: "View docs →",
+        fpvBuildDesc:
+          "The reference build guide of the FPV hobby: choosing the frame, motors, ESC and flight controller, step-by-step soldering, VTX wiring and a safe first arm.",
+        betaflightDesc:
+          "Official documentation for the most widely used multirotor firmware: installation, initial setup, sensor calibration, flight modes and PID tuning.",
+        elrsDesc:
+          "Open-source radio link: how to pick a transmitter and receiver, flash the firmware, bind and check your range before flying.",
         catCommDrones: "Drones",
         lblCommDrones: "Drones",
         dscCommDrones: "Communities, schools and associations of drone pilots and builders.",
