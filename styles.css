@@ -3594,6 +3594,25 @@ input {
   transform: rotate(42deg);
 }
 
+.icon-languages::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+}
+
+.icon-languages::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  top: 8px;
+  height: 2px;
+  background: currentColor;
+  box-shadow: 4px -5px 0 -0.5px currentColor, 4px 5px 0 -0.5px currentColor;
+}
+
 .icon-shield::before {
   content: "";
   position: absolute;
@@ -4043,6 +4062,10 @@ input {
 
 .video-lang.lang-es {
   background: var(--green);
+}
+
+.video-lang.lang-uk {
+  background: linear-gradient(180deg, #4c9dff 0 50%, #ffd84d 50%);
 }
 
 .video-play {
