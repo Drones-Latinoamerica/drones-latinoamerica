@@ -3948,6 +3948,26 @@ input {
   box-shadow: 0 4px 0 0 currentColor;
 }
 
+/* Manuales: libro abierto con lomo central. */
+.icon-manual::before {
+  content: "";
+  position: absolute;
+  inset: 2px 1px;
+  border: 2px solid currentColor;
+  border-radius: 2px 5px 5px 2px;
+}
+
+.icon-manual::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 8px;
+  width: 2px;
+  background: currentColor;
+  box-shadow: 4px 3px 0 -0.5px currentColor, 4px 7px 0 -0.5px currentColor;
+}
+
 .video-category-description,
 .doc-category-description,
 .mfg-category-description,
