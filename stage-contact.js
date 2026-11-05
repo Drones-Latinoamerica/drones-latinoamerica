@@ -26,6 +26,25 @@
   quantityField.value = quantity;
   quantityField.readOnly = true;
   quantityField.closest('label').querySelector('span').textContent = 'Cantidad';
+  if (params.get('producto') === 'kit' && window.KitOptions) {
+    // Recalcular con el catálogo local; no confiar en importes del enlace.
+    const selection = window.KitOptions.calculate({goggles:params.get('gafas') === '1', radio:params.get('radio') === '1', quantity});
+    const catalog = window.KitOptions.catalog;
+    const fields = [
+      ['Gafas FPV',selection.goggles ? `Sí — ${catalog.goggles.name}` : 'No'],
+      ['Radiocontrol',selection.radio ? `Sí — ${catalog.radio.name}` : 'No'],
+      ['Precio total estimado en USD',String(selection.total)],
+    ];
+    fields.forEach(([name,value])=>{
+      const field = document.createElement('input');
+      field.type = 'hidden'; field.name = name; field.value = value;
+      form.append(field);
+    });
+    const summary = document.createElement('div');
+    summary.className = 'kit-selection-summary';
+    summary.innerHTML = `<p><strong>Gafas FPV:</strong> <span>${selection.goggles ? 'Sí' : 'No'}</span>${selection.goggles ? ` — ${catalog.goggles.name}` : ''}</p><p><strong>Radiocontrol:</strong> <span>${selection.radio ? 'Sí' : 'No'}</span>${selection.radio ? ` — ${catalog.radio.name}` : ''}</p><p><strong>Cantidad:</strong> <span>${selection.quantity}</span></p><p><strong>Total estimado:</strong> <b data-i18n-skip>${window.KitOptions.usd(selection.total)}</b></p>`;
+    intro.after(summary);
+  }
   if (params.get('producto') !== 'kit') { quantityField.closest('label').hidden = true; }
   ['Comunidad / Grupo / Compañía','Modalidad'].forEach(name => {
     const field = form.querySelector(`[name="${name}"]`);

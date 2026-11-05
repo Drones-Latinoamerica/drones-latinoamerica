@@ -1306,6 +1306,59 @@
   translations.es.stageDetails = {"s0":"Kit de Dron (10 pulgadas)","s1":"Kits de Drones","s2":"KIT COMPLETO","s3":"Recibe en tu domicilio un kit con los componentes necesarios para armar tu propio dron FPV de 10 pulgadas.","s4":"Componentes principales del dron","s5":"Lista de piezas incluida","s6":"El curso Ensambla y Configura se vende por separado.","s7":"¿Qué incluye el kit?","s8":"Estructura de 10 pulgadas","s9":"Cuatro motores","s10":"Controladora de vuelo + ESC","s11":"Cámara FPV analógica","s12":"Hélices","s13":"Batería","s14":"Tornillos y accesorios","s15":"Cantidad","s16":"Reducir cantidad","s17":"Aumentar cantidad","s18":"Kit completo","s19":"Detalle de componentes","s20":"Estructura y hélices","s21":"Galería del kit","s22":"Métodos de pago:","s23":"(Próximamente)","s24":"Contactar Departamento de Ventas","s25":"Información comercial","s26":"¿Qué aprenderás?","s27":"Ensambla tu dron FPV de 10 pulgadas.","s28":"Conecta y configura la controladora de vuelo.","s29":"Configura Betaflight o INAV.","s30":"Realiza pruebas y deja tu dron listo para volar.","s31":"Contenido del curso","s32":"Preparación y herramientas","s33":"Ensamble del dron","s34":"Conexiones y cableado","s35":"Configuración en Betaflight","s36":"Configuración en INAV","s37":"Pruebas y calibración","s38":"Aprende a volar de forma segura, mejora tu técnica y domina maniobras avanzadas con tu dron FPV.","s39":"Configurar tu dron para vuelo real (Betaflight o INAV).","s40":"Realizar despegues y aterrizajes seguros.","s41":"Mejorar el control, precisión y estabilidad del vuelo.","s42":"Ejecutar maniobras avanzadas (giros, flips, rolls, dives).","s43":"Aplicar buenas prácticas y normativa de seguridad.","s44":"Técnicas de vuelo paso a paso","s45":"Maniobras intermedias y avanzadas","s46":"Preparación para vuelo real (FPV / Manual)","s47":"Simulador de vuelo","s48":"Prácticas avanzadas","s49":"Configuración y ajustes del dron","s50":"Despegue y aterrizaje","s51":"Seguridad y normativa","s52":"Prácticas de vuelo real (FPV)","s53":"Departamento de Ventas","s54":"Enviar consulta a Ventas","s55":"Tu consulta se envía a nuestro equipo comercial.","s56":"Escribe tu consulta sobre este producto...","s57":"Kit de Dron 10 pulgadas — USD $599 desde","s58":"Ensambla y Configura — USD $299","s59":"Vuela y Domina — USD $399"};
   translations.en.stageDetails = {"s0":"10-Inch Drone Kit","s1":"Drone Kits","s2":"COMPLETE KIT","s3":"Receive a kit at your home with the components you need to build your own 10-inch FPV drone.","s4":"Main drone components","s5":"Parts list included","s6":"The Assemble and Configure course is sold separately.","s7":"What is included in the kit?","s8":"10-inch frame","s9":"Four motors","s10":"Flight controller + ESC","s11":"Analog FPV camera","s12":"Propellers","s13":"Battery","s14":"Screws and accessories","s15":"Quantity","s16":"Decrease quantity","s17":"Increase quantity","s18":"Complete kit","s19":"Component details","s20":"Frame and propellers","s21":"Kit gallery","s22":"Payment methods:","s23":"(Coming soon)","s24":"Contact Sales Department","s25":"Sales information","s26":"What will you learn?","s27":"Assemble your 10-inch FPV drone.","s28":"Connect and configure the flight controller.","s29":"Configure Betaflight or INAV.","s30":"Test your drone and get it ready to fly.","s31":"Course content","s32":"Preparation and tools","s33":"Drone assembly","s34":"Connections and wiring","s35":"Betaflight configuration","s36":"INAV configuration","s37":"Testing and calibration","s38":"Learn to fly safely, improve your technique, and master advanced maneuvers with your FPV drone.","s39":"Configure your drone for real flight (Betaflight or INAV).","s40":"Perform safe takeoffs and landings.","s41":"Improve flight control, precision, and stability.","s42":"Perform advanced maneuvers (turns, flips, rolls, dives).","s43":"Apply best practices and safety regulations.","s44":"Step-by-step flight techniques","s45":"Intermediate and advanced maneuvers","s46":"Preparation for real flight (FPV / Manual)","s47":"Flight simulator","s48":"Advanced practice","s49":"Drone configuration and adjustments","s50":"Takeoff and landing","s51":"Safety and regulations","s52":"Real flight practice (FPV)","s53":"Sales Department","s54":"Send inquiry to Sales","s55":"Your inquiry is sent to our sales team.","s56":"Write your inquiry about this product...","s57":"10-Inch Drone Kit — from USD $599","s58":"Assemble and Configure — USD $299","s59":"Fly and Master — USD $399"};
 
+  translations.es.kitOptions = {
+    "s0": "Configura tu kit",
+    "s1": "Gafas FPV",
+    "s2": "Radiocontrol",
+    "s3": "Total:",
+    "s4": "Información de las gafas FPV",
+    "s5": "Información del radiocontrol",
+    "s6": "Cerrar",
+    "s7": "Compatibilidad con el kit",
+    "s8": "Precio adicional estimado:",
+    "s9": "Ficha del fabricante",
+    "s10": "Precios estimados. Ventas confirmará los accesorios y su compatibilidad.",
+    "s11": "Pantallas OLED 1920 × 1080.",
+    "s12": "Receptor Steadyview de 5.8 GHz y 48 canales.",
+    "s13": "Grabación DVR y ajuste de enfoque.",
+    "s14": "Para video analógico de 5.8 GHz. Ventas debe confirmar el transmisor de video y el canal del kit. DJI Goggles 2 no admite video analógico.",
+    "s15": "Módulo interno ExpressLRS de 2.4 GHz.",
+    "s16": "Firmware EdgeTX y pantalla táctil de 4.3 pulgadas.",
+    "s17": "Gimbals con sensores Hall.",
+    "s18": "Requiere un receptor ExpressLRS de 2.4 GHz compatible y enlazado. El receptor del kit no está especificado; Ventas debe confirmar su compatibilidad. Fotografía de referencia de la familia TX16S.",
+    "s19": "Gafas FPV:",
+    "s20": "Radiocontrol:",
+    "s21": "Cantidad:",
+    "s22": "Total estimado:",
+    "s23": "Sí"
+  };
+  translations.en.kitOptions = {
+    "s0": "Configure your kit",
+    "s1": "FPV goggles",
+    "s2": "Radio controller",
+    "s3": "Total:",
+    "s4": "FPV goggles information",
+    "s5": "Radio controller information",
+    "s6": "Close",
+    "s7": "Kit compatibility",
+    "s8": "Estimated additional price:",
+    "s9": "Manufacturer specifications",
+    "s10": "Estimated prices. Sales will confirm accessories and compatibility.",
+    "s11": "1920 × 1080 OLED displays.",
+    "s12": "5.8 GHz 48-channel Steadyview receiver.",
+    "s13": "DVR recording and focus adjustment.",
+    "s14": "For 5.8 GHz analog video. Sales must confirm the kit video transmitter and channel. DJI Goggles 2 does not support analog video.",
+    "s15": "Internal 2.4 GHz ExpressLRS module.",
+    "s16": "EdgeTX firmware and 4.3-inch touchscreen.",
+    "s17": "Hall sensor gimbals.",
+    "s18": "Requires a compatible, bound 2.4 GHz ExpressLRS receiver. The kit receiver is not specified; Sales must confirm compatibility. Reference photograph of the TX16S family.",
+    "s19": "FPV goggles:",
+    "s20": "Radio controller:",
+    "s21": "Quantity:",
+    "s22": "Estimated total:",
+    "s23": "Yes"
+  };
+
   // ---- Construcción de los diccionarios es <-> en -------------------------
   const flatten = (obj, prefix, out) => {
     Object.keys(obj).forEach((key) => {

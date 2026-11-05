@@ -1,0 +1,28 @@
+.kit-configuration h2 { margin: 0 0 20px; font-size: 1.65rem; line-height: 1.1; }
+.kit-base { display: flex; justify-content: space-between; gap: 12px; font-size: .95rem; margin-bottom: 16px; }
+.kit-base b { white-space: nowrap; }
+.kit-accessories { display: grid; gap: 10px; margin-bottom: 16px; }
+.kit-accessory { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; border-radius: 12px; padding: 10px 8px; border: 1px solid #e4eadf; }
+.kit-accessory:has(input:checked) { background: #f0fbe3; border-color: #a8df74; }
+.kit-accessory label { display: flex; flex: 1 1 170px; align-items: center; gap: 7px; cursor: pointer; min-width: 0; }
+.kit-accessory input { flex: 0 0 20px; width: 20px; height: 20px; margin: 0; accent-color: #54bd08; }
+.kit-accessory img { width: 56px; height: 58px; object-fit: contain; border-radius: 8px; background: white; }
+.kit-accessory small { display: block; font-size: .76rem; line-height: 1.35; margin-top: 3px; }
+.kit-accessory strong { font-size: .88rem; }
+.kit-info { background: transparent; border: 0; color: #087cf1; font-size: 1.25rem; padding: 4px; cursor: pointer; }
+.kit-extra { font-size: .85rem; margin-left: auto; white-space: nowrap; }
+.kit-total { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; padding: 13px 12px; background: #effbdc; border-radius: 12px; }
+.kit-total strong { font-size: 1.25rem; }
+.kit-total output { font-size: clamp(1.4rem,2vw,2rem); font-weight: 950; letter-spacing: -.035em; }
+.kit-estimate { font-size: .75rem; color: #5d675b; line-height: 1.4; margin: 8px 0 12px; }
+.kit-accessory-dialog { width: min(460px,calc(100% - 32px)); max-height: calc(100dvh - 40px); overflow-y: auto; border: 1px solid #d7dfd0; border-radius: 20px; padding: 26px; color: #142016; background: white; box-shadow: 0 18px 70px #0004; }
+.kit-accessory-dialog::backdrop { background: #08120699; }
+.kit-accessory-dialog > img { display: block; width: 100%; height: 180px; object-fit: contain; }
+.kit-accessory-dialog h2 { font-size: 1.5rem; }
+.kit-accessory-dialog h3 { font-size: 1rem; }
+.kit-accessory-dialog p, .kit-accessory-dialog li { font-size: .95rem; line-height: 1.5; }
+.kit-accessory-dialog a { color: #398b06; text-decoration: underline; }
+.kit-dialog-close { position: absolute; top: 8px; right: 10px; width: 36px; height: 36px; border: 0; border-radius: 50%; font-size: 1.6rem; cursor: pointer; }
+.kit-selection-summary { display: grid; gap: 8px; padding: 16px; background: #f1fbe6; border-radius: 12px; margin-top: 14px; }
+.kit-selection-summary p { margin: 0; }
+.kit-info:focus-visible, .kit-dialog-close:focus-visible { outline: 3px solid #68c516; outline-offset: 2px; }
