@@ -33,7 +33,9 @@
     const fields = [
       ['Gafas FPV',selection.goggles ? `Sí — ${catalog.goggles.name}` : 'No'],
       ['Radiocontrol',selection.radio ? `Sí — ${catalog.radio.name}` : 'No'],
-      ['Precio total estimado en USD',String(selection.total)],
+      ['Subtotal del producto en USD',String(selection.total)],
+      ['Envío','Pendiente de cotización'],
+      ['Moneda e importes','USD. No incluye envío ni impuestos.'],
     ];
     fields.forEach(([name,value])=>{
       const field = document.createElement('input');
@@ -42,7 +44,7 @@
     });
     const summary = document.createElement('div');
     summary.className = 'kit-selection-summary';
-    summary.innerHTML = `<p><strong>Gafas FPV:</strong> <span>${selection.goggles ? 'Sí' : 'No'}</span>${selection.goggles ? ` — ${catalog.goggles.name}` : ''}</p><p><strong>Radiocontrol:</strong> <span>${selection.radio ? 'Sí' : 'No'}</span>${selection.radio ? ` — ${catalog.radio.name}` : ''}</p><p><strong>Cantidad:</strong> <span>${selection.quantity}</span></p><p><strong>Total estimado:</strong> <b data-i18n-skip>${window.KitOptions.usd(selection.total)}</b></p>`;
+    summary.innerHTML = `<p><strong>Gafas FPV:</strong> <span>${selection.goggles ? 'Sí' : 'No'}</span>${selection.goggles ? ` — ${catalog.goggles.name}` : ''}</p><p><strong>Radiocontrol:</strong> <span>${selection.radio ? 'Sí' : 'No'}</span>${selection.radio ? ` — ${catalog.radio.name}` : ''}</p><p><strong>Cantidad:</strong> <span>${selection.quantity}</span></p><p><strong>Subtotal del producto:</strong> <b data-i18n-skip>${window.KitOptions.usd(selection.total)}</b></p><p><strong>Envío:</strong> <span>Pendiente de cotización</span></p><p>Precios en USD. No incluyen envío ni impuestos.</p>`;
     intro.after(summary);
   }
   if (params.get('producto') !== 'kit') { quantityField.closest('label').hidden = true; }

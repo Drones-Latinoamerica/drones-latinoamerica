@@ -15,6 +15,10 @@
 .kit-total strong { font-size: 1.25rem; }
 .kit-total output { font-size: clamp(1.4rem,2vw,2rem); font-weight: 950; letter-spacing: -.035em; }
 .kit-estimate { font-size: .75rem; color: #5d675b; line-height: 1.4; margin: 8px 0 12px; }
+.kit-shipping-notice { display: flex; align-items: flex-start; gap: 10px; padding: 14px 12px; margin-top: 10px; background: #eaf6ff; color: #183e59; border-radius: 12px; font-size: .85rem; line-height: 1.5; }
+.kit-shipping-notice > div { min-width: 0; }
+.kit-shipping-notice p { margin: 4px 0 0; overflow-wrap: anywhere; }
+.kit-shipping-icon { flex: 0 0 22px; color: #0783de; font-size: 1.35rem; line-height: 1.2; }
 .kit-accessory-dialog { width: min(460px,calc(100% - 32px)); max-height: calc(100dvh - 40px); overflow-y: auto; border: 1px solid #d7dfd0; border-radius: 20px; padding: 26px; color: #142016; background: white; box-shadow: 0 18px 70px #0004; }
 .kit-accessory-dialog::backdrop { background: #08120699; }
 .kit-accessory-dialog > img { display: block; width: 100%; height: 180px; object-fit: contain; }

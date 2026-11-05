@@ -36,11 +36,15 @@
   }).join('')}</div>`;
   panel.insertBefore(config, price);
   price.className = 'kit-total';
-  price.innerHTML = '<strong>Total:</strong><output data-kit-total data-i18n-skip aria-live="polite" aria-atomic="true"></output>';
+  price.innerHTML = '<strong>Total del producto:</strong><output data-kit-total data-i18n-skip aria-live="polite" aria-atomic="true"></output>';
+  const shipping = document.createElement('div');
+  shipping.className = 'kit-shipping-notice';
+  shipping.innerHTML = '<span class="kit-shipping-icon" aria-hidden="true">ⓘ</span><div><strong>Envío no incluido</strong><p>El costo de envío varía según el país y la dirección de destino. Nuestro Departamento de Ventas confirmará el importe final antes de la compra.</p></div>';
+  price.after(shipping);
   const note = document.createElement('p');
   note.className = 'kit-estimate';
-  note.textContent = 'Precios estimados. Ventas confirmará los accesorios y su compatibilidad.';
-  price.after(note);
+  note.textContent = 'Precios en USD. No incluyen envío ni impuestos. Ventas confirmará los accesorios y su compatibilidad.';
+  shipping.after(note);
   const quantity = panel.querySelector('#kit-quantity');
   const update = () => {
     const selection = calculate({goggles: panel.querySelector('#kit-goggles').checked, radio: panel.querySelector('#kit-radio').checked, quantity: quantity.value});

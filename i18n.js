@@ -1359,6 +1359,9 @@
     "s23": "Yes"
   };
 
+  translations.es.kitShipping = {"s0":"Envíos internacionales disponibles (costo adicional)","s1":"Total del producto:","s2":"Envío no incluido","s3":"El costo de envío varía según el país y la dirección de destino. Nuestro Departamento de Ventas confirmará el importe final antes de la compra.","s4":"Precios en USD. No incluyen envío ni impuestos. Ventas confirmará los accesorios y su compatibilidad.","s5":"Subtotal del producto:","s6":"Envío:","s7":"Pendiente de cotización","s8":"Precios en USD. No incluyen envío ni impuestos."};
+  translations.en.kitShipping = {"s0":"International shipping available (additional cost)","s1":"Product total:","s2":"Shipping not included","s3":"Shipping costs vary by country and destination address. Our Sales Department will confirm the final amount before purchase.","s4":"Prices in USD. Shipping and taxes are not included. Sales will confirm accessories and compatibility.","s5":"Product subtotal:","s6":"Shipping:","s7":"Pending quotation","s8":"Prices in USD. Shipping and taxes are not included."};
+
   // ---- Construcción de los diccionarios es <-> en -------------------------
   const flatten = (obj, prefix, out) => {
     Object.keys(obj).forEach((key) => {
