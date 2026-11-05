@@ -3747,6 +3747,49 @@ input {
   height: 14px;
 }
 
+.icon-radar::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.55;
+}
+
+.icon-radar::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 3px;
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform-origin: 0 100%;
+  transform: rotate(10deg);
+}
+
+.icon-radio::before {
+  content: "";
+  position: absolute;
+  inset: auto 1px 2px;
+  height: 9px;
+  border: 2px solid currentColor;
+  border-radius: 2px;
+}
+
+.icon-radio::after {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 1px;
+  width: 2px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+  transform: rotate(22deg);
+}
+
 .icon-store::before {
   content: "";
   position: absolute;
