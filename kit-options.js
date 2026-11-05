@@ -2,16 +2,16 @@
   // Precios comerciales estimados del sitio, editables en un solo lugar.
   // SKY04X Pro reemplaza a DJI Goggles 2 para el sistema analógico documentado.
   const catalog = Object.freeze({
-    base: 599,
+    base: 719,
     goggles: Object.freeze({
-      name: 'Skyzone SKY04X Pro', price: 649,
+      name: 'Skyzone SKY04X Pro', price: 779,
       image: '/assets/kit-sky04x-pro.jpg', label: 'Gafas FPV',
       features: ['Pantallas OLED 1920 × 1080.', 'Receptor Steadyview de 5.8 GHz y 48 canales.', 'Grabación DVR y ajuste de enfoque.'],
       compatibility: 'Para video analógico de 5.8 GHz. Ventas debe confirmar el transmisor de video y el canal del kit. DJI Goggles 2 no admite video analógico.',
       source: 'https://www.skyzonefpv.com/products/sky04x-pro',
     }),
     radio: Object.freeze({
-      name: 'RadioMaster TX16S MKII — ELRS', price: 299,
+      name: 'RadioMaster TX16S MKII — ELRS', price: 359,
       image: '/assets/amazon-radiomaster-tx16s.jpg', label: 'Radiocontrol',
       features: ['Módulo interno ExpressLRS de 2.4 GHz.', 'Firmware EdgeTX y pantalla táctil de 4.3 pulgadas.', 'Gimbals con sensores Hall.'],
       compatibility: 'Requiere un receptor ExpressLRS de 2.4 GHz compatible y enlazado. El receptor del kit no está especificado; Ventas debe confirmar su compatibilidad. Fotografía de referencia de la familia TX16S.',

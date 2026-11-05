@@ -3,12 +3,12 @@
   if (!stage) return;
   const data = {
     kit: {
-      title: 'Kit de Dron (10 pulgadas)', price: 'USD $599', image: '/assets/build-stage-kit.jpg',
+      title: 'Kit de Dron (10 pulgadas)', price: 'USD $719', image: '/assets/build-stage-kit.jpg',
       alt: 'Caja de Drones Latinoamérica junto a componentes de un dron FPV de 10 pulgadas sin ensamblar',
       description: 'Recibe en tu domicilio un kit con los componentes necesarios para armar tu propio dron FPV de 10 pulgadas.',
       checks: ['Componentes principales del dron', 'Lista de piezas incluida', 'Envíos internacionales disponibles (costo adicional)'],
       modules: [['layers','Estructura de 10 pulgadas'],['motor','Cuatro motores'],['chip','Controladora de vuelo + ESC'],['camera','Cámara FPV analógica'],['propeller','Hélices'],['battery','Batería'],['settings','Tornillos y accesorios']],
-      product: 'Kit de Dron 10 pulgadas — USD $599 desde',
+      product: 'Kit de Dron 10 pulgadas — USD $719 desde',
     },
     assemble: {
       title: 'Ensambla y Configura', price: 'USD $299', image: '/assets/build-stage-configure.jpg', badge: 'ETAPA 2',

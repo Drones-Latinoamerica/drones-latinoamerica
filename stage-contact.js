@@ -7,7 +7,7 @@
       ? window.FlightCourse.getMode(params.get('modalidad')) : null;
   const flightTraining = params.get('producto') === 'fly' && courseMode?.hours > 0;
   const products = {
-    kit: 'Kit de Dron 10 pulgadas — USD $599 desde',
+    kit: 'Kit de Dron 10 pulgadas — USD $719 desde',
     assemble: courseMode ? `Ensambla y Configura — USD $${courseMode.price}` : 'Ensambla y Configura — USD $299',
     fly: courseMode ? `Vuela y Domina — USD $${courseMode.price}` : 'Vuela y Domina — USD $399',
   };

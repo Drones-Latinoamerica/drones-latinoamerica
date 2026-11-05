@@ -83,7 +83,7 @@ const buildJourneyStageData = Object.freeze([
       { icon: "truck", label: "Envío a domicilio" },
     ],
     pricePrefix: "Desde",
-    price: "USD $599",
+    price: "USD $719",
     action: "Comprar Kit",
     href: "/kits/dron-10-pulgadas/",
     featured: true,
