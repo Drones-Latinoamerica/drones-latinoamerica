@@ -627,7 +627,7 @@ input {
 
 .build-journey-section {
   scroll-margin-top: 92px;
-  padding: 76px 0 72px;
+  padding: 42px 0 44px;
   background:
     radial-gradient(circle at 12% 0%, rgba(126, 211, 33, 0.1), transparent 26%),
     linear-gradient(180deg, #fbfdfb 0%, #f4f8f5 100%);
@@ -635,7 +635,7 @@ input {
 }
 
 .build-journey-heading {
-  margin-bottom: 34px;
+  margin-bottom: 24px;
 }
 
 .build-journey-kicker {
@@ -660,7 +660,7 @@ input {
 .build-journey-heading h2 {
   margin: 0;
   color: #071014;
-  font-size: clamp(2.25rem, 4.15vw, 4.35rem);
+  font-size: clamp(1.9rem, 3vw, 3rem);
   line-height: 1.02;
   letter-spacing: -0.045em;
 }
@@ -673,14 +673,14 @@ input {
   max-width: 1240px;
   margin: 14px 0 0;
   color: #303b45;
-  font-size: clamp(1rem, 1.45vw, 1.3rem);
+  font-size: 1rem;
   line-height: 1.5;
 }
 
 .build-journey-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
+  gap: 18px;
   align-items: stretch;
 }
 
@@ -708,7 +708,7 @@ input {
 
 .build-stage-media {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 2.2 / 1;
   margin: 8px 8px 0;
   overflow: hidden;
   border-radius: 16px;
@@ -739,22 +739,22 @@ input {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 18px 24px 22px;
+  padding: 14px 18px 16px;
 }
 
 .build-stage-body h3 {
   margin: 0;
   color: #071014;
-  font-size: clamp(1.45rem, 1.85vw, 2rem);
+  font-size: clamp(1.2rem, 1.5vw, 1.5rem);
   line-height: 1.12;
   letter-spacing: -0.025em;
 }
 
 .build-stage-description {
-  min-height: 78px;
-  margin: 10px 0 18px;
+  min-height: 66px;
+  margin: 8px 0 12px;
   color: #25313b;
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
@@ -763,7 +763,7 @@ input {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
   margin: 0;
-  padding: 0 0 18px;
+  padding: 0 0 12px;
   list-style: none;
 }
 
@@ -811,7 +811,7 @@ input {
 
 .build-stage-footer {
   margin-top: auto;
-  padding-top: 20px;
+  padding-top: 14px;
   border-top: 1px solid rgba(15, 23, 32, 0.09);
 }
 
@@ -831,7 +831,7 @@ input {
 }
 
 .build-stage-price strong {
-  font-size: clamp(2rem, 2.5vw, 2.75rem);
+  font-size: clamp(1.7rem, 2vw, 2.1rem);
   line-height: 1;
   letter-spacing: -0.035em;
 }
@@ -842,7 +842,7 @@ input {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  min-height: 54px;
+  min-height: 44px;
   padding: 0 20px;
   border: 2px solid #2f8e15;
   border-radius: 12px;
@@ -5413,14 +5413,14 @@ input {
 
   .build-stage-card:last-child {
     grid-column: 1 / -1;
-    width: calc(50% - 11px);
+    width: calc(50% - 9px);
     justify-self: center;
   }
 }
 
 @media (max-width: 760px) {
   .build-journey-section {
-    padding: 52px 0 46px;
+    padding: 32px 0;
   }
 
   .build-journey-heading {
@@ -5428,7 +5428,7 @@ input {
   }
 
   .build-journey-heading h2 {
-    font-size: clamp(2.1rem, 11vw, 3.35rem);
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
   }
 
   .build-journey-grid {
