@@ -627,15 +627,19 @@ input {
 
 .build-journey-section {
   scroll-margin-top: 92px;
-  padding: 42px 0 44px;
+  padding: 32px 0 34px;
   background:
     radial-gradient(circle at 12% 0%, rgba(126, 211, 33, 0.1), transparent 26%),
     linear-gradient(180deg, #fbfdfb 0%, #f4f8f5 100%);
   border-bottom: 1px solid rgba(15, 23, 32, 0.08);
 }
 
+.build-journey-section > .container {
+  max-width: 1180px;
+}
+
 .build-journey-heading {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .build-journey-kicker {
@@ -660,7 +664,7 @@ input {
 .build-journey-heading h2 {
   margin: 0;
   color: #071014;
-  font-size: clamp(1.9rem, 3vw, 3rem);
+  font-size: clamp(1.8rem, 2.6vw, 2.6rem);
   line-height: 1.02;
   letter-spacing: -0.045em;
 }
@@ -708,7 +712,7 @@ input {
 
 .build-stage-media {
   position: relative;
-  aspect-ratio: 2.2 / 1;
+  aspect-ratio: 2.4 / 1;
   margin: 8px 8px 0;
   overflow: hidden;
   border-radius: 16px;
@@ -751,7 +755,7 @@ input {
 }
 
 .build-stage-description {
-  min-height: 66px;
+  min-height: 60px;
   margin: 8px 0 12px;
   color: #25313b;
   font-size: 0.9rem;
@@ -769,8 +773,8 @@ input {
 
 .build-stage-features li {
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr);
-  gap: 8px;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 6px;
   align-items: center;
   min-width: 0;
   padding: 0 11px;
@@ -793,8 +797,8 @@ input {
 .build-stage-feature-icon {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   color: #29920d;
 }
 
@@ -831,7 +835,7 @@ input {
 }
 
 .build-stage-price strong {
-  font-size: clamp(1.7rem, 2vw, 2.1rem);
+  font-size: clamp(1.6rem, 1.8vw, 1.9rem);
   line-height: 1;
   letter-spacing: -0.035em;
 }
