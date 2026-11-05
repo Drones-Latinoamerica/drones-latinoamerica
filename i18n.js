@@ -1362,6 +1362,37 @@
   translations.es.kitShipping = {"s0":"Envíos internacionales disponibles (costo adicional)","s1":"Total del producto:","s2":"Envío no incluido","s3":"El costo de envío varía según el país y la dirección de destino. Nuestro Departamento de Ventas confirmará el importe final antes de la compra.","s4":"Precios en USD. No incluyen envío ni impuestos. Ventas confirmará los accesorios y su compatibilidad.","s5":"Subtotal del producto:","s6":"Envío:","s7":"Pendiente de cotización","s8":"Precios en USD. No incluyen envío ni impuestos."};
   translations.en.kitShipping = {"s0":"International shipping available (additional cost)","s1":"Product total:","s2":"Shipping not included","s3":"Shipping costs vary by country and destination address. Our Sales Department will confirm the final amount before purchase.","s4":"Prices in USD. Shipping and taxes are not included. Sales will confirm accessories and compatibility.","s5":"Product subtotal:","s6":"Shipping:","s7":"Pending quotation","s8":"Prices in USD. Shipping and taxes are not included."};
 
+  translations.es.courseModes = {
+    "s0": "Elige tu modalidad de curso",
+    "s1": "Curso grabado",
+    "s2": "Aprende a tu propio ritmo con lecciones en video, guías y recursos descargables.",
+    "s3": "Curso personalizado por Zoom",
+    "s4": "8 horas de clases privadas.",
+    "s5": "4 sesiones de 2 horas.",
+    "s6": "Acompañamiento individual con un instructor.",
+    "s7": "Incluye acceso al curso grabado.",
+    "s8": "Más completo",
+    "s9": "El curso no incluye el kit del dron. Puedes adquirir el Kit de Dron (10 pulgadas) por separado.",
+    "s10": "Modalidad del curso:",
+    "s11": "Precio:",
+    "s12": "Ensambla y Configura — USD $999"
+  };
+  translations.en.courseModes = {
+    "s0": "Choose your course format",
+    "s1": "Recorded course",
+    "s2": "Learn at your own pace with video lessons, guides, and downloadable resources.",
+    "s3": "Private course via Zoom",
+    "s4": "8 hours of private lessons.",
+    "s5": "4 sessions of 2 hours.",
+    "s6": "One-on-one guidance from an instructor.",
+    "s7": "Includes access to the recorded course.",
+    "s8": "Most comprehensive",
+    "s9": "The course does not include the drone kit. You can purchase the 10-inch Drone Kit separately.",
+    "s10": "Course format:",
+    "s11": "Price:",
+    "s12": "Assemble and Configure — USD $999"
+  };
+
   // ---- Construcción de los diccionarios es <-> en -------------------------
   const flatten = (obj, prefix, out) => {
     Object.keys(obj).forEach((key) => {

@@ -1,9 +1,11 @@
 (() => {
   const params = new URLSearchParams(location.search);
   if (params.get('contacto') !== 'ventas') return;
+  const courseMode = params.get('producto') === 'assemble' && window.AssembleCourse
+    ? window.AssembleCourse.getMode(params.get('modalidad')) : null;
   const products = {
     kit: 'Kit de Dron 10 pulgadas — USD $599 desde',
-    assemble: 'Ensambla y Configura — USD $299',
+    assemble: courseMode ? `Ensambla y Configura — USD $${courseMode.price}` : 'Ensambla y Configura — USD $299',
     fly: 'Vuela y Domina — USD $399',
   };
   const product = products[params.get('producto')];
@@ -26,6 +28,19 @@
   quantityField.value = quantity;
   quantityField.readOnly = true;
   quantityField.closest('label').querySelector('span').textContent = 'Cantidad';
+  if (courseMode) {
+    const fields = [['Modalidad del curso',courseMode.name],['Precio en USD',String(courseMode.price)],['Horas de clases privadas',String(courseMode.hours)]];
+    if (courseMode.hours) fields.push(['Sesiones privadas','4 sesiones de 2 horas'],['Curso grabado','Incluido']);
+    fields.forEach(([name,value])=>{
+      const field = document.createElement('input');
+      field.type = 'hidden'; field.name = name; field.value = value;
+      form.append(field);
+    });
+    const summary = document.createElement('div');
+    summary.className = 'kit-selection-summary';
+    summary.innerHTML = `<p><strong>Modalidad del curso:</strong> <span>${courseMode.name}</span></p><p><strong>Precio:</strong> <b data-i18n-skip>USD $${courseMode.price}</b></p>${courseMode.hours ? '<p>8 horas de clases privadas.</p><p>4 sesiones de 2 horas.</p><p>Incluye acceso al curso grabado.</p>' : ''}`;
+    intro.after(summary);
+  }
   if (params.get('producto') === 'kit' && window.KitOptions) {
     // Recalcular con el catálogo local; no confiar en importes del enlace.
     const selection = window.KitOptions.calculate({goggles:params.get('gafas') === '1', radio:params.get('radio') === '1', quantity});
