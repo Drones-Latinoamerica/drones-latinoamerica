@@ -62,7 +62,7 @@
     const dialog = document.createElement('dialog');
     dialog.className = 'kit-accessory-dialog';
     dialog.setAttribute('aria-labelledby',`kit-info-title-${key}`);
-    dialog.innerHTML = `<button type="button" class="kit-dialog-close" aria-label="Cerrar">×</button><img src="${item.image}" alt="${item.name}" width="220" height="180"><h2 id="kit-info-title-${key}">${item.name}</h2><ul>${item.features.map(text=>`<li>${text}</li>`).join('')}</ul><h3>Compatibilidad con el kit</h3><p>${item.compatibility}</p><p><strong>Precio adicional estimado:</strong> <span data-i18n-skip>${usd(item.price)}</span></p><a href="${item.source}" target="_blank" rel="noopener noreferrer">Ficha del fabricante</a>`;
+    dialog.innerHTML = `<button type="button" class="kit-dialog-close" aria-label="Cerrar">×</button><img src="${item.image}" alt="${item.name}" width="220" height="180"><h2 id="kit-info-title-${key}">${item.name}</h2><ul>${item.features.map(text=>`<li>${text}</li>`).join('')}</ul><h3>Compatibilidad con el kit</h3><p>${item.compatibility}</p><p><strong>Precio adicional estimado:</strong> <span data-i18n-skip>${usd(item.price)}</span></p>`;
     document.body.append(dialog);
     panel.querySelector(`[data-kit-info="${key}"]`).addEventListener('click',()=>dialog.showModal());
     dialog.querySelector('button').addEventListener('click',()=>dialog.close());
