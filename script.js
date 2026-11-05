@@ -85,6 +85,7 @@ const buildJourneyStageData = Object.freeze([
     pricePrefix: "Desde",
     price: "USD $599",
     action: "Comprar Kit",
+    href: "/kits/dron-10-pulgadas/",
     featured: true,
   },
   {
@@ -101,6 +102,7 @@ const buildJourneyStageData = Object.freeze([
     pricePrefix: "",
     price: "USD $299",
     action: "Comprar Etapa 2",
+    href: "/cursos/ensambla-y-configura/",
     featured: false,
   },
   {
@@ -117,6 +119,7 @@ const buildJourneyStageData = Object.freeze([
     pricePrefix: "",
     price: "USD $399",
     action: "Comprar Etapa 3",
+    href: "/cursos/vuela-y-domina/",
     featured: false,
   },
 ]);
@@ -163,7 +166,10 @@ const createBuildJourneyCard = (item) => {
   const body = document.createElement("div");
   body.className = "build-stage-body";
   const title = document.createElement("h3");
-  title.textContent = item.title;
+  const titleLink = document.createElement("a");
+  titleLink.href = item.href;
+  titleLink.textContent = item.title;
+  title.append(titleLink);
   const description = document.createElement("p");
   description.className = "build-stage-description";
   description.textContent = item.description;
@@ -194,11 +200,9 @@ const createBuildJourneyCard = (item) => {
   amount.textContent = item.price;
   price.append(amount);
 
-  const action = document.createElement("button");
+  const action = document.createElement("a");
   action.className = `build-stage-action${item.featured ? " is-primary" : ""}`;
-  action.type = "button";
-  action.disabled = true;
-  action.setAttribute("aria-disabled", "true");
+  action.href = item.href;
   action.append(createBuildJourneyIcon("cart"), document.createTextNode(item.action));
 
   footer.append(price, action);
