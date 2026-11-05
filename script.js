@@ -68,6 +68,150 @@ searchPanel?.addEventListener("submit", (event) => {
   searchToggle?.setAttribute("aria-expanded", "false");
 });
 
+// Construye, Configura y Vuela: contenido comercial centralizado para que
+// precios, imágenes y características puedan actualizarse en un solo lugar.
+const buildJourneyStageData = Object.freeze([
+  {
+    stage: "ETAPA 1",
+    title: 'Recibe tu Kit de Dron (10")',
+    description: "Te enviamos a tu domicilio un kit con los componentes necesarios para armar tu propio dron de 10 pulgadas.",
+    image: "assets/build-stage-kit.jpg",
+    imageAlt: "Caja de Drones Latinoamérica junto a componentes de un dron FPV de 10 pulgadas sin ensamblar",
+    features: [
+      { icon: "layers", label: "Kit de componentes" },
+      { icon: "book", label: "Manual PDF" },
+      { icon: "truck", label: "Envío a domicilio" },
+    ],
+    pricePrefix: "Desde",
+    price: "USD $599",
+    action: "Comprar Kit",
+    featured: true,
+  },
+  {
+    stage: "ETAPA 2",
+    title: "Ensambla y Configura",
+    description: "Monta tu dron paso a paso y aprende a configurar su controlador de vuelo con Betaflight o INAV.",
+    image: "assets/build-stage-configure.jpg",
+    imageAlt: "Manos ensamblando un dron FPV junto a una computadora con software de configuración",
+    features: [
+      { icon: "video", label: "Guía en video" },
+      { icon: "settings", label: "Betaflight / INAV" },
+      { icon: "check", label: "Pruebas del sistema" },
+    ],
+    pricePrefix: "",
+    price: "USD $299",
+    action: "Comprar Etapa 2",
+    featured: false,
+  },
+  {
+    stage: "ETAPA 3",
+    title: "Vuela y Domina",
+    description: "Aprende a volar de forma segura, mejora tu técnica y domina maniobras avanzadas.",
+    image: "assets/build-stage-fly.jpg",
+    imageAlt: "Piloto con gafas FPV y radiocontrol practicando el vuelo de un dron en un campo abierto",
+    features: [
+      { icon: "controller", label: "Técnicas de vuelo" },
+      { icon: "shield", label: "Seguridad y buenas prácticas" },
+      { icon: "chart", label: "Maniobras avanzadas" },
+    ],
+    pricePrefix: "",
+    price: "USD $399",
+    action: "Comprar Etapa 3",
+    featured: false,
+  },
+]);
+
+const buildJourneyIconPaths = Object.freeze({
+  layers: "M12 2 3 7l9 5 9-5-9-5ZM3 12l9 5 9-5M3 17l9 5 9-5",
+  book: "M4 4h6a2 2 0 0 1 2 2v14a3 3 0 0 0-3-3H4V4Zm16 0h-6a2 2 0 0 0-2 2v14a3 3 0 0 1 3-3h5V4Z",
+  truck: "M3 6h11v10H3V6Zm11 4h4l3 4v2h-7v-6ZM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z",
+  video: "M4 5h16v14H4V5Zm6 4 5 3-5 3V9Z",
+  settings: "M4 6h10M18 6h2M4 12h3m4 0h9M4 18h8m4 0h4M14 3v6M7 9v6m5 0v6",
+  check: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM7.5 12.5l3 3 6-7",
+  controller: "M7 8h10a4 4 0 0 1 3.7 5.5l-1.4 3.4a2 2 0 0 1-3.3.7L14.4 16H9.6L8 17.6a2 2 0 0 1-3.3-.7l-1.4-3.4A4 4 0 0 1 7 8Zm1 3v4m-2-2h4m6-1h.01m2 2h.01",
+  shield: "M12 2 4 5v6c0 5.2 3.4 9.2 8 11 4.6-1.8 8-5.8 8-11V5l-8-3Zm-3 10 2 2 4-5",
+  chart: "M4 20V11h4v9H4Zm6 0V7h4v13h-4Zm6 0V3h4v17h-4Z",
+  cart: "M3 4h2l2.4 10.2a2 2 0 0 0 2 1.5h7.8a2 2 0 0 0 1.9-1.4L21 8H7m3 12h.01M18 20h.01",
+});
+
+const createBuildJourneyIcon = (name) => {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("focusable", "false");
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", buildJourneyIconPaths[name] || buildJourneyIconPaths.check);
+  svg.append(path);
+  return svg;
+};
+
+const createBuildJourneyCard = (item) => {
+  const card = document.createElement("article");
+  card.className = `build-stage-card${item.featured ? " is-featured" : ""}`;
+
+  const media = document.createElement("div");
+  media.className = "build-stage-media";
+  const image = document.createElement("img");
+  image.src = item.image;
+  image.alt = item.imageAlt;
+  image.loading = "lazy";
+  const stage = document.createElement("span");
+  stage.className = "build-stage-label";
+  stage.textContent = item.stage;
+  media.append(image, stage);
+
+  const body = document.createElement("div");
+  body.className = "build-stage-body";
+  const title = document.createElement("h3");
+  title.textContent = item.title;
+  const description = document.createElement("p");
+  description.className = "build-stage-description";
+  description.textContent = item.description;
+
+  const features = document.createElement("ul");
+  features.className = "build-stage-features";
+  item.features.forEach((feature) => {
+    const row = document.createElement("li");
+    const icon = document.createElement("span");
+    icon.className = "build-stage-feature-icon";
+    icon.append(createBuildJourneyIcon(feature.icon));
+    const label = document.createElement("span");
+    label.textContent = feature.label;
+    row.append(icon, label);
+    features.append(row);
+  });
+
+  const footer = document.createElement("div");
+  footer.className = "build-stage-footer";
+  const price = document.createElement("div");
+  price.className = "build-stage-price";
+  if (item.pricePrefix) {
+    const prefix = document.createElement("span");
+    prefix.textContent = item.pricePrefix;
+    price.append(prefix);
+  }
+  const amount = document.createElement("strong");
+  amount.textContent = item.price;
+  price.append(amount);
+
+  const action = document.createElement("button");
+  action.className = `build-stage-action${item.featured ? " is-primary" : ""}`;
+  action.type = "button";
+  action.disabled = true;
+  action.setAttribute("aria-disabled", "true");
+  action.append(createBuildJourneyIcon("cart"), document.createTextNode(item.action));
+
+  footer.append(price, action);
+  body.append(title, description, features, footer);
+  card.append(media, body);
+  return card;
+};
+
+const buildJourneyGrid = document.querySelector("[data-build-journey-grid]");
+if (buildJourneyGrid) {
+  buildJourneyGrid.append(...buildJourneyStageData.map(createBuildJourneyCard));
+}
+
 // Foro: muestra los últimos temas de GitHub Discussions desde forum-latest.json
 // (archivo del mismo dominio generado por el workflow, sin llamadas externas).
 // Si no hay temas o falla la carga, se conserva la tarjeta estática de invitación.
