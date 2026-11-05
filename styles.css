@@ -634,10 +634,6 @@ input {
   border-bottom: 1px solid rgba(15, 23, 32, 0.08);
 }
 
-.build-journey-section > .container {
-  max-width: 1180px;
-}
-
 .build-journey-heading {
   margin-bottom: 20px;
 }
