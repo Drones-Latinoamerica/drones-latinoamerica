@@ -3747,26 +3747,45 @@ input {
   height: 14px;
 }
 
-.icon-radar::before {
+/* Pilotear: emisora con su antena. */
+.icon-pilot::before {
   content: "";
   position: absolute;
-  inset: 2px;
+  inset: auto 1px 3px;
+  height: 7px;
   border: 2px solid currentColor;
-  border-radius: 50%;
-  opacity: 0.55;
+  border-radius: 4px;
 }
 
-.icon-radar::after {
+.icon-pilot::after {
   content: "";
   position: absolute;
   left: 8px;
-  top: 3px;
-  width: 7px;
+  top: 2px;
+  width: 2px;
   height: 7px;
-  border-top: 2px solid currentColor;
-  border-right: 2px solid currentColor;
-  transform-origin: 0 100%;
-  transform: rotate(10deg);
+  border-radius: 999px;
+  background: currentColor;
+}
+
+/* Mapas: hoja plegada. */
+.icon-map::before {
+  content: "";
+  position: absolute;
+  inset: 2px 1px;
+  border: 2px solid currentColor;
+  border-radius: 2px;
+}
+
+.icon-map::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 2px;
+  bottom: 2px;
+  width: 2px;
+  background: currentColor;
+  opacity: 0.6;
 }
 
 .icon-radio::before {
