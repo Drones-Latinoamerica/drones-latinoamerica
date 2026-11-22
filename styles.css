@@ -3747,6 +3747,78 @@ input {
   height: 14px;
 }
 
+/* Moldeo por inyección: boquilla que llena el molde. */
+.icon-injection::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 1px;
+  width: 6px;
+  height: 7px;
+  border: 2px solid currentColor;
+  border-radius: 2px 2px 3px 3px;
+}
+
+.icon-injection::after {
+  content: "";
+  position: absolute;
+  inset: auto 2px 1px;
+  height: 7px;
+  border: 2px solid currentColor;
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+/* Fotogrametría y LiDAR: barrido sobre el terreno. */
+.icon-scan::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 1px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid currentColor;
+  transform: rotate(180deg);
+  transform-origin: 0 100%;
+}
+
+.icon-scan::after {
+  content: "";
+  position: absolute;
+  inset: auto 1px 1px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* Fundición: crisol vertiendo. */
+.icon-foundry::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 3px;
+  width: 9px;
+  height: 8px;
+  border: 2px solid currentColor;
+  border-radius: 2px 2px 6px 6px;
+  transform: rotate(-24deg);
+}
+
+.icon-foundry::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+  width: 2px;
+  height: 9px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
 /* Pilotear: emisora con su antena. */
 .icon-pilot::before {
   content: "";
