@@ -12,7 +12,7 @@
     <link rel="alternate" hreflang="en" href="https://drones-latinoamerica.com/?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://drones-latinoamerica.com/" />
     <link rel="preload" href="assets/hero-workshop-una-antenna.png" as="image" />
-    <link rel="stylesheet" href="styles.css?v=pilotear-mapas-20261109-1" />
+    <link rel="stylesheet" href="styles.css?v=videos-selector-20261121-1" />
   </head>
   <body>
     <header class="site-header" data-header>
@@ -943,7 +943,24 @@
             </div>
           </div>
 
-          <div class="video-category-tabs" aria-label="Categorías de videos recomendados">
+          <div class="video-controls">
+            <div class="video-select" data-video-select>
+              <button
+                class="video-select-trigger"
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                data-video-select-trigger
+              >
+                <span class="video-select-icon icon-layers" aria-hidden="true"></span>
+                <span class="video-select-texts">
+                  <span class="video-select-hint">Selecciona una categoría</span>
+                  <span class="video-select-value" data-video-select-value>Drones</span>
+                </span>
+                <span class="video-select-arrow" aria-hidden="true"></span>
+              </button>
+
+              <div class="video-select-menu" role="listbox" aria-label="Categorías de videos recomendados" data-video-select-menu hidden>
             <button class="video-category is-active" type="button" data-video-filter="drones"
               data-video-label="Drones"
               data-video-description="Construcción, configuración y vuelo de drones: guías paso a paso, componentes y pruebas en campo." aria-pressed="true">
@@ -1094,6 +1111,20 @@
               <span class="video-category-icon icon-radio" aria-hidden="true"></span>
               Radio
             </button>
+              </div>
+            </div>
+
+            <div class="video-search">
+              <span class="video-search-icon" aria-hidden="true"></span>
+              <input
+                class="video-search-input"
+                type="search"
+                data-video-search
+                placeholder="Buscar videos, canales o temas..."
+                aria-label="Buscar videos, canales o temas"
+                autocomplete="off"
+              />
+            </div>
           </div>
 
           <p class="video-category-description" data-video-description-box>
@@ -4613,6 +4644,7 @@
           </div>
 
           <p class="video-empty-message" data-video-empty hidden>No hay videos en esta categoría todavía.</p>
+          <p class="video-empty-message" data-video-no-results hidden>Ningún video de esta categoría coincide con tu búsqueda.</p>
 
           <div class="see-more-row">
             <button
@@ -5330,8 +5362,8 @@
       </div>
     </footer>
 
-    <script src="script.js?v=pilotear-mapas-20261109-1"></script>
-    <script src="i18n.js?v=pilotear-mapas-20261109-1"></script>
+    <script src="script.js?v=videos-selector-20261121-1"></script>
+    <script src="i18n.js?v=videos-selector-20261121-1"></script>
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "f6743ff4270e4b03aa8d2a02ad3c1890"}'></script><!-- End Cloudflare Web Analytics -->
   </body>
 </html>

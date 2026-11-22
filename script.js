@@ -282,6 +282,13 @@ Array.from(videosGrid?.querySelectorAll("[data-video-recent]") || [])
   .forEach((card) => videosGrid.prepend(card));
 const videoCards = videosGrid?.querySelectorAll("[data-video-category]");
 const videoEmptyMessage = document.querySelector("[data-video-empty]");
+const videoNoResultsMessage = document.querySelector("[data-video-no-results]");
+const videoSelect = document.querySelector("[data-video-select]");
+const videoSelectTrigger = document.querySelector("[data-video-select-trigger]");
+const videoSelectMenu = document.querySelector("[data-video-select-menu]");
+const videoSelectValue = document.querySelector("[data-video-select-value]");
+const videoSearchInput = document.querySelector("[data-video-search]");
+let videoSearchQuery = "";
 const videosSeeMoreButton = document.querySelector('[data-see-more="videos-grid"]');
 const videoDescriptionBox = document.querySelector("[data-video-description-box]");
 const videoDescriptionLabel = document.querySelector("[data-video-description-label]");
@@ -301,16 +308,20 @@ const updateVideosSeeMoreState = (visibleCount) => {
     : videosSeeMoreButton.dataset.labelMore || "Ver todos los videos";
 };
 
-// Muestra bajo las pestañas el nombre completo y la descripción de la
-// categoría activa. Los textos viven en los data-* de cada botón.
+// Muestra bajo el selector el nombre completo y la descripción de la
+// categoría activa. Los textos viven en los data-* de cada opción.
 const updateVideoDescription = (category) => {
-  if (!videoDescriptionBox) {
-    return;
-  }
-
   const button = document.querySelector(`[data-video-filter="${category}"]`);
   const label = button?.dataset.videoLabel || "";
   const description = button?.dataset.videoDescription || "";
+
+  if (videoSelectValue) {
+    videoSelectValue.textContent = label;
+  }
+
+  if (!videoDescriptionBox) {
+    return;
+  }
 
   if (videoDescriptionLabel) {
     videoDescriptionLabel.textContent = label ? `${label}:` : "";
@@ -320,6 +331,47 @@ const updateVideoDescription = (category) => {
   }
 
   videoDescriptionBox.toggleAttribute("hidden", !label && !description);
+};
+
+// El texto de la tarjeta: título, canal y la categoría a la que pertenece.
+// Se guarda en caché porque la búsqueda recorre todas las tarjetas en cada
+// pulsación; el idioma la vacía, ya que traduce el nombre de la categoría.
+const videoSearchCache = new WeakMap();
+
+const videoCardHaystack = (card) => {
+  if (!videoSearchCache.has(card)) {
+    const label =
+      document.querySelector(
+        `[data-video-filter="${card.getAttribute("data-video-category")}"]`
+      )?.dataset.videoLabel || "";
+    videoSearchCache.set(card, `${card.textContent} ${label}`);
+  }
+  return videoSearchCache.get(card);
+};
+
+// Sin acentos y en minúsculas, para que "fibra de carbono" encuentre
+// "Fibra de Carbono" y "aereo" encuentre "aéreo".
+const foldText = (value) =>
+  value
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase();
+
+const videoMatchesSearch = (card) => {
+  if (!videoSearchQuery) {
+    return true;
+  }
+  const haystack = foldText(videoCardHaystack(card));
+  return foldText(videoSearchQuery)
+    .split(/\s+/)
+    .filter(Boolean)
+    .every((term) => haystack.includes(term));
+};
+
+const closeVideoSelect = () => {
+  videoSelect?.classList.remove("is-open");
+  videoSelectMenu?.setAttribute("hidden", "");
+  videoSelectTrigger?.setAttribute("aria-expanded", "false");
 };
 
 const applyVideoFilter = (category, { keepExpanded = false } = {}) => {
@@ -333,21 +385,33 @@ const applyVideoFilter = (category, { keepExpanded = false } = {}) => {
     areVideosExpanded = false;
   }
 
+  // Mientras se busca se muestran todas las coincidencias, sin recortar a tres.
+  const isSearching = Boolean(videoSearchQuery);
+  let inCategory = 0;
   let visibleCount = 0;
+
   videoCards.forEach((card) => {
-    const isVisible = card.getAttribute("data-video-category") === category;
+    const isInCategory = card.getAttribute("data-video-category") === category;
+    if (isInCategory) {
+      inCategory += 1;
+    }
+    const isVisible = isInCategory && videoMatchesSearch(card);
     card.classList.toggle("is-hidden", !isVisible);
     if (isVisible) {
       visibleCount += 1;
-      card.classList.toggle("is-over-limit", visibleCount > 3);
+      card.classList.toggle("is-over-limit", !isSearching && visibleCount > 3);
     } else {
       card.classList.remove("is-over-limit");
     }
   });
 
-  videosGrid.classList.toggle("is-collapsed", !areVideosExpanded);
-  videoEmptyMessage?.toggleAttribute("hidden", visibleCount > 0);
-  updateVideosSeeMoreState(visibleCount);
+  videosGrid.classList.toggle("is-collapsed", !areVideosExpanded && !isSearching);
+  videoEmptyMessage?.toggleAttribute("hidden", inCategory > 0);
+  videoNoResultsMessage?.toggleAttribute(
+    "hidden",
+    !(inCategory > 0 && visibleCount === 0)
+  );
+  updateVideosSeeMoreState(isSearching ? 0 : visibleCount);
 };
 
 document.querySelectorAll("[data-see-more]").forEach((button) => {
@@ -397,7 +461,39 @@ videoFilterButtons.forEach((button) => {
     });
 
     applyVideoFilter(category);
+    closeVideoSelect();
+    videoSelectTrigger?.focus();
   });
+});
+
+videoSelectTrigger?.addEventListener("click", () => {
+  const willOpen = !videoSelect.classList.contains("is-open");
+  videoSelect.classList.toggle("is-open", willOpen);
+  videoSelectMenu?.toggleAttribute("hidden", !willOpen);
+  videoSelectTrigger.setAttribute("aria-expanded", String(willOpen));
+  if (willOpen) {
+    videoSelectMenu?.querySelector(".video-category.is-active")?.scrollIntoView({
+      block: "nearest",
+    });
+  }
+});
+
+document.addEventListener("click", (event) => {
+  if (videoSelect && !videoSelect.contains(event.target)) {
+    closeVideoSelect();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && videoSelect?.classList.contains("is-open")) {
+    closeVideoSelect();
+    videoSelectTrigger?.focus();
+  }
+});
+
+videoSearchInput?.addEventListener("input", () => {
+  videoSearchQuery = videoSearchInput.value.trim();
+  applyVideoFilter(activeVideoCategory, { keepExpanded: true });
 });
 
 applyVideoFilter(activeVideoCategory);
@@ -623,6 +719,9 @@ window.reapplyDocFilter = () => {
 };
 
 window.reapplyVideoFilter = () => {
+  // El idioma cambia el nombre de las categorías, así que el texto que
+  // recorre el buscador deja de ser válido.
+  videoCards?.forEach((card) => videoSearchCache.delete(card));
   applyVideoFilter(activeVideoCategory, { keepExpanded: true });
 };
 
